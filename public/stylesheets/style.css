@@ -1,0 +1,15 @@
+body {
+  padding: 50px;
+  background-color: var(--Background);
+  color:var(--Paragraph);
+}
+
+/*基本カラーパレット*/
+:root{
+  --Background:#fef6e4;
+  --Headline:#001858;
+  --Paragraph:#172c66;
+  --Button:#fef6e4;
+  --Button-Text:#001858;
+}
+

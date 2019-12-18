@@ -1,0 +1,7 @@
+extends layout
+
+block content
+  h2= title
+  p Welcome to #{title}
+  if user
+    p #{user.username}
