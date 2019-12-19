@@ -1,7 +1,7 @@
 # ~/.circleci/config.yml
 version: 2
 jobs:
-  test:
+  build:
     docker:
       - image: circleci/node:10.14.2
     working_directory: ~/repo
