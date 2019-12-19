@@ -15,6 +15,7 @@ jobs:
           - v1-dependencies-
 
       - run: yarn install
+      - run: touch config.js
 
       - save_cache:
           paths:
