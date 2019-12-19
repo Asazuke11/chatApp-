@@ -17,3 +17,10 @@ body {
   display:flex;
   justify-content:start;
 }
+
+.block {
+  width: 100pt;
+  height: 100pt;
+  margin: 20pt;
+  background-color: chocolate;
+}
