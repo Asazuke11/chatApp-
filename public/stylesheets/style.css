@@ -13,3 +13,7 @@ body {
   --Button-Text:#001858;
 }
 
+.container{
+  display:flex;
+  justify-content:start;
+}

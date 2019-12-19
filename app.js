@@ -78,10 +78,12 @@ app.get('/auth/github/callback',
 });
 
 app.get('/auth/twitter',
-  passport.authenticate('twitter', { scope: ['user:email']})
-);
+  passport.authenticate('twitter', { scope: ['user:email']}),
+  function (req, res) {
+    res.redirect('/');
+});
 
-app.get('/auth/tweeter/callback',
+app.get('/auth/twitter/callback',
   passport.authenticate('twitter', { failureRedirect: '/' }),
   function(req, res) {
     res.redirect('/');

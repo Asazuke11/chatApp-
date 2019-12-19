@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "test": "node_modules/mocha/bin/mocha --timeout 10000"
   },
   "dependencies": {
     "cookie-parser": "~1.4.3",
@@ -12,10 +13,16 @@
     "express-session": "1.15.6",
     "helmet": "1.1.0",
     "http-errors": "~1.6.2",
+    "jquery": "3.4.1",
     "morgan": "~1.9.0",
     "passport": "0.3.2",
     "passport-github2": "0.1.9",
     "passport-twitter": "1.0.4",
     "pug": "2.0.0-beta11"
+  },
+  "devDependencies": {
+    "mocha": "4.0.1",
+    "passport-stub": "1.1.1",
+    "supertest": "3.1.0"
   }
 }

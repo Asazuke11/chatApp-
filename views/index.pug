@@ -2,6 +2,21 @@ extends layout
 
 block content
   h2= title
-  p Welcome to #{title}
-  if user
-    p #{user.username}
+  .container
+    .item
+      if user
+        p 
+          b ログイン中
+      p Welcome to #{title}
+      p memo:サイトの説明とログインの催促画面
+      p
+        a(href="/auth/github")
+          img(src="./images/icon/github-line.png")
+          b GITHUBアカウントでログイン
+      p
+        a(href="/auth/twitter")
+          img(src="./images/icon/twitter-line.png")
+          b Twitterアカウントでログイン
+      p
+        a(href="/logout")
+          b ログアウト
