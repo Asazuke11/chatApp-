@@ -15,7 +15,6 @@ jobs:
           - v1-dependencies-
 
       - run: yarn install
-      - run: echo `module.exports = { Pass_Add : {Git_Id : "",Git_Sec : "",session_Secret: "",Twi_Id:"",Twi_Sec:""},this_pages_Address: '',Git_collback_Address:"",Twi_collback_Address:""};` > config.js
 
       - save_cache:
           paths:
