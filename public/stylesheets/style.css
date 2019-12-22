@@ -4,23 +4,19 @@ body {
   color:var(--Paragraph);
 }
 
+.moon{
+  position: relative;
+  width: 640px;
+  height: 480px;
+}
+
 /*基本カラーパレット*/
 :root{
-  --Background:#fef6e4;
-  --Headline:#001858;
-  --Paragraph:#172c66;
-  --Button:#fef6e4;
-  --Button-Text:#001858;
+  --Background:black;
+  --Headline:#fffffe;
+  --Paragraph:#94a1b2;
+  --Button:#16161a;
+  --Button-Text:#fffffe;
 }
 
-.container{
-  display:flex;
-  justify-content:start;
-}
 
-.block {
-  width: 100pt;
-  height: 100pt;
-  margin: 20pt;
-  background-color: chocolate;
-}

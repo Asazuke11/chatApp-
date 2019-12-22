@@ -12,6 +12,8 @@ var passport = require('passport');
 var GitHubStrategy = require('passport-github2').Strategy;
 var Strategy = require('passport-twitter').Strategy;
 
+var User = require('./models/user');
+User.sync();
 
 passport.serializeUser(function (user, done) {
   done(null, user);
@@ -28,7 +30,12 @@ passport.use(new GitHubStrategy({
 },
   function (accessToken, refreshToken, profile, done) {
     process.nextTick(function () {
-      return done(null, profile);
+      User.upsert({
+        userId: profile.id,
+        username:profile.username
+      }).then(() => {
+        done(null,profile);
+      })
     });
   }
 ));
@@ -40,7 +47,12 @@ passport.use(new Strategy({
   },
   function(token, tokenSecret, profile, done) {
     process.nextTick(function () {
-      return done(null, profile);
+      User.upsert({
+        userId: profile.id,
+        username:profile.username
+      }).then(() => {
+        done(null,profile);
+      })
     });
   })
 );
