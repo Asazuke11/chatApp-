@@ -100,6 +100,33 @@ __webpack_require__.r(__webpack_exports__);
 var global = Function('return this;')();
 global.jQuery = jquery__WEBPACK_IMPORTED_MODULE_0___default.a;
 
+var nickname_change_button = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#userNameButton');
+var userName_area = jquery__WEBPACK_IMPORTED_MODULE_0___default()('.userName');
+var error_area = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#error-div');
+nickname_change_button.click(function () {
+  var cookieID = nickname_change_button.data('user-id');
+
+  if (!cookieID) {
+    error_area.text("※ページをリロードしてください。");
+    return;
+  }
+
+  error_area.text("");
+  var inputValue = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#input-name').val();
+
+  if (inputValue.length === 0) {
+    return;
+  } else if (inputValue.length > 10) {
+    error_area.text("※ニックネームは１０文字までです。");
+    return;
+  }
+
+  jquery__WEBPACK_IMPORTED_MODULE_0___default.a.post("/nickname/".concat(cookieID), {
+    inputValue: inputValue
+  }, function (data) {
+    userName_area.text("".concat(data.displayname));
+  });
+});
 
 /***/ }),
 /* 1 */

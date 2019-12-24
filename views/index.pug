@@ -2,9 +2,32 @@ extends layout
 
 block content
   .container-fluid
-    //- video(src="./images/mp4/test.mp4" autoplay loop muted)
-  .container
-    .row
-      .col
+    .row.align-items-center.justify-content-center
+      .item-video.col-sm-
+        video(src="./images/mp4/title.mp4" autoplay loop muted)
+      .item-text-title.col-sm-.text-center
         h2= title
-        p Welcome to #{title}
+        p - ONE NIGHT WEREWOLF version -
+      .item-text-manual.col-sm-.align-middle
+        p パーティゲーム「人狼(ワンナイトルール)」をPCブラウザで楽しむウェブアプリです。
+        | アカウントは必要ありませんが、クッキーが使えない環境の方は GitHub or Twitter認証をお願いします。
+      .display-name-area
+        p.item-nickName NickName:　
+          if(username)
+            span.userName #{username.displayname}
+            p
+              small.text-muted ID:#{username.userId}
+          else
+            span.userName ななしの村人
+            p
+              small.text-muted ID:#{cookie_Id}
+        p
+          input(name="nickname", cols="10", rows="1").inputarea#input-name
+          small.text-muted   ※名前は10文字まで
+        p
+          small.text-mutedr#error-div
+        #userNameButton(
+          data-user-id=cookie_Id
+          ) 変更
+        p
+          small.text-muted 周りの人を不快にする名前は控えましょう。

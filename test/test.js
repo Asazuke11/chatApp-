@@ -1,101 +1,56 @@
 'use strict';
 const request = require('supertest');
+const assert = require('assert');
 const app = require('../app');
-const passportStub = require('passport-stub');
+var User = require('../models/user');
+var pug = require('pug');
 
-//テスト・ログアウト中
 describe('/', () => {
-
-  //ログイン・ログアウトリンク確認
-  it('GitHub認証ログインリンクが含まれる', (done) => {
+  it('nicknameの値が無いとき「ななしの村人」の表示になる', (done) => {
     request(app)
       .get("/")
-      .expect('Content-Type','text/html; charset=utf-8')
-      .expect(/<a href="\/auth\/github">/)
-      .expect(200, done)
-  });
-  it('Twitter認証ログインリンクが含まれる', (done) => {
-    request(app)
-      .get("/")
-      .expect('Content-Type','text/html; charset=utf-8')
-      .expect(/<a href="\/auth\/twitter">/)
-      .expect(200, done)
-  });
-  it('ログアウトリンクが含まれる', (done) => {
-    request(app)
-      .get("/")
-      .expect('Content-Type','text/html; charset=utf-8')
-      .expect(/<a href="\/logout">/)
-      .expect(200, done)
-  });
-  it('ログイン状況が表示されない', (done) => {
-    request(app)
-      .get("/")
-      .expect(checkMoji)
+      .expect('Content-Type', 'text/html; charset=utf-8')
+      .expect(/ななしの村人/)
       .expect(200, done);
-
-      //文字の存在のチェック関数
-      function checkMoji(res){
-        const checkText = res.text.match(/ログイン中/m); 
-        if(checkText) throw new Error('文字が存在している');
-      }
-  });
-})
-
-//テスト・ログイン中
-describe('/', () => {
-
-  before(() => {
-    passportStub.install(app);
-    passportStub.login({ username: 'tesuser'});
-  });
-  after(() => {
-    passportStub.logout();
-    passportStub.uninstall(app);
   });
 
-  //ログイン・ログアウトリンク確認
-  it('GitHub認証ログインリンクが含まれる(ログイン中)', (done) => {
+  it('名前の変更が正常に行われる(更新', (done) => {
     request(app)
-      .get("/")
-      .expect('Content-Type','text/html; charset=utf-8')
-      .expect(/<a href="\/auth\/github">/)
-      .expect(200, done)
+      .post("/nickname/1111")
+      .send({ userId: 1111, inputValue: "aaaa" })
+      .end((err, res) => {
+        if (err) return done(err);
+        assert.equal(res.body.status, "OK");
+        assert.equal(res.body.displayname, "aaaa");
+        done();
+      });
   });
-  it('Twitter認証ログインリンクが含まれる(ログイン中)', (done) => {
-    request(app)
-      .get("/")
-      .expect('Content-Type','text/html; charset=utf-8')
-      .expect(/<a href="\/auth\/twitter">/)
-      .expect(200, done)
-  });
-  it('ログアウトリンクが含まれる(ログイン中)', (done) => {
-    request(app)
-      .get("/")
-      .expect('Content-Type','text/html; charset=utf-8')
-      .expect(/<a href="\/logout">/)
-      .expect(200, done)
-  });
-  it('ログイン状況が表示される(ログイン中)', (done) => {
-    request(app)
-      .get("/")
-      .expect(/ログイン中/)
-      .expect(200, done)
-  });
-  it('Github認証後、/ へのリダイレクト', (done) => {
-    request(app)
-      .get("/auth/github/callback")
-      .expect(302, done)
-  });
-  it('Github認証後、/ へのリダイレクト', (done) => {
-    request(app)
-      .get("/auth/twitter/callback")
-      .expect(302, done)
-  });
-  it('ログアウト後、/ へのリダイレクト', (done) => {
-    request(app)
-      .get("/logout")
-      .expect('Location','/')
-      .expect(302, done)
-  });
-})
+
+  it('名前の変更が正常に行われる(読込', (done) => {
+    User.upsert({ userId: 1111, username: 'testuser', displayname: "hoge" }).then(() => {
+      request(app)
+        .get("/")
+        .expect(200)
+        .end((err, res) => {
+          if (err) return done(err);
+          User.findByPk(1111).then((s) => {
+            assert.equal(s.userId, 1111);
+            assert.equal(s.displayname, "hoge");
+            const pugfile = pug.renderFile("./views/index.pug",{
+              title: 'Are You a Werewolf?',
+              user: s.userId,
+              cookie_Id: s.userId,
+              username:s
+            });
+            const regex_hoge = /hoge/;
+            const regex_ID = /ID:1111/;
+            const matchTest1 = regex_hoge.test(pugfile);
+            const matchTest2 = regex_ID.test(pugfile);
+            if(!matchTest1) throw new Error('データベース情報:displaynameが読み込まれていない');
+            if(!matchTest2) throw new Error('データベース情報:userIdが読み込まれていない');
+            done();
+          });
+        });
+    });
+  })
+});

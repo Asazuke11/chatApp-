@@ -1,13 +1,8 @@
 body {
   padding: 50px;
+  font-family: 'Kosugi Maru', serif;
   background-color: var(--Background);
   color:var(--Paragraph);
-}
-
-.moon{
-  position: relative;
-  width: 640px;
-  height: 480px;
 }
 
 /*基本カラーパレット*/
@@ -19,4 +14,59 @@ body {
   --Button-Text:#fffffe;
 }
 
+.item-video{
+  width:352px;
+}
 
+.item-text-title{
+  width:352px;
+  margin: 10px;
+  font-family: 'Lakki Reddy', cursive;
+}
+
+.item-text-manual{
+  border: 1px solid var(--Button);
+  padding: 15px;
+  width:450px;
+  border-radius: 3px;
+}
+
+.display-name-area{
+  padding: 15px;
+  width:450px;
+}
+
+.item-nickName{
+  text-align: left;
+  font-family: 'Lakki Reddy','Kosugi Maru', serif;
+  font-size: 20px;
+}
+
+.userName{
+  color:var(--Headline);
+  background-image: url(../images/pic/nameplateR300x100.png);
+}
+
+.inputarea{
+  color:var(--Headline);
+  background-color: var(--Background);
+}
+
+#userNameButton{
+  display: block;
+	width: 80px;
+	text-align: center;
+	text-decoration: none;
+  color: var(--Button-Text);
+  background: var(--Button);
+	border-radius: 3px;
+	transition: .4s;
+}
+#userNameButton:hover{
+  background:var(--Button);
+	color: var(--Paragraph);
+}
+
+#error-div{
+  color:red;
+}
