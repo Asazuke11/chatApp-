@@ -5,6 +5,17 @@ body {
   color:var(--Paragraph);
 }
 
+a{
+  border-bottom: 1px dotted;
+  color: var(--Paragraph);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: none;
+  color: var(--Paragraph);
+  opacity: 0.5;
+}
+
 /*基本カラーパレット*/
 :root{
   --Background:black;
@@ -25,15 +36,35 @@ body {
 }
 
 .item-text-manual{
+  margin: 10px;
   border: 1px solid var(--Button);
   padding: 15px;
-  width:450px;
+  width:352px;
   border-radius: 3px;
 }
 
-.display-name-area{
+.item-login-area{
+  border: 1px solid var(--Button);
   padding: 15px;
-  width:450px;
+  width:352px;
+  margin: 15px;
+  font-family: 'Lakki Reddy', cursive;
+}
+
+.item-login-area a{
+  margin: 10px;
+}
+
+.item-char-area{
+  position: relative;
+  margin: 10px;
+  width:220px;
+  height: 230px;
+}
+
+.item-name-input-area{
+  margin: 10px;
+  width:350px;
 }
 
 .item-nickName{
@@ -42,17 +73,28 @@ body {
   font-size: 20px;
 }
 
+#cha{
+  position: absolute;
+  right: 20px;
+  bottom: 0px;
+}
 .userName{
+  position: absolute;
+  right: 5px;
+  bottom: 10px;
   color:var(--Headline);
+  text-shadow: 0 0 4px black;
+  font-size: 20px;
   background-image: url(../images/pic/nameplateR300x100.png);
 }
 
 .inputarea{
+  width:200px;
   color:var(--Headline);
   background-color: var(--Background);
 }
 
-#userNameButton{
+#Button_change_userName{
   display: block;
 	width: 80px;
 	text-align: center;
@@ -60,11 +102,12 @@ body {
   color: var(--Button-Text);
   background: var(--Button);
 	border-radius: 3px;
-	transition: .4s;
+  transition: .4s;
+  box-shadow: 0 0 3px var(--Button-Text);
 }
-#userNameButton:hover{
+#Button_change_userName:hover{
   background:var(--Button);
-	color: var(--Paragraph);
+  color: var(--Paragraph);
 }
 
 #error-div{

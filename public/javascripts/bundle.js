@@ -99,32 +99,62 @@ __webpack_require__.r(__webpack_exports__);
 
 var global = Function('return this;')();
 global.jQuery = jquery__WEBPACK_IMPORTED_MODULE_0___default.a;
+ ////////$document.getElementById ////////
 
-var nickname_change_button = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#userNameButton');
+var username_change_button = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#Button_change_userName');
 var userName_area = jquery__WEBPACK_IMPORTED_MODULE_0___default()('.userName');
-var error_area = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#error-div');
-nickname_change_button.click(function () {
-  var cookieID = nickname_change_button.data('user-id');
+var error_area = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#error-div'); //  画像ファイル名を入れた配列の作成  //
+//  →
+//　Characterimage_Array = [s-f001.png,s-f002.png,...s-f370.png]　//
+
+function initChar() {
+  var fileLength = 370;
+  var chaFile = [];
+
+  for (var i = 1; i <= fileLength; i++) {
+    var fileNum = "00".concat(i);
+    chaFile.push("s-f".concat(fileNum.slice(-3), ".png"));
+  }
+
+  return chaFile;
+}
+
+var Characterimage_Array = initChar(); //名前変更ボタンクリック時の挙動//
+
+username_change_button.click(function () {
+  var cookieID = username_change_button.data('user-id');
+  var char_Filename = Math.floor(Math.random() * Characterimage_Array.length);
+  error_area.text(""); //クッキーの値が取れなかった時
 
   if (!cookieID) {
     error_area.text("※ページをリロードしてください。");
     return;
-  }
+  } //インプットエリアの値の取得
 
-  error_area.text("");
-  var inputValue = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#input-name').val();
 
-  if (inputValue.length === 0) {
+  var input_Value = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#input-name').val(); //もし文字数が0以下だった場合
+
+  if (input_Value.length <= 0) {
     return;
-  } else if (inputValue.length > 10) {
+  } else if (input_Value.length > 10) {
+    //文字数が11以上
     error_area.text("※ニックネームは１０文字までです。");
     return;
-  }
+  } //Ajax
 
-  jquery__WEBPACK_IMPORTED_MODULE_0___default.a.post("/nickname/".concat(cookieID), {
-    inputValue: inputValue
+  /*送るデータ
+  * input_Value:インプットから取得した名前のデータ
+  * chaURL:画像のファイル名
+  * 向こう側でデータベースupsertで更新
+  */
+
+
+  jquery__WEBPACK_IMPORTED_MODULE_0___default.a.post("/username/".concat(cookieID), {
+    input_Value: input_Value,
+    chaURL: "".concat(Characterimage_Array[char_Filename])
   }, function (data) {
-    userName_area.text("".concat(data.displayname));
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#cha').attr('src', "./images/cha/".concat(data.picURL));
+    userName_area.text("".concat(data.username));
   });
 });
 

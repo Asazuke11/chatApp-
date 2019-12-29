@@ -4,15 +4,19 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var helmet = require('helmet');
-var secretNm = require('./config');
+
+var Config = require('./config');
 
 var session = require('express-session');
 var passport = require('passport');
 
 
+//DB//
 var User = require('./models/user');
 User.sync();
 
+
+//認証//
 passport.serializeUser(function (user, done) {
   done(null, user);
 });
@@ -21,7 +25,7 @@ passport.deserializeUser(function (obj, done) {
   done(null, obj);
 });
 
-
+//routesファイル//
 var indexRouter = require('./routes/index');
 
 var app = express();
@@ -37,11 +41,17 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(session({ secret: `${secretNm.session_Secret}`, resave: false, saveUninitialized: false }));
-app.use(passport.initialize());
+//セッション//
+app.use(session({ secret: `${Config.Pass_Add.Session_Secret}`, resave: false, saveUninitialized: false }));
+
+app.use(passport.initialize()); //初期化
 app.use(passport.session());
 
+
+//ルート//
 app.use('/', indexRouter);
+
+
 
 
 // catch 404 and forward to error handler

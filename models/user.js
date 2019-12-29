@@ -4,15 +4,17 @@ const Sequelize = loader.Sequelize;
 
 const User = loader.database.define('users',{
   userId:{
-    type:Sequelize.BIGINT,
+    type:Sequelize.STRING,
     primaryKey: true,
     allowNull:false
   },
-  username:{
-    type:Sequelize.STRING,
-    allowNull:false
+  picURL:{
+    type:Sequelize.STRING
   },
-  displayname:{
+  username:{
+    type:Sequelize.STRING
+  },
+  expires:{
     type:Sequelize.STRING
   }
 },{
