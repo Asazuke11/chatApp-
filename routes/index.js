@@ -19,7 +19,7 @@ router.get('/', function (req, res, next) {
 
   addTrackingCookie(cookies)
   upsert_expires(cookies);
-  pugRender(cookies);
+
   function addTrackingCookie(cookies) {
     if (!cookies.get(trackingIdKey)) {
       const Cookie_ID = require('crypto').randomBytes(8).toString('hex');
@@ -30,6 +30,18 @@ router.get('/', function (req, res, next) {
         userId: Cookie_ID,
         username: "ななしの村人",
         expires: Plus7day
+      }).then((id) => {
+        User.findOne({
+          where: {
+            userId: Cookie_ID
+          }
+        }).then((database_data) => {
+          res.render('index', {
+            title: Title_Name,
+            subtitle: subTitle_Name,
+            database_data: database_data
+          });
+        });
       });
     };
   };
@@ -43,34 +55,21 @@ router.get('/', function (req, res, next) {
       User.upsert({
         userId: Cookie_ID,
         expires: Plus3day
-      });
-    };
-  };
-
-  function pugRender(cookies) {
-    if (cookies.get(trackingIdKey)) {
-      User.findOne({
-        where: {
-          userId: cookies.get(trackingIdKey)
-        }
-      })
-        .then((database_data) => {
+      }).then((id) => {
+        User.findOne({
+          where: {
+            userId: Cookie_ID
+          }
+        }).then((database_data) => {
           res.render('index', {
             title: Title_Name,
             subtitle: subTitle_Name,
             database_data: database_data
           });
-        })
-    };
-    if (!cookies.get(trackingIdKey)) {
-      res.render('index', {
-        title: Title_Name,
-        subtitle: subTitle_Name
+        });
       });
     };
   };
-
-
 });　//〆router.get
 
 router.post(`/username/:cookieID`, (req, res, next) => {
