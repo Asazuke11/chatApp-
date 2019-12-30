@@ -13,8 +13,9 @@ var passport = require('passport');
 
 //DB//
 var User = require('./models/user');
+var Room = require('./models/room');
 User.sync();
-
+Room.sync();
 
 //認証//
 passport.serializeUser(function (user, done) {
@@ -27,6 +28,7 @@ passport.deserializeUser(function (obj, done) {
 
 //routesファイル//
 var indexRouter = require('./routes/index');
+var lobbyRouter = require('./routes/lobby');
 
 var app = express();
 app.use(helmet());
@@ -50,8 +52,7 @@ app.use(passport.session());
 
 //ルート//
 app.use('/', indexRouter);
-
-
+app.use('/lobby', lobbyRouter);
 
 
 // catch 404 and forward to error handler

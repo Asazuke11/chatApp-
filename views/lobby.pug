@@ -1,0 +1,10 @@
+extends layout
+
+block content
+  .container-fluid
+    .row.align-items-center.justify-content-center
+      .item-char-area
+        img(src=`./images/cha/${database_data.picURL}`)#cha-lobby
+        span.userName #{database_data.username}
+      .item-coment.align-items-center
+        p てすとコメントaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa

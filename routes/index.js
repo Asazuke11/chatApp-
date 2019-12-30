@@ -20,7 +20,6 @@ router.get('/', function (req, res, next) {
   addTrackingCookie(cookies)
   upsert_expires(cookies);
   pugRender(cookies);
-
   function addTrackingCookie(cookies) {
     if (!cookies.get(trackingIdKey)) {
       const Cookie_ID = require('crypto').randomBytes(8).toString('hex');

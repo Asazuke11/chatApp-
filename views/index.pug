@@ -8,9 +8,10 @@ block content
       .item-text-title.col-sm-.text-center
         h2= title
         p - #{subtitle} -
-      .item-text-manual.col-sm-.align-middle.small.text-muted
-        p パーティゲーム「人狼(ワンナイトルール)」をPCブラウザで楽しむページです。<br>(動作確認:クロームのみ)
-    .row.align-items-end.justify-content-center
+    .row.align-items-center.justify-content-center
+      .item-text-manual.col-sm-.align-middle
+        p 
+          small.text-muted = 遊び方 = <br>このページはtrackingCookieを利用しています。<br>セキュリティソフト等のクリーンアップや、ブラウザの履歴を消去などをした場合、情報が消えてしまうのでご了承ください。
       .item-char-area
         if database_data
           img(src=`./images/cha/${database_data.picURL}`)#cha
@@ -18,12 +19,14 @@ block content
         else
           span.userName ななしの村人
       .item-name-input-area
-        p 名前の変更
+        p ゲームで使う名前を決めてください。
         p
           input(name="username", cols="10", rows="1" placeholder="名前を入力してください。").inputarea#input-name
           small.text-mutedr ※10文字まで。
         p
           small.text-mutedr#error-div
+        p
+          small.text-muted ※周りの人を不快にする名前は控えましょう。
         if database_data
           #Button_change_userName(
             data-user-id=database_data.userId
@@ -32,9 +35,3 @@ block content
           #Button_change_userName(
             data-user-id=userId
             ) 変更
-
-        p
-          small.text-muted 周りの人を不快にする名前は控えましょう。
-      .item-text-manual.col-sm-.align-middle
-        p 
-          small.text-muted = 諸注意 = <br>このページはtrackingCookieを利用しています。<br>セキュリティソフト等のクリーンアップや、ブラウザの履歴を消去などをした場合、情報が消えてしまうのでご了承ください。

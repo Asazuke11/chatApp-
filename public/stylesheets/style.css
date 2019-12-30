@@ -40,7 +40,6 @@ a:hover {
   border: 1px solid var(--Button);
   padding: 15px;
   width:352px;
-  border-radius: 3px;
 }
 
 .item-login-area{
@@ -78,6 +77,14 @@ a:hover {
   right: 20px;
   bottom: 0px;
 }
+
+#cha-lobby{
+  position: absolute;
+  width: 80px;
+  right: 20px;
+  bottom: 0px;
+}
+
 .userName{
   position: absolute;
   right: 5px;
@@ -112,4 +119,24 @@ a:hover {
 
 #error-div{
   color:red;
+}
+
+.item-coment {
+  display: inline-block;
+  position: relative; 
+  height: 40px;
+  padding: 8px;
+  border-radius: 3px;
+  background:var(--Headline);
+  white-space:pre-wrap;
+}
+
+.item-coment:after {
+  content: "";
+  display: inline-block;
+  position: absolute;
+  top: 16px; 
+  left: -16px;
+  border: 6px solid transparent;
+  border-right: 12px solid var(--Headline);
 }
