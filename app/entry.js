@@ -3,7 +3,8 @@ import $ from "jquery";
 const global = Function('return this;')();
 global.jQuery = $;
 import bootstrap from 'bootstrap';
-
+import io from 'socket.io-client';
+const Config = require('../config');
 
 ////////$document.getElementById ////////
 const username_change_button = $('#Button_change_userName');
@@ -65,4 +66,26 @@ username_change_button.click(() => {
       userName_area.text(`${data.username}`)
     })
 })
+const username = $('#main').attr('data-username');
 
+const socket = io(`${Config.ipAddress}` + "?" + username);
+console.log(username);
+console.log(socket);
+$("#message_form").submit((e) => {
+  e.preventDefault(); // prevents page reloading
+  socket.emit('chat message', $('#input_msg').val());
+  $('#input_msg').val('');
+  return false;
+});
+
+socket.on('sendMessageToClient', (msg) => {
+  $('#messages').append($('<li>').text(msg.value));
+});
+
+socket.on('user disconnected', (msg) => {
+  $('#messages').append($('<li>').text(msg.value));
+});
+
+socket.on('some event', (msg) => {
+  $('#messages').append($('<li>').text(msg.chat));
+});

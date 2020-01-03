@@ -8,6 +8,7 @@ var app = require('../app');
 var debug = require('debug')('2019-20w:server');
 var http = require('http');
 
+
 /**
  * Get port from environment and store in Express.
  */
@@ -88,3 +89,9 @@ function onListening() {
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
 }
+
+var io = require('socket.io')(server);
+
+var chat = require('../chat_server/chat');
+var webSocketServer = require('../chat_server/webSocketServer');
+webSocketServer.createWebSocketServer(io, chat);
