@@ -1,17 +1,17 @@
 extends layout
 block content
-  #app
-    .first-screen
-      .background
-      .text-area
-      .log-title
-        img#log-Nyobi.layer(src="images/icon/N_logo.png" alt="N予備校ロゴ")
-        span#title-text.layer #{subtitle}
-      .title-Character
-        img#cha-m.layer(src="images/pic/f044.png" alt="男性キャラクター")
-        img#cha-f.layer(src="images/pic/f050.png" alt="女性キャラクター")
-      p#input-area.layer
-        input(name="text", cols="10", rows="1" placeholder="コメントを入力してください。")#input-text
-        button#Button_send-text 変更
-
-
+  .container-fluid#background-css-setting
+    //- ニコニココメントエリア
+    .nico-comentArea
+    p#nicoComent-input-area
+      input(name="text", cols="10", rows="1" placeholder="コメントを入力" )#input-coment
+      button#Button_send-coment コメント
+    header.row
+        .item-title-sub
+          span#title-text #{subtitle}
+    .row
+      .Character_TopPage
+        img#dott-m(src="images/pic/dott-m.png" alt="背景ドット１")
+        img#dott-s(src="images/pic/dott-s.png" alt="背景ドット2")
+        img(class="animated bounce faster")#cha-m(src="images/pic/f044.png" alt="男性キャラクター")
+        img(class="animated bounce faster")#cha-f(src="images/pic/f050.png" alt="女性キャラクター")

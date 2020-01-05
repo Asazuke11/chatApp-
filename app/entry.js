@@ -7,6 +7,41 @@ import io from 'socket.io-client';
 const Config = require('../config');
 
 
+const socket = io(`${Config.ipAddress}`);
+
+socket.on('start data', (startObj) => {
+  const HexNum = require('crypto').randomBytes(8).toString('hex');
+  const marginTop_Array = ["10","50","90","130","170","210","250","290","330"];
+  const marginTop_random = Math.floor(Math.random() * marginTop_Array.length);
+  const marginTop = marginTop_Array[marginTop_random];
+  $('.nico-comentArea').append(
+    `<div class="move-text" id="C-${HexNum}" style="top:${marginTop}px;">${startObj.coment}</div>`
+    );
+  $(`#C-${HexNum}`).on('animationend', function() {
+    $(`#C-${HexNum}`).remove();
+});
+});
+
+
+
+$("#Button_send-coment").click(() => {
+  socket.emit("chat", $("#input-coment").val());
+})
+
+
+socket.on("chat",(msg) => {
+  const HexNum = require('crypto').randomBytes(8).toString('hex');
+  const marginTop_Array = ["10","50","90","130","170","210","250","290","330"];
+  const marginTop_random = Math.floor(Math.random() * marginTop_Array.length);
+  const marginTop = marginTop_Array[marginTop_random];
+  $('.nico-comentArea').append(`<div class="move-text" id="C-${HexNum}" style="top:${marginTop}px;">${msg}</div>`);
+  $(`#C-${HexNum}`).on('animationend', function() {
+    $(`#C-${HexNum}`).remove();
+});
+});
+
+
+
 ////////$document.getElementById ////////
 const username_change_button = $('#Button_change_userName');
 const userName_area = $('.userName');
@@ -69,36 +104,3 @@ username_change_button.click(() => {
 })
 const username = $('#main').attr('data-username');
 
-const socket = io(`${Config.ipAddress}`);
-
-
-socket.on('start data', (startObj) => {
-  const HexNum = require('crypto').randomBytes(8).toString('hex');
-  const marginTop_Array = ["10","50","90","130","170"];
-  const marginTop_random = Math.floor(Math.random() * marginTop_Array.length);
-  const marginTop = marginTop_Array[marginTop_random];
-  $('.text-area').append(
-    `<div class="move-text" id="C-${HexNum}" style="top:${marginTop}px;">${startObj.coment}</div>`
-    );
-  $(`#C-${HexNum}`).on('animationend', function() {
-    $(`#C-${HexNum}`).remove();
-});
-});
-
-
-
-$("#Button_send-text").click(() => {
-  socket.emit("chat", $("#input-text").val());
-})
-
-
-socket.on("chat",(msg) => {
-  const HexNum = require('crypto').randomBytes(8).toString('hex');
-  const marginTop_Array = ["10","50","90","130","170"];
-  const marginTop_random = Math.floor(Math.random() * marginTop_Array.length);
-  const marginTop = marginTop_Array[marginTop_random];
-  $('.text-area').append(`<div class="move-text" id="C-${HexNum}" style="top:${marginTop}px;">${msg}</div>`);
-  $(`#C-${HexNum}`).on('animationend', function() {
-    $(`#C-${HexNum}`).remove();
-});
-});

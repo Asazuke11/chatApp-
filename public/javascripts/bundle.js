@@ -106,15 +106,32 @@ global.jQuery = jquery__WEBPACK_IMPORTED_MODULE_0___default.a;
 
 var Config = __webpack_require__(55);
 
-function Particle_Generate() {
-  var COUNT = 22;
+var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_2___default()("".concat(Config.ipAddress));
+socket.on('start data', function (startObj) {
+  var HexNum = __webpack_require__(56).randomBytes(8).toString('hex');
 
-  for (var i = 0; i < COUNT; i++) {
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()(".background").append("<span></span>");
-  }
-}
+  var marginTop_Array = ["10", "50", "90", "130", "170", "210", "250", "290", "330"];
+  var marginTop_random = Math.floor(Math.random() * marginTop_Array.length);
+  var marginTop = marginTop_Array[marginTop_random];
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('.nico-comentArea').append("<div class=\"move-text\" id=\"C-".concat(HexNum, "\" style=\"top:").concat(marginTop, "px;\">").concat(startObj.coment, "</div>"));
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()("#C-".concat(HexNum)).on('animationend', function () {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()("#C-".concat(HexNum)).remove();
+  });
+});
+jquery__WEBPACK_IMPORTED_MODULE_0___default()("#Button_send-coment").click(function () {
+  socket.emit("chat", jquery__WEBPACK_IMPORTED_MODULE_0___default()("#input-coment").val());
+});
+socket.on("chat", function (msg) {
+  var HexNum = __webpack_require__(56).randomBytes(8).toString('hex');
 
-Particle_Generate(); ////////$document.getElementById ////////
+  var marginTop_Array = ["10", "50", "90", "130", "170", "210", "250", "290", "330"];
+  var marginTop_random = Math.floor(Math.random() * marginTop_Array.length);
+  var marginTop = marginTop_Array[marginTop_random];
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('.nico-comentArea').append("<div class=\"move-text\" id=\"C-".concat(HexNum, "\" style=\"top:").concat(marginTop, "px;\">").concat(msg, "</div>"));
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()("#C-".concat(HexNum)).on('animationend', function () {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()("#C-".concat(HexNum)).remove();
+  });
+}); ////////$document.getElementById ////////
 
 var username_change_button = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#Button_change_userName');
 var userName_area = jquery__WEBPACK_IMPORTED_MODULE_0___default()('.userName');
@@ -173,32 +190,6 @@ username_change_button.click(function () {
   });
 });
 var username = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#main').attr('data-username');
-var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_2___default()("".concat(Config.ipAddress));
-socket.on('start data', function (startObj) {
-  var HexNum = __webpack_require__(56).randomBytes(8).toString('hex');
-
-  var marginTop_Array = ["10", "50", "90", "130", "170"];
-  var marginTop_random = Math.floor(Math.random() * marginTop_Array.length);
-  var marginTop = marginTop_Array[marginTop_random];
-  jquery__WEBPACK_IMPORTED_MODULE_0___default()('.text-area').append("<div class=\"move-text\" id=\"C-".concat(HexNum, "\" style=\"top:").concat(marginTop, "px;\">").concat(startObj.coment, "</div>"));
-  jquery__WEBPACK_IMPORTED_MODULE_0___default()("#C-".concat(HexNum)).on('animationend', function () {
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()("#C-".concat(HexNum)).remove();
-  });
-});
-jquery__WEBPACK_IMPORTED_MODULE_0___default()("#Button_send-text").click(function () {
-  socket.emit("chat", jquery__WEBPACK_IMPORTED_MODULE_0___default()("#input-text").val());
-});
-socket.on("chat", function (msg) {
-  var HexNum = __webpack_require__(56).randomBytes(8).toString('hex');
-
-  var marginTop_Array = ["10", "50", "90", "130", "170"];
-  var marginTop_random = Math.floor(Math.random() * marginTop_Array.length);
-  var marginTop = marginTop_Array[marginTop_random];
-  jquery__WEBPACK_IMPORTED_MODULE_0___default()('.text-area').append("<div class=\"move-text\" id=\"C-".concat(HexNum, "\" style=\"top:").concat(marginTop, "px;\">").concat(msg, "</div>"));
-  jquery__WEBPACK_IMPORTED_MODULE_0___default()("#C-".concat(HexNum)).on('animationend', function () {
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()("#C-".concat(HexNum)).remove();
-  });
-});
 
 /***/ }),
 /* 1 */
