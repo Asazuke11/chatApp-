@@ -6,6 +6,7 @@ import bootstrap from 'bootstrap';
 import io from 'socket.io-client';
 const Config = require('../config');
 
+
 ////////$document.getElementById ////////
 const username_change_button = $('#Button_change_userName');
 const userName_area = $('.userName');
@@ -68,24 +69,36 @@ username_change_button.click(() => {
 })
 const username = $('#main').attr('data-username');
 
-const socket = io(`${Config.ipAddress}` + "?" + username);
-console.log(username);
-console.log(socket);
-$("#message_form").submit((e) => {
-  e.preventDefault(); // prevents page reloading
-  socket.emit('chat message', $('#input_msg').val());
-  $('#input_msg').val('');
-  return false;
+const socket = io(`${Config.ipAddress}`);
+
+
+socket.on('start data', (startObj) => {
+  const HexNum = require('crypto').randomBytes(8).toString('hex');
+  const marginTop_Array = ["10","50","90","130","170"];
+  const marginTop_random = Math.floor(Math.random() * marginTop_Array.length);
+  const marginTop = marginTop_Array[marginTop_random];
+  $('.text-area').append(
+    `<div class="move-text" id="C-${HexNum}" style="top:${marginTop}px;">${startObj.coment}</div>`
+    );
+  $(`#C-${HexNum}`).on('animationend', function() {
+    $(`#C-${HexNum}`).remove();
+});
 });
 
-socket.on('sendMessageToClient', (msg) => {
-  $('#messages').append($('<li>').text(msg.value));
-});
 
-socket.on('user disconnected', (msg) => {
-  $('#messages').append($('<li>').text(msg.value));
-});
 
-socket.on('some event', (msg) => {
-  $('#messages').append($('<li>').text(msg.chat));
+$("#Button_send-text").click(() => {
+  socket.emit("chat", $("#input-text").val());
+})
+
+
+socket.on("chat",(msg) => {
+  const HexNum = require('crypto').randomBytes(8).toString('hex');
+  const marginTop_Array = ["10","50","90","130","170"];
+  const marginTop_random = Math.floor(Math.random() * marginTop_Array.length);
+  const marginTop = marginTop_Array[marginTop_random];
+  $('.text-area').append(`<div class="move-text" id="C-${HexNum}" style="top:${marginTop}px;">${msg}</div>`);
+  $(`#C-${HexNum}`).on('animationend', function() {
+    $(`#C-${HexNum}`).remove();
+});
 });

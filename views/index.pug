@@ -1,38 +1,17 @@
 extends layout
-
 block content
-  .container-fluid
-    .row.align-items-center.justify-content-center
-      .item-video.col-sm-
-        video(src="./images/mp4/title.mp4" autoplay loop muted)
-      .item-text-title.col-sm-.text-center
-        h2= title
-        p - #{subtitle} -
-    .row.align-items-center.justify-content-center
-      .item-text-manual.col-sm-.align-middle
-        p 
-          small.text-muted = 遊び方 = <br>このページはtrackingCookieを利用しています。<br>セキュリティソフト等のクリーンアップや、ブラウザの履歴を消去などをした場合、情報が消えてしまうのでご了承ください。
-      .item-char-area
-        if database_data
-          img(src=`./images/cha/${database_data.picURL}`)#cha
-          span.userName #{database_data.username}
-        else
-          span.userName ななしの村人
-      .item-name-input-area
-        p ゲームで使う名前を決めてください。
-        p
-          input(name="username", cols="10", rows="1" placeholder="名前を入力してください。").inputarea#input-name
-          small.text-mutedr ※10文字まで。
-        p
-          small.text-mutedr#error-div
-        p
-          small.text-muted ※周りの人を不快にする名前は控えましょう。
-        if database_data
-          #Button_change_userName(
-            data-user-id=database_data.userId
-            ) 変更
-        else 
-          #Button_change_userName(
-            data-user-id=userId
-            ) 変更
-        ul#messages
+  #app
+    .first-screen
+      .background
+      .text-area
+      .log-title
+        img#log-Nyobi.layer(src="images/icon/N_logo.png" alt="N予備校ロゴ")
+        span#title-text.layer #{subtitle}
+      .title-Character
+        img#cha-m.layer(src="images/pic/f044.png" alt="男性キャラクター")
+        img#cha-f.layer(src="images/pic/f050.png" alt="女性キャラクター")
+      p#input-area.layer
+        input(name="text", cols="10", rows="1" placeholder="コメントを入力してください。")#input-text
+        button#Button_send-text 変更
+
+

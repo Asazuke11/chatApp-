@@ -1,8 +1,8 @@
 var express = require('express');
 var router = express.Router();
 const Cookies = require('cookies');
-const Title_Name = 'Are You a Werewolf?';
-const subTitle_Name = 'ONE NIGHT WEREWOLF version';
+const Title_Name = 'Webチャットアプリ';
+const subTitle_Name = 'Webアプリコンテスト 2019 冬';
 const trackingIdKey = 'tracking_id';
 
 var User = require('../models/user');
