@@ -1,17 +1,34 @@
 extends layout
 block content
   .container-fluid#background-css-setting
-    //- ニコニココメントエリア
+    //- ニコニコ風コメントが流れるエリア
     .nico-comentArea
+    //- ニコニコ風コメントを入力するエリア
     p#nicoComent-input-area
       input(name="text", cols="10", rows="1" placeholder="コメントを入力" )#input-coment
       button#Button_send-coment コメント
-    header.row
-        .item-title-sub
-          span#title-text #{subtitle}
-    .row
+    header.row.justify-content-between
+      .item-title-sub
+        span#contest-title #{subtitle}
+      .item-Connection-Count
+        img#connection-icon(src="images/icon/emotion-line.png" alt="接続人数アイコン")
+        span#connectionCount
+    main.row.justify-content-center.align-items-center
       .Character_TopPage
         img#dott-m(src="images/pic/dott-m.png" alt="背景ドット１")
         img#dott-s(src="images/pic/dott-s.png" alt="背景ドット2")
-        img(class="animated bounce faster")#cha-m(src="images/pic/f044.png" alt="男性キャラクター")
-        img(class="animated bounce faster")#cha-f(src="images/pic/f050.png" alt="女性キャラクター")
+        img(class="animated bounce faster")#titlePic(src="images/pic/titlePic.png" alt="タイトル画像")
+      .Description_Text
+        .item-Description-text
+          p 人狼(ワンナイトルール)の遊び方。
+          span □１ゲームに必要な人数:３～７人。
+            br
+            br
+          span 人狼役になったプレイヤーを、人間チームが当てられれば、人間チームの勝ち。外せば人狼チームの勝ちとなります。
+            br
+            br
+          span □部屋に入ってからの流れ
+            br
+          span ゲームが開始されたらカードを選んで、自身のロール(役職)を決定します。
+            br
+

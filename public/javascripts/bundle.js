@@ -118,6 +118,12 @@ socket.on('start data', function (startObj) {
     jquery__WEBPACK_IMPORTED_MODULE_0___default()("#C-".concat(HexNum)).remove();
   });
 });
+socket.on('connection_count', function (count) {
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('#connectionCount').text("".concat(count.count));
+});
+socket.on('disconnection_count', function (count) {
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('#connectionCount').text("".concat(count.discount));
+});
 jquery__WEBPACK_IMPORTED_MODULE_0___default()("#Button_send-coment").click(function () {
   socket.emit("chat", jquery__WEBPACK_IMPORTED_MODULE_0___default()("#input-coment").val());
 });

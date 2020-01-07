@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const Cookies = require('cookies');
-const Title_Name = 'Webチャットアプリ';
+const Title_Name = '人狼ゲーム支援あぷり。';
 const subTitle_Name = 'Webアプリコンテスト 2019 冬';
 const trackingIdKey = 'tracking_id';
 

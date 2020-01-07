@@ -1,10 +1,19 @@
-## 人狼サポートツール　[![CircleCI](https://circleci.com/gh/Asazuke11/2019-20Winter/tree/cookie.svg?style=svg&circle-token=9c494b5264bc9a8de16293a2c371ef199bdf54d9)](https://circleci.com/gh/Asazuke11/2019-20Winter/tree/cookie)
+## 人狼サポートツール「人狼くん。」　[![CircleCI](https://circleci.com/gh/Asazuke11/2019-20Winter/tree/cookie.svg?style=svg&circle-token=9c494b5264bc9a8de16293a2c371ef199bdf54d9)](https://circleci.com/gh/Asazuke11/2019-20Winter/tree/cookie)
 
-* URI
-  * GET　/ <br>ホーム画面
-  
-  * POST　/CreateCharacter/:cookieID　<br>Ajaxによる利用者情報の更新
+websocketを使った人狼ゲームをサポートするアプリです。  
 
-  * POST　/room/:roomID?Create <br>部屋の作成
-  
-  * GET　/room/:roomID <br>websoketの部屋
+--制作メモ--  
+使用フレームワーク  
+* jQuery  
+* bootstrap
+* AnimesionCSS
+
+ハンドラー　
+　/　  ホーム画面  
+
+
+* 接続人数表示
+* ニコニココメント風チャット
+
+
+

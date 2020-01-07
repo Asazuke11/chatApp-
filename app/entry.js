@@ -22,6 +22,13 @@ socket.on('start data', (startObj) => {
 });
 });
 
+socket.on('connection_count',(count) => {
+  $('#connectionCount').text(`${count.count}`);
+})
+
+socket.on('disconnection_count',(count) => {
+  $('#connectionCount').text(`${count.discount}`);
+})
 
 
 $("#Button_send-coment").click(() => {
