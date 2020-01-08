@@ -60,6 +60,7 @@
   white-space:nowrap;
   animation: NagareruComent 10s linear;
   animation-iteration-count: 1;
+  z-index: 1;
 }
 
 /*ニコニコ風流れるコメントのアニメーション設定*/
@@ -75,20 +76,26 @@
 
 
 
-/*:::::::::::::::::::::*/
-/******  ヘッダー  ******/
-/*:::::::::::::::::::::*/
+/*::::::::::::::::::::::::::::::::::::::*/
+/******  　トップメインページ設定　  ******/
+/*::::::::::::::::::::::::::::::::::::::*/
 
-/*ヘッダー全体の設定*/
-header{
-  position: fixed;
-  width: 100vw;
-  z-index: 2;
+/*メイン部設定*/
+main{
+  position: relative;
+  margin: auto;
+  width: 90vw;
+  min-width: 1000px;
+  height: 100vh;
+  overflow: hidden;
 }
+
 
 /*コンテスト名の記述部*/
 #contest-title{
-  left:50px; top:15px;font-family:'M PLUS Rounded 1c',sans-serif; font-size: medium;
+  position: absolute;
+  left:0px; top:0px;
+  font-family:'M PLUS Rounded 1c',sans-serif; font-size: medium;
   color:#3D2B4B;
   background-color: rgb(0, 0, 0);
   z-index: 3;
@@ -96,67 +103,68 @@ header{
 
 /*接続人数表示エリア設定*/
 .item-Connection-Count{
-  width: 60px;
-  height: 26px;
+  position: absolute;
+  top:3px;right: 3px;
+  width: 60px; height: 26px;
   text-align: center;
   background-color: snow;
   border-radius:2px;
-  margin-top: 5px;
-  margin-right: 5px;
   padding: 1px;
+  z-index: 5;
 }
 /*接続人数に使っているアイコン*/
 #connection-icon{
   float: left;
-  z-index: 5;
-}
-
-/*::::::::::::::::::::::::::::::::*/
-/******  ヘッダー設定ここまで  ******/
-/*:::::::::::::::::::::;;;;;;;;;;;*/
-
-
-
-
-/*:::::::::::::::::::::::::::::::::::::::*/
-/******  トップページキャラクター配置  ******/
-/*:::::::::::::::::::::::::::::::::::::::*/
-
-/*メイン部設定*/
-main{
-  width: 100vw;
-  height: 100vh;
 }
 
 /*タイトル画像のレイアウトDIV*/
-.Character_TopPage{
+.item-titleLogo{
   position: relative;
+  margin-left: 2vw;
   height: 100vh;
-  width: 620px;
+  width: 38vw;
+  min-width: 400px;
 }
 
 /*タイトル画像*/
 #titlePic{
   position: absolute;
-  right: 20px;
-  bottom: 0px;
-  height: 100vh;
+  bottom:0px;
+  height: 97vh;
   z-index: 3;
 }
 
-/*アプリの説明欄レイアウトDIV*/
-.Description_Text{
-  width: 450px;
-  text-align: left;
-  color:rgb(255, 252, 70);
+.item-Description-text{
+  margin: auto;
+  background-color: rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 0px 5px black;
+  font-size: 14px;color:snow;
+  padding: 8px;
+  z-index: 4;
 }
 
-/**/
 .item-Description-text{
-  background-color: rgba(0, 0, 0, 0.5);
-  box-shadow: 2px 2px 5px black;
-  border: solid 1px var(--Paragraph);
+  margin: auto;
+  background-color: rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 0px 5px black;
+  font-size: 14px;color:snow;
   padding: 8px;
+  z-index: 5;
+}
+
+.item-Button-Name{
+  position: fixed;
+  bottom: 10vh;
+  right: 2vw;
+  background-image: url(../images/pic/nameplateR300x100.png);
+  width: 150px; height: 50px;
+  background-size:cover;
+  z-index: 5;
+}
+.item-Button-Name:after{
+  color:rgb(0, 0, 0);
+  font-size: 20px;
+  content: "プレイヤー設定";
 }
 
 /*ドッドmiddle*/
@@ -219,4 +227,16 @@ main{
   100%{
     opacity: 1;
   }
+}
+
+.marker-B {
+  background: linear-gradient(transparent 70%, #c1e0ff 100%);
+}
+
+.marker-Y {
+  background: linear-gradient(transparent 70%, #fff9c1 100%);
+}
+
+.marker-R {
+  background: linear-gradient(transparent 70%, #ffc1c1 100%);
 }

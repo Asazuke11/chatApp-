@@ -32,7 +32,9 @@ socket.on('disconnection_count',(count) => {
 
 
 $("#Button_send-coment").click(() => {
+  if($("#input-coment").val().length === 0){ return;};
   socket.emit("chat", $("#input-coment").val());
+  $("#input-coment").val("");
 })
 
 

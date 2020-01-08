@@ -1,34 +1,43 @@
 extends layout
 block content
-  .container-fluid#background-css-setting
+  #background-css-setting.container-fluid
     //- ニコニコ風コメントが流れるエリア
     .nico-comentArea
     //- ニコニコ風コメントを入力するエリア
     p#nicoComent-input-area
       input(name="text", cols="10", rows="1" placeholder="コメントを入力" )#input-coment
       button#Button_send-coment コメント
-    header.row.justify-content-between
-      .item-title-sub
-        span#contest-title #{subtitle}
+    .item-title-sub
+      span#contest-title #{subtitle}
+
+    main
       .item-Connection-Count
         img#connection-icon(src="images/icon/emotion-line.png" alt="接続人数アイコン")
         span#connectionCount
-    main.row.justify-content-center.align-items-center
-      .Character_TopPage
-        img#dott-m(src="images/pic/dott-m.png" alt="背景ドット１")
-        img#dott-s(src="images/pic/dott-s.png" alt="背景ドット2")
-        img(class="animated bounce faster")#titlePic(src="images/pic/titlePic.png" alt="タイトル画像")
-      .Description_Text
-        .item-Description-text
-          p 人狼(ワンナイトルール)の遊び方。
-          span □１ゲームに必要な人数:３～７人。
+      .item-Button-Name
+        
+      .row.justify-content-center
+        .item-titleLogo.col-5
+          img#dott-m(src="images/pic/dott-m.png" alt="背景ドット１")
+          img#dott-s(src="images/pic/dott-s.png" alt="背景ドット2")
+          img(class="animated bounce faster")#titlePic(src="images/pic/titlePic.png" alt="タイトル画像")
+        .item-Description-text.col-6
+          span.marker-B 人狼くんとは？
+            br
+          span 人狼くんとは、パーティゲーム「人狼(ワンナイトルール)」をPCブラウザ上にて、みんなで楽しむウェブアプリです。
+            a(href="http://1nite-jinro.mystrikingly.com/" target="_blank") (ワンナイトルールとは？)
             br
             br
-          span 人狼役になったプレイヤーを、人間チームが当てられれば、人間チームの勝ち。外せば人狼チームの勝ちとなります。
+          span.marker-Y 遊び方
+            br
+          span 1.「名前の設定」から、プレイ中に使用する名前を設定。
+            br
+          span 2.「部屋を作る」から部屋を作る。
+            br
+          span 　もしくは既にある部屋のコメントから任意の部屋に入室。
             br
             br
-          span □部屋に入ってからの流れ
+          span.marker-R ※注意
             br
-          span ゲームが開始されたらカードを選んで、自身のロール(役職)を決定します。
+          span ・このアプリはクッキーを使用しています。
             br
-

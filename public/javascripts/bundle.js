@@ -125,7 +125,13 @@ socket.on('disconnection_count', function (count) {
   jquery__WEBPACK_IMPORTED_MODULE_0___default()('#connectionCount').text("".concat(count.discount));
 });
 jquery__WEBPACK_IMPORTED_MODULE_0___default()("#Button_send-coment").click(function () {
+  if (jquery__WEBPACK_IMPORTED_MODULE_0___default()("#input-coment").val().length === 0) {
+    return;
+  }
+
+  ;
   socket.emit("chat", jquery__WEBPACK_IMPORTED_MODULE_0___default()("#input-coment").val());
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()("#input-coment").val("");
 });
 socket.on("chat", function (msg) {
   var HexNum = __webpack_require__(56).randomBytes(8).toString('hex');
