@@ -3,24 +3,29 @@ block content
   #background-css-setting.container-fluid
     //- ニコニコ風コメントが流れるエリア
     .nico-comentArea
-    //- ニコニコ風コメントを入力するエリア
-    p#nicoComent-input-area
-      input(name="text", cols="10", rows="1" placeholder="コメントを入力" )#input-coment
-      button#Button_send-coment コメント
+
     .item-title-sub
       span#contest-title #{subtitle}
+        i(class="fas fa-camera")
+    
+    header.container
+      .row.justify-content-end.align-items-center
+        .item-Icon-Setting.col-1
+          img#Room-list(src="images/icon/list-unordered.png" alt="部屋アイコン" data-toggle="tooltip" title="部屋一覧")
+        .item-Icon-Setting.col-1
+          img#Room-make(src="images/icon/add-box-line.png" alt="部屋作成アイコン" data-toggle="tooltip" title="部屋を作成")
+        .item-Icon-Setting.col-1
+          img#Name-Setting(src="images/icon/user-smile-line.png" alt="設定アイコン" data-toggle="tooltip" title="プレイヤー設定")
+        .item-Connection-Count.col-1
+          img#connection-icon(src="images/icon/emotion-line.png" alt="接続人数アイコン")
+          span#connectionCount
 
     main
-      .item-Connection-Count
-        img#connection-icon(src="images/icon/emotion-line.png" alt="接続人数アイコン")
-        span#connectionCount
-      .item-Button-Name
-        
       .row.justify-content-center
         .item-titleLogo.col-5
           img#dott-m(src="images/pic/dott-m.png" alt="背景ドット１")
           img#dott-s(src="images/pic/dott-s.png" alt="背景ドット2")
-          img(class="animated bounce faster")#titlePic(src="images/pic/titlePic.png" alt="タイトル画像")
+          img(class="animated bounce faster")#titlePic(src="images/pic/title-Logo.png" alt="タイトル画像")
         .item-Description-text.col-6
           span.marker-B 人狼くんとは？
             br
@@ -41,3 +46,8 @@ block content
             br
           span ・このアプリはクッキーを使用しています。
             br
+      .migisita.container
+        .row.justify-content-end
+          p#nicoComent-input-area
+            input(name="text", cols="10", rows="1" placeholder="コメントを入力" )#input-coment
+            button#Button_send-coment コメント

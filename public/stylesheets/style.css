@@ -42,13 +42,6 @@
   z-index: 1;
 }
 
-/*コメント入力部分*/
-#nicoComent-input-area{
-  position: fixed;
-  bottom: 10px;
-  right: 10px;
-  z-index: 5;
-}
 
 /*コメントを左から右に流す設定*/
 .move-text{
@@ -101,10 +94,23 @@ main{
   z-index: 3;
 }
 
+header{
+  position: absolute;
+  top:10px;
+  right: 10px;
+  z-index: 5;
+}
+
+.item-Icon-Setting:hover{
+  transform: scale(1.2);
+}
+.pop{
+  content: "aaaaa";
+  color:snow;
+}
+
 /*接続人数表示エリア設定*/
 .item-Connection-Count{
-  position: absolute;
-  top:3px;right: 3px;
   width: 60px; height: 26px;
   text-align: center;
   background-color: snow;
@@ -152,19 +158,27 @@ main{
   z-index: 5;
 }
 
-.item-Button-Name{
+.migisita{
   position: fixed;
-  bottom: 10vh;
-  right: 2vw;
-  background-image: url(../images/pic/nameplateR300x100.png);
-  width: 150px; height: 50px;
-  background-size:cover;
+  right: 5px;
+  bottom: 5px;
   z-index: 5;
 }
-.item-Button-Name:after{
-  color:rgb(0, 0, 0);
-  font-size: 20px;
-  content: "プレイヤー設定";
+
+.item-Button-TopPage{
+  bottom: 10vh;
+  right: 2vw;
+  background-image: url(../images/pic/nameplate300x100.png);
+  width: 150px; height: 50px;
+  background-size:cover;
+  margin: 30px;
+  text-align: center;
+}
+
+.item-Button-text{
+  font-size: 22px;
+  text-shadow: 0 0 10px rgb(255, 0, 0);
+  color:rgb(251, 255, 5);
 }
 
 /*ドッドmiddle*/
