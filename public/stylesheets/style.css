@@ -63,9 +63,144 @@
   }
 }
 
+/*ニコ風コメントインプットエリア*/
+.NicoComentInputArea{
+  position: fixed;
+  right: 5px;
+  bottom: 5px;
+  z-index: 7;
+}
+
 /*:::::::::::::::::::::::::::::::*/
 /***ニコニコ風コメント設定ここまで***/
 /*:::::::::::::::::::::::::::::::*/
+
+
+
+/*::::::::::::::::::::::::::::::::::*/
+/********  　ヘッダー部設定　  ********/
+/*::::::::::::::::::::::::::::::::::*/
+
+
+/*コンテスト名の記述部*/
+#contest-title{
+  position: absolute;
+  left:0px; top:0px;
+  font-family:'M PLUS Rounded 1c',sans-serif; font-size: medium;
+  color:#3D2B4B;
+  background-color: rgb(0, 0, 0);
+  z-index: 7;
+}
+
+/*ナビゲーションヘッダーレイアウト設定*/
+header{
+  position: absolute;
+  top:10px;
+  right: 10px;
+  z-index: 7;
+}
+
+/*ナビアイコンにマウスが当たると拡大する設定*/
+.item-Icon-Setting:hover{
+  transform: scale(1.2);
+}
+
+
+/*接続人数表示エリア設定*/ /***********/
+.item-Connection-Count{
+  width: 60px; height: 26px;
+  text-align: center;
+  background-color: snow;
+  border-radius:2px;
+  padding: 1px;
+}
+/*接続人数アイコン*/
+#connection-icon{
+  float: left;
+}
+                    /*****************/
+
+
+/*名前変更エリア*/  /*****************************/
+
+/*名前変更インプット配置設定*/
+.item-name-input-area{
+  display: none;
+  padding: 10px;
+  padding-left: 20px;
+  padding-bottom: 0px;
+  margin: 10px;
+  color:snow;
+  background-color: rgba(109, 54, 211, 0.7);
+  border-radius:5px;
+}
+/*インプット部品のデコレーション設定*/
+.input-Parts-setting{
+  width:200px;
+  color:var(--Headline);
+  background-color: var(--Background);
+}
+/*名前変更ボタンの設定*/
+#Button_change_userName{
+  display: block;
+	width: 80px;
+	text-align: center;
+	text-decoration: none;
+  color: var(--Button-Text);
+  background: var(--Button);
+	border-radius: 3px;
+  transition: .4s;
+  box-shadow: 0 0 3px var(--Button-Text);
+}
+/*名前変更ボタンオンマウス時*/
+#Button_change_userName:hover{
+  background:var(--Button);
+  color: var(--Paragraph);
+}
+/*データベースからデータが取れなかった時にでる文字の色*/
+#error-div{
+  color:red;
+}
+/*「現在のプレイヤー設定」部分*/
+.display-nowName{
+  font-size: 10px;
+  padding: 3px;
+  color:snow;
+  background-color: var(--Background);
+  border-radius: 2px;
+}
+                           /**********************/
+
+/*キャラクターイラスト表示エリア*/
+.item-char-area{
+  position: relative;
+  width:210px;
+  height: 200px;
+  margin: 15px;
+  text-align: center;
+  overflow: hidden;
+  filter: drop-shadow(0px 0px 10px rgb(24, 4, 46));
+  border-radius:3px;
+}
+/*名前表示エリア*/
+.userName{
+  position: absolute;
+  right: 5px;
+  bottom: 10px;
+  color:var(--Headline);
+  text-shadow: 0 0 4px black;
+  font-size: 20px;
+  background-image: url(../images/pic/nameplateR300x100.png);
+}
+/*キャラクターイラストサイズ設定*/
+#cha{
+  width: 150px;
+  height: 200px;
+}
+
+/*::::::::::::::::::::::::::::::::::::::::::*/
+/********  　ヘッダー部設定ここまで　  ********/
+/*::::::::::::::::::::::::::::::::::::::::::*/
 
 
 
@@ -81,51 +216,6 @@ main{
   min-width: 1000px;
   height: 100vh;
   overflow: hidden;
-}
-
-
-/*コンテスト名の記述部*/
-#contest-title{
-  position: absolute;
-  left:0px; top:0px;
-  font-family:'M PLUS Rounded 1c',sans-serif; font-size: medium;
-  color:#3D2B4B;
-  background-color: rgb(0, 0, 0);
-  z-index: 3;
-}
-
-header{
-  position: absolute;
-  top:10px;
-  right: 10px;
-  z-index: 5;
-}
-
-.item-Icon-Setting:hover{
-  transform: scale(1.2);
-}
-
-/*接続人数表示エリア設定*/
-.item-Connection-Count{
-  width: 60px; height: 26px;
-  text-align: center;
-  background-color: snow;
-  border-radius:2px;
-  padding: 1px;
-  z-index: 5;
-}
-
-/*接続人数に使っているアイコン*/
-#connection-icon{
-  float: left;
-}
-
-/*ニコ風コメントインプットエリア*/
-.NicoComentInputArea{
-  position: fixed;
-  right: 5px;
-  bottom: 5px;
-  z-index: 5;
 }
 
 /*タイトル画像のレイアウトDIV*/
@@ -154,81 +244,20 @@ header{
 
 /*説明テキスト*/
 .item-Description-text{
+  display: none;
   margin: auto;
-  /* background-color: rgba(0, 0, 0, 0.3); */
-  /* box-shadow: 0px 0px 5px black; */
   font-size: 14px;color:snow;
   padding: 8px;
-  z-index: 4;
 }
 
-/*名前変更エリア*/
-.char-setting{
+.item-RoomList{
   margin: auto;
-  padding: 10px;
-  width: 350px;
 }
 
-/*イラスト表示エリア*/
-.item-char-area{
-  position: relative;
+.item-RoomList > table{
   text-align: center;
-  color: chartreuse;
-  overflow: hidden;
-  filter: drop-shadow(5px 5px 10px rgb(7, 4, 36));
-  padding: 10px;
-  width:260px;
-  height: 210px;
-  margin: 10px;
-}
-
-/*名前表示エリア*/
-.userName{
-  position: absolute;
-  right: 5px;
-  bottom: 10px;
-  color:var(--Headline);
-  text-shadow: 0 0 4px black;
-  font-size: 20px;
-  background-image: url(../images/pic/nameplateR300x100.png);
-}
-
-/*名前変更インプット配置設定*/
-.item-name-input-area{
-  display: none;
-  padding: 10px;
-  padding-left: 20px;
-  padding-bottom: 0px;
-  margin: 10px;
-  color:snow;
-  background-color: rgba(109, 54, 211, 0.3);
-  border-radius:5px;
-}
-
-.inputarea{
-  width:200px;
-  color:var(--Headline);
-  background-color: var(--Background);
-}
-
-#Button_change_userName{
-  display: block;
-	width: 80px;
-	text-align: center;
-	text-decoration: none;
-  color: var(--Button-Text);
-  background: var(--Button);
-	border-radius: 3px;
-  transition: .4s;
-  box-shadow: 0 0 3px var(--Button-Text);
-}
-#Button_change_userName:hover{
-  background:var(--Button);
-  color: var(--Paragraph);
-}
-
-#error-div{
-  color:red;
+  background-color: rgba(8, 44, 44, 0.3);
+  color:var(--Button-Text);
 }
 
 /*ドッドmiddle*/

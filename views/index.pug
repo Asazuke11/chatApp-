@@ -7,8 +7,9 @@ block content
     .item-title-sub
       span#contest-title #{subtitle}
         i(class="fas fa-camera")
-    
+
     header.container
+      //-画面上部コンテンツアイコンエリア
       .row.justify-content-end.align-items-center
         .item-Icon-Setting.col-1
           img#Room-list(src="images/icon/list-unordered.png" alt="部屋アイコン" data-toggle="tooltip" title="部屋一覧")
@@ -20,11 +21,12 @@ block content
           .item-Connection-Count
             img#connection-icon(src="images/icon/emotion-line.png" alt="接続人数アイコン")
             span#connectionCount
+      //-キャラクター設定エリア
       .row.justify-content-end
         .item-name-input-area
-          p 名前の変更
+          p プレイヤー名の設定
           p
-            input(name="username", cols="10", rows="1" placeholder="名前を入力してください。").inputarea#input-name
+            input(name="username", cols="10", rows="1" placeholder="名前を入力してください。").input-Parts-setting#input-name
             br
             small.text-mutedr ※10文字まで。
           p
@@ -39,13 +41,23 @@ block content
               ) 変更
           p
             small.text-muted 周りの人を不快にする名前は控えましょう。
+          br
+          span.display-nowName = 現在のプレイヤー設定 =
+          .item-char-area
+            if database_data
+              img(src=`./images/cha/${database_data.picURL}`)#cha
+              span.userName #{database_data.username}
+            else
+              span.userName ななしの村人
     main
       .row.justify-content-center
         .item-titleLogo.col-5
           img#dott-m(src="images/pic/dott-m.png" alt="背景ドット１")
           img#dott-s(src="images/pic/dott-s.png" alt="背景ドット2")
           img(class="animated bounce faster")#titlePic(src="images/pic/title-Logo.png" alt="タイトル画像")
+          //-右、コンテンツテキストエリア
         .item-Description-Area.col-6
+          //-コンテンツ説明文
           .item-Description-text
             span.marker-B 人狼くんとは？
               br
@@ -66,14 +78,32 @@ block content
               br
             span ・このアプリはクッキーを使用しています。
               br
+          .item-RoomList.table-responsive
+            table.table.table-dark.table-striped.table-hover.table-bordered.table-sm.text-nowrap
+              thead.thead-dark
+                tr
+                  th(scope="row") 部屋番号
+                  th(scope="col") ルーム名
+                  th(scope="col") コメント
+                  th(scope="col") 入室
+              tbody
+                tr
+                  th(scope="row") 1
+                  td テーブルのセル
+                  td テーブルのセル
+                  td 入室
+                tr
+                  th(scope="row") 1
+                  td テーブルのセル
+                  td テーブルのセル
+                  td テーブルのセル
+                tr
+                  th(scope="row") 1
+                  td テーブルのセル
+                  td テーブルのセル
+                  td テーブルのセル
+
       .NicoComentInputArea.container
-        .row.justify-content-end
-          .item-char-area
-            if database_data
-              img(src=`./images/cha/${database_data.picURL}`)#cha
-              span.userName #{database_data.username}
-            else
-              span.userName ななしの村人
         .row.justify-content-end
           p#nicoComent-input-area
             input(name="text", cols="10", rows="1" placeholder="コメントを入力" )#input-coment
