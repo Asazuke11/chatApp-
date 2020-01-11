@@ -6,55 +6,69 @@ import bootstrap from 'bootstrap';
 import io from 'socket.io-client';
 const Config = require('../config');
 
-
+// root -> "/"
 const socket = io(`${Config.ipAddress}`);
 
 socket.on('start data', (startObj) => {
   const HexNum = require('crypto').randomBytes(8).toString('hex');
-  const marginTop_Array = ["10","50","90","130","170","210","250","290","330"];
+  const marginTop_Array = ["10", "50", "90", "130", "170", "210", "250", "290", "330"];
   const marginTop_random = Math.floor(Math.random() * marginTop_Array.length);
   const marginTop = marginTop_Array[marginTop_random];
   $('.nico-comentArea').append(
     `<div class="move-text" id="C-${HexNum}" style="top:${marginTop}px;">${startObj.coment}</div>`
-    );
-  $(`#C-${HexNum}`).on('animationend', function() {
+  );
+  $(`#C-${HexNum}`).on('animationend', function () {
     $(`#C-${HexNum}`).remove();
-});
+  });
 });
 
-socket.on('connection_count',(count) => {
+//イベント：コネクションがあった
+socket.on('connection_count', (count) => {
   $('#connectionCount').text(`${count.count}`);
 })
-
-socket.on('disconnection_count',(count) => {
+//イベント：コネクションが切れた
+socket.on('disconnection_count', (count) => {
   $('#connectionCount').text(`${count.discount}`);
 })
 
-
+//ニコニココメント入力ボタン
 $("#Button_send-coment").click(() => {
-  if($("#input-coment").val().length === 0){ return;};
+  if ($("#input-coment").val().length === 0) { return; };
   socket.emit("chat", $("#input-coment").val());
   $("#input-coment").val("");
+  return false;
+})
+//ニコニココメントエンターキー機能
+$("#input-coment").keypress((e) => {
+  if (e.which === 13) {
+    if ($("#input-coment").val().length === 0) { return; };
+    socket.emit("chat", $("#input-coment").val());
+    $("#input-coment").val("");
+    return false;
+  }
 })
 
-
-socket.on("chat",(msg) => {
+//イベント：ニココメントを受け取った
+socket.on("chat", (msg) => {
   const HexNum = require('crypto').randomBytes(8).toString('hex');
-  const marginTop_Array = ["10","50","90","130","170","210","250","290","330"];
+  const marginTop_Array = ["10", "50", "90", "130", "170", "210", "250", "290", "330"];
   const marginTop_random = Math.floor(Math.random() * marginTop_Array.length);
   const marginTop = marginTop_Array[marginTop_random];
   $('.nico-comentArea').append(`<div class="move-text" id="C-${HexNum}" style="top:${marginTop}px;">${msg}</div>`);
-  $(`#C-${HexNum}`).on('animationend', function() {
+  $(`#C-${HexNum}`).on('animationend', function () {
     $(`#C-${HexNum}`).remove();
+  });
 });
+
+
+$('#Name-Setting').click(() => {
+  let CSS_status = $(".item-name-input-area").css("display");
+  if(CSS_status === "none"){
+    $(".item-name-input-area").css("display","block");
+  }else{
+  $(".item-name-input-area").css("display","none");
+  }
 });
-
-
-
-////////$document.getElementById ////////
-const username_change_button = $('#Button_change_userName');
-const userName_area = $('.userName');
-const error_area = $('#error-div');
 
 
 //  画像ファイル名を入れた配列の作成  //
@@ -74,14 +88,14 @@ const Characterimage_Array = initChar();
 
 
 //名前変更ボタンクリック時の挙動//
-username_change_button.click(() => {
-  const cookieID = username_change_button.data('user-id');
+$('#Button_change_userName').click(() => {
+  const cookieID = $('#Button_change_userName').data('user-id');
   const char_Filename = Math.floor(Math.random() * Characterimage_Array.length);
 
-  error_area.text("");
+  $('#error-div').text("");
   //クッキーの値が取れなかった時
   if (!cookieID) {
-    error_area.text("※ページをリロードしてください。");
+    $('#error-div').text("※ページをリロードしてください。");
     return;
   }
 
@@ -92,7 +106,7 @@ username_change_button.click(() => {
   if (input_Value.length <= 0) {
     return;
   } else if (input_Value.length > 10) {　//文字数が11以上
-    error_area.text("※ニックネームは１０文字までです。")
+    $('#error-div').text("※ニックネームは１０文字までです。")
     return;
   }
 
@@ -108,7 +122,7 @@ username_change_button.click(() => {
   },
     (data) => {
       $('#cha').attr('src', `./images/cha/${data.picURL}`);
-      userName_area.text(`${data.username}`)
+      $('.userName').text(`${data.username}`)
     })
 })
 const username = $('#main').attr('data-username');

@@ -104,10 +104,6 @@ header{
 .item-Icon-Setting:hover{
   transform: scale(1.2);
 }
-.pop{
-  content: "aaaaa";
-  color:snow;
-}
 
 /*接続人数表示エリア設定*/
 .item-Connection-Count{
@@ -118,9 +114,18 @@ header{
   padding: 1px;
   z-index: 5;
 }
+
 /*接続人数に使っているアイコン*/
 #connection-icon{
   float: left;
+}
+
+/*ニコ風コメントインプットエリア*/
+.NicoComentInputArea{
+  position: fixed;
+  right: 5px;
+  bottom: 5px;
+  z-index: 5;
 }
 
 /*タイトル画像のレイアウトDIV*/
@@ -140,45 +145,90 @@ header{
   z-index: 3;
 }
 
+/*右側サイドエリア*/
+.item-Description-Area{
+  margin: auto;
+  padding: 8px;
+  z-index: 5;
+}
+
+/*説明テキスト*/
 .item-Description-text{
   margin: auto;
-  background-color: rgba(0, 0, 0, 0.3);
-  box-shadow: 0px 0px 5px black;
+  /* background-color: rgba(0, 0, 0, 0.3); */
+  /* box-shadow: 0px 0px 5px black; */
   font-size: 14px;color:snow;
   padding: 8px;
   z-index: 4;
 }
 
-.item-Description-text{
+/*名前変更エリア*/
+.char-setting{
   margin: auto;
-  background-color: rgba(0, 0, 0, 0.3);
-  box-shadow: 0px 0px 5px black;
-  font-size: 14px;color:snow;
-  padding: 8px;
-  z-index: 5;
+  padding: 10px;
+  width: 350px;
 }
 
-.migisita{
-  position: fixed;
-  right: 5px;
-  bottom: 5px;
-  z-index: 5;
-}
-
-.item-Button-TopPage{
-  bottom: 10vh;
-  right: 2vw;
-  background-image: url(../images/pic/nameplate300x100.png);
-  width: 150px; height: 50px;
-  background-size:cover;
-  margin: 30px;
+/*イラスト表示エリア*/
+.item-char-area{
+  position: relative;
   text-align: center;
+  color: chartreuse;
+  overflow: hidden;
+  filter: drop-shadow(5px 5px 10px rgb(7, 4, 36));
+  padding: 10px;
+  width:260px;
+  height: 210px;
+  margin: 10px;
 }
 
-.item-Button-text{
-  font-size: 22px;
-  text-shadow: 0 0 10px rgb(255, 0, 0);
-  color:rgb(251, 255, 5);
+/*名前表示エリア*/
+.userName{
+  position: absolute;
+  right: 5px;
+  bottom: 10px;
+  color:var(--Headline);
+  text-shadow: 0 0 4px black;
+  font-size: 20px;
+  background-image: url(../images/pic/nameplateR300x100.png);
+}
+
+/*名前変更インプット配置設定*/
+.item-name-input-area{
+  display: none;
+  padding: 10px;
+  padding-left: 20px;
+  padding-bottom: 0px;
+  margin: 10px;
+  color:snow;
+  background-color: rgba(109, 54, 211, 0.3);
+  border-radius:5px;
+}
+
+.inputarea{
+  width:200px;
+  color:var(--Headline);
+  background-color: var(--Background);
+}
+
+#Button_change_userName{
+  display: block;
+	width: 80px;
+	text-align: center;
+	text-decoration: none;
+  color: var(--Button-Text);
+  background: var(--Button);
+	border-radius: 3px;
+  transition: .4s;
+  box-shadow: 0 0 3px var(--Button-Text);
+}
+#Button_change_userName:hover{
+  background:var(--Button);
+  color: var(--Paragraph);
+}
+
+#error-div{
+  color:red;
 }
 
 /*ドッドmiddle*/

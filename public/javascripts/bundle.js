@@ -104,7 +104,8 @@ global.jQuery = jquery__WEBPACK_IMPORTED_MODULE_0___default.a;
 
 
 
-var Config = __webpack_require__(55);
+var Config = __webpack_require__(55); // root -> "/"
+
 
 var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_2___default()("".concat(Config.ipAddress));
 socket.on('start data', function (startObj) {
@@ -117,13 +118,16 @@ socket.on('start data', function (startObj) {
   jquery__WEBPACK_IMPORTED_MODULE_0___default()("#C-".concat(HexNum)).on('animationend', function () {
     jquery__WEBPACK_IMPORTED_MODULE_0___default()("#C-".concat(HexNum)).remove();
   });
-});
+}); //イベント：コネクションがあった
+
 socket.on('connection_count', function (count) {
   jquery__WEBPACK_IMPORTED_MODULE_0___default()('#connectionCount').text("".concat(count.count));
-});
+}); //イベント：コネクションが切れた
+
 socket.on('disconnection_count', function (count) {
   jquery__WEBPACK_IMPORTED_MODULE_0___default()('#connectionCount').text("".concat(count.discount));
-});
+}); //ニコニココメント入力ボタン
+
 jquery__WEBPACK_IMPORTED_MODULE_0___default()("#Button_send-coment").click(function () {
   if (jquery__WEBPACK_IMPORTED_MODULE_0___default()("#input-coment").val().length === 0) {
     return;
@@ -132,7 +136,22 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()("#Button_send-coment").click(funct
   ;
   socket.emit("chat", jquery__WEBPACK_IMPORTED_MODULE_0___default()("#input-coment").val());
   jquery__WEBPACK_IMPORTED_MODULE_0___default()("#input-coment").val("");
-});
+  return false;
+}); //ニコニココメントエンターキー機能
+
+jquery__WEBPACK_IMPORTED_MODULE_0___default()("#input-coment").keypress(function (e) {
+  if (e.which === 13) {
+    if (jquery__WEBPACK_IMPORTED_MODULE_0___default()("#input-coment").val().length === 0) {
+      return;
+    }
+
+    ;
+    socket.emit("chat", jquery__WEBPACK_IMPORTED_MODULE_0___default()("#input-coment").val());
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()("#input-coment").val("");
+    return false;
+  }
+}); //イベント：ニココメントを受け取った
+
 socket.on("chat", function (msg) {
   var HexNum = __webpack_require__(56).randomBytes(8).toString('hex');
 
@@ -143,11 +162,16 @@ socket.on("chat", function (msg) {
   jquery__WEBPACK_IMPORTED_MODULE_0___default()("#C-".concat(HexNum)).on('animationend', function () {
     jquery__WEBPACK_IMPORTED_MODULE_0___default()("#C-".concat(HexNum)).remove();
   });
-}); ////////$document.getElementById ////////
+});
+jquery__WEBPACK_IMPORTED_MODULE_0___default()('#Name-Setting').click(function () {
+  var CSS_status = jquery__WEBPACK_IMPORTED_MODULE_0___default()(".item-name-input-area").css("display");
 
-var username_change_button = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#Button_change_userName');
-var userName_area = jquery__WEBPACK_IMPORTED_MODULE_0___default()('.userName');
-var error_area = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#error-div'); //  画像ファイル名を入れた配列の作成  //
+  if (CSS_status === "none") {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()(".item-name-input-area").css("display", "block");
+  } else {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()(".item-name-input-area").css("display", "none");
+  }
+}); //  画像ファイル名を入れた配列の作成  //
 //  →
 //　Characterimage_Array = [s-f001.png,s-f002.png,...s-f370.png]　//
 
@@ -165,13 +189,13 @@ function initChar() {
 
 var Characterimage_Array = initChar(); //名前変更ボタンクリック時の挙動//
 
-username_change_button.click(function () {
-  var cookieID = username_change_button.data('user-id');
+jquery__WEBPACK_IMPORTED_MODULE_0___default()('#Button_change_userName').click(function () {
+  var cookieID = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#Button_change_userName').data('user-id');
   var char_Filename = Math.floor(Math.random() * Characterimage_Array.length);
-  error_area.text(""); //クッキーの値が取れなかった時
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('#error-div').text(""); //クッキーの値が取れなかった時
 
   if (!cookieID) {
-    error_area.text("※ページをリロードしてください。");
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#error-div').text("※ページをリロードしてください。");
     return;
   } //インプットエリアの値の取得
 
@@ -182,7 +206,7 @@ username_change_button.click(function () {
     return;
   } else if (input_Value.length > 10) {
     //文字数が11以上
-    error_area.text("※ニックネームは１０文字までです。");
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#error-div').text("※ニックネームは１０文字までです。");
     return;
   } //Ajax
 
@@ -198,7 +222,7 @@ username_change_button.click(function () {
     chaURL: "".concat(Characterimage_Array[char_Filename])
   }, function (data) {
     jquery__WEBPACK_IMPORTED_MODULE_0___default()('#cha').attr('src', "./images/cha/".concat(data.picURL));
-    userName_area.text("".concat(data.username));
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('.userName').text("".concat(data.username));
   });
 });
 var username = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#main').attr('data-username');

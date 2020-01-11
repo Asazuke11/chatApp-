@@ -16,37 +16,64 @@ block content
           img#Room-make(src="images/icon/add-box-line.png" alt="部屋作成アイコン" data-toggle="tooltip" title="部屋を作成")
         .item-Icon-Setting.col-1
           img#Name-Setting(src="images/icon/user-smile-line.png" alt="設定アイコン" data-toggle="tooltip" title="プレイヤー設定")
-        .item-Connection-Count.col-1
-          img#connection-icon(src="images/icon/emotion-line.png" alt="接続人数アイコン")
-          span#connectionCount
-
+        .item-Connection-CountArea.col-1
+          .item-Connection-Count
+            img#connection-icon(src="images/icon/emotion-line.png" alt="接続人数アイコン")
+            span#connectionCount
+      .row.justify-content-end
+        .item-name-input-area
+          p 名前の変更
+          p
+            input(name="username", cols="10", rows="1" placeholder="名前を入力してください。").inputarea#input-name
+            br
+            small.text-mutedr ※10文字まで。
+          p
+            small.text-mutedr#error-div
+          if database_data
+            #Button_change_userName(
+              data-user-id=database_data.userId
+              ) 変更
+          else 
+            #Button_change_userName(
+              data-user-id=userId
+              ) 変更
+          p
+            small.text-muted 周りの人を不快にする名前は控えましょう。
     main
       .row.justify-content-center
         .item-titleLogo.col-5
           img#dott-m(src="images/pic/dott-m.png" alt="背景ドット１")
           img#dott-s(src="images/pic/dott-s.png" alt="背景ドット2")
           img(class="animated bounce faster")#titlePic(src="images/pic/title-Logo.png" alt="タイトル画像")
-        .item-Description-text.col-6
-          span.marker-B 人狼くんとは？
-            br
-          span 人狼くんとは、パーティゲーム「人狼(ワンナイトルール)」をPCブラウザ上にて、みんなで楽しむウェブアプリです。
-            a(href="http://1nite-jinro.mystrikingly.com/" target="_blank") (ワンナイトルールとは？)
-            br
-            br
-          span.marker-Y 遊び方
-            br
-          span 1.「名前の設定」から、プレイ中に使用する名前を設定。
-            br
-          span 2.「部屋を作る」から部屋を作る。
-            br
-          span 　もしくは既にある部屋のコメントから任意の部屋に入室。
-            br
-            br
-          span.marker-R ※注意
-            br
-          span ・このアプリはクッキーを使用しています。
-            br
-      .migisita.container
+        .item-Description-Area.col-6
+          .item-Description-text
+            span.marker-B 人狼くんとは？
+              br
+            span 人狼くんとは、パーティゲーム「人狼(ワンナイトルール)」をみんなで楽しむウェブアプリです。
+              a(href="http://1nite-jinro.mystrikingly.com/" target="_blank") (ワンナイトルールとは？)
+              br
+              br
+            span.marker-Y 遊び方
+              br
+            span 1.「名前の設定」から、プレイ中に使用する名前を設定。
+              br
+            span 2.「部屋を作る」から部屋を作る。
+              br
+            span 　もしくは既にある部屋のコメントから任意の部屋に入室。
+              br
+              br
+            span.marker-R ※注意
+              br
+            span ・このアプリはクッキーを使用しています。
+              br
+      .NicoComentInputArea.container
+        .row.justify-content-end
+          .item-char-area
+            if database_data
+              img(src=`./images/cha/${database_data.picURL}`)#cha
+              span.userName #{database_data.username}
+            else
+              span.userName ななしの村人
         .row.justify-content-end
           p#nicoComent-input-area
             input(name="text", cols="10", rows="1" placeholder="コメントを入力" )#input-coment
