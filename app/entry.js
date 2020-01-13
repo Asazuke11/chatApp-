@@ -4,8 +4,11 @@ const global = Function('return this;')();
 global.jQuery = $;
 import bootstrap from 'bootstrap';
 import io from 'socket.io-client';
+import { isConditional } from "babel-types";
 const Config = require('../config');
+// const username = $('#main').attr('data-username');
 
+//ニコニコ風コメント機能//
 // root -> "/"
 const socket = io(`${Config.ipAddress}`);
 
@@ -61,12 +64,25 @@ socket.on("chat", (msg) => {
 });
 
 
+
+//ヘッダーアイコンクリックの挙動//
 $('#Name-Setting').click(() => {
   let CSS_status = $(".item-name-input-area").css("display");
   if(CSS_status === "none"){
+    $(".item-room-input-area").css("display","none");
     $(".item-name-input-area").css("display","block");
   }else{
   $(".item-name-input-area").css("display","none");
+  }
+});
+
+$('#Room-make').click(() => {
+  let CSS_status = $(".item-room-input-area").css("display");
+  if(CSS_status === "none"){
+    $(".item-name-input-area").css("display","none");
+    $(".item-room-input-area").css("display","block");
+  }else{
+  $(".item-room-input-area").css("display","none");
   }
 });
 
@@ -86,9 +102,14 @@ function initChar() {
 }
 const Characterimage_Array = initChar();
 
+$('.close_heder_toast').click(() => {
+  $(".item-name-input-area").css("display","none");
+  $(".item-room-input-area").css("display","none");
+})
 
 //名前変更ボタンクリック時の挙動//
 $('#Button_change_userName').click(() => {
+  //ボタンの属性データからクッキーの値を取得
   const cookieID = $('#Button_change_userName').data('user-id');
   const char_Filename = Math.floor(Math.random() * Characterimage_Array.length);
 
@@ -125,5 +146,11 @@ $('#Button_change_userName').click(() => {
       $('.userName').text(`${data.username}`)
     })
 })
-const username = $('#main').attr('data-username');
 
+//部屋変更ボタンクリック時の挙動
+$('#Button_makeRoom').click(() => {
+  const user_cookie = $("#Button_makeRoom").data("user-id");
+  if(!user_cookie){
+    $('#error-getCookie').text("※ページをリロードしてください。");
+  };
+});

@@ -5,6 +5,7 @@ const Title_Name = '人狼ゲーム支援あぷり。';
 const subTitle_Name = 'Webアプリコンテスト 2019 冬';
 const trackingIdKey = 'tracking_id';
 
+
 var User = require('../models/user');
 /*
   userId:
@@ -29,6 +30,7 @@ router.get('/', function (req, res, next) {
       User.upsert({
         userId: Cookie_ID,
         username: "ななしの村人",
+        picURL: "s-f043.png",
         expires: Plus7day
       }).then((id) => {
         User.findOne({
@@ -84,6 +86,6 @@ router.post(`/username/:cookieID`, (req, res, next) => {
       username: req.body.input_Value
     });
   });
-})
+});
 
 module.exports = router;

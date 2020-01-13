@@ -131,7 +131,7 @@ header{
   padding-bottom: 0px;
   margin: 10px;
   color:snow;
-  background-color: rgba(109, 54, 211, 0.7);
+  background-color: rgba(109, 54, 211, 0.9);
   border-radius:5px;
 }
 /*インプット部品のデコレーション設定*/
@@ -142,7 +142,6 @@ header{
 }
 /*名前変更ボタンの設定*/
 #Button_change_userName{
-  display: block;
 	width: 80px;
 	text-align: center;
 	text-decoration: none;
@@ -196,6 +195,35 @@ header{
 #cha{
   width: 150px;
   height: 200px;
+}
+
+/*部屋作成画面*/
+.item-room-input-area{
+  display: none;
+  padding: 10px;
+  padding-left: 20px;
+  padding-bottom: 30px;
+  margin: 10px;
+  margin-right: 180px;
+  color:snow;
+  background-color: rgba(211, 98, 54, 0.5);
+  border-radius:5px;
+}
+
+#Button_makeRoom{
+	width: 200px;
+	text-align: center;
+	text-decoration: none;
+  color: var(--Button-Text);
+  background: var(--Button);
+	border-radius: 3px;
+  transition: .4s;
+  box-shadow: 0 0 3px var(--Button-Text);
+}
+/*名前変更ボタンオンマウス時*/
+#Button_makeRoom:hover{
+  background:var(--Button);
+  color: var(--Paragraph);
 }
 
 /*::::::::::::::::::::::::::::::::::::::::::*/

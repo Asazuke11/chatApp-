@@ -8,15 +8,11 @@ const Room = loader.database.define('rooms',{
     primaryKey: true,
     allowNull:false
   },
-  roomName:{
-    type:Sequelize.STRING
-  },
   roomMemo:{
-    type:Sequelize.STRING
+    type:Sequelize.TEXT
   },
-  updatedAt: {
-    type: Sequelize.DATE,
-    allowNull: false
+  inRoomNow:{
+    type:Sequelize.INTEGER
   },
   createdBy:{
     type:Sequelize.STRING
