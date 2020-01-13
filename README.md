@@ -17,3 +17,13 @@ websocketを使った人狼ゲームをサポートするアプリです。
 
 
 
+module.exports = {
+  entry: {
+    entry: './src/js/entry.js',
+    index: './src/js/index.js'
+  },
+  output: {
+    filename: '[name].bundle.js',
+    path: __dirname + '/dist'
+  }
+};

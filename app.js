@@ -51,7 +51,7 @@ app.use(passport.session());
 
 
 //ルート//
-app.use('/', indexRouter);
+app.use('/index', indexRouter);
 app.use('/room', roomRouter);
 
 

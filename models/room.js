@@ -12,14 +12,24 @@ const Room = loader.database.define('rooms',{
     type:Sequelize.TEXT
   },
   inRoomNow:{
-    type:Sequelize.INTEGER
+    type:Sequelize.INTEGER,
+    defaultValue: 0
   },
   createdBy:{
     type:Sequelize.STRING
+  },
+  userName:{
+    type:Sequelize.STRING,
+    allowNull:false
   }
 },{
   freezeTableName:true,
-  timestamps:false
+  timestamps:false,
+  indexes: [
+    {
+      fields: ['roomId']
+    }
+  ]
 });
 
 module.exports = Room;

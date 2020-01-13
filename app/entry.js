@@ -10,7 +10,7 @@ const Config = require('../config');
 
 //ニコニコ風コメント機能//
 // root -> "/"
-const socket = io(`${Config.ipAddress}`);
+const socket = io(`/top`); //<- 引数があるのでここで接続開始
 
 socket.on('start data', (startObj) => {
   const HexNum = require('crypto').randomBytes(8).toString('hex');
@@ -62,8 +62,6 @@ socket.on("chat", (msg) => {
     $(`#C-${HexNum}`).remove();
   });
 });
-
-
 
 //ヘッダーアイコンクリックの挙動//
 $('#Name-Setting').click(() => {
@@ -152,5 +150,6 @@ $('#Button_makeRoom').click(() => {
   const user_cookie = $("#Button_makeRoom").data("user-id");
   if(!user_cookie){
     $('#error-getCookie').text("※ページをリロードしてください。");
+    return;
   };
 });
