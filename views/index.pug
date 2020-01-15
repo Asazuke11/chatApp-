@@ -23,24 +23,6 @@ block content
             span#connectionCount
       //-部屋作成エリア
       .row.justify-content-end
-        .item-room-input-area
-          p
-            button.close.close_heder_toast &times;
-          p 部屋を作成
-          p
-            form(method="post",action="/room/new")
-              input(name="roommemo", cols="10", rows="1" placeholder="部屋の説明を入力").input-Parts-setting#input-room
-              br
-              input(type="hidden" name="user_cookieId" value=database_data.userId)
-              input(type="hidden" name="user_name" value=database_data.username)
-              small.text-mutedr ※例)「だれでもOK！」など。
-              p
-                button#Button_makeRoom(type="submit" data-user-id=database_data.userId 
-                  data-user-name=database_data.username) 部屋の作成と入室
-                p
-                  small.text-mutedr#error-getCookie
-
-        //-キャラクター設定エリア
         .item-name-input-area
           p
             button.close.close_heder_toast &times;
@@ -65,8 +47,9 @@ block content
           span.display-nowName = 現在のプレイヤー設定 =
           .item-char-area
             if database_data
-              img(src=`./images/cha/${database_data.picURL}`)#cha
-              span.userName #{database_data.username}
+              img(
+                src=`./images/cha/${database_data.picURL}` data-user-picurl=database_data.picURL)#cha
+              span.userName(data-username=database_data.username) #{database_data.username}
             else
               span.userName ななしの村人
     main
@@ -102,19 +85,26 @@ block content
             table.table.table-dark.table-striped.table-hover.table-bordered.table-sm.text-nowrap
               thead.thead-dark
                 tr
-                  th(scope="col" style="width:300px;") ルーム名
-                  th(scope="col" style="width:300px;") コメント
-                  th(scope="col" style="width:100px;") 入室情報
-                  th(scope="col" style="width:60px;") 入室
+                  th(scope="col" style="width:160px;") ルーム名
+                  th(scope="col" style="width:320px;") コメント
+                  th(scope="col" style="width:80px;") 入室情報
+                  th(scope="col" style="width:100px;") 入室
               tbody#CreateRoom
                 tr
-                  th(scope="row") あいうえおかきくけこ村
+                  th(scope="row") テスト村
                   td
-                    marquee(scrollamount="3") だれでもOK!あああああああaaaaaaaaaaaa
-                  td 1/7
-                  td 入室
-
-
+                    marquee(scrollamount="3") 
+                  td#login_now 
+                  td(data-userCookie=database_data.userId,data-userPicUrl=database_data.picURL,data-userName=database_data.username
+                    )#check_in
+                   span 予約する
+      .PlayArea.container-fluid
+        .row.justify-content-md-center
+          .item-CharacterCard.card
+            img(src=`./images/cha/${database_data.picURL}`).card-img-top
+            .card-body
+              .card-title
+                p #{database_data.username}
       .NicoComentInputArea.container
         .row.justify-content-end
           p#nicoComent-input-area

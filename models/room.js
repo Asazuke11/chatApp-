@@ -11,10 +11,6 @@ const Room = loader.database.define('rooms',{
   roomMemo:{
     type:Sequelize.TEXT
   },
-  inRoomNow:{
-    type:Sequelize.INTEGER,
-    defaultValue: 0
-  },
   createdBy:{
     type:Sequelize.STRING
   },

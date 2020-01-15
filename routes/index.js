@@ -7,12 +7,8 @@ const trackingIdKey = 'tracking_id';
 
 
 var User = require('../models/user');
-/*
-  userId:
-  picURL:
-  username:
-  expires:
-*/
+var Room = require('../models/room');
+
 
 router.get('/', function (req, res, next) {
 
@@ -57,17 +53,17 @@ router.get('/', function (req, res, next) {
       User.upsert({
         userId: Cookie_ID,
         expires: Plus3day
-      }).then((id) => {
+      }).then(() => {
         User.findOne({
           where: {
             userId: Cookie_ID
           }
         }).then((database_data) => {
-          res.render('index', {
-            title: Title_Name,
-            subtitle: subTitle_Name,
-            database_data: database_data
-          });
+            res.render('index', {
+              title: Title_Name,
+              subtitle: subTitle_Name,
+              database_data: database_data
+            });
         });
       });
     };

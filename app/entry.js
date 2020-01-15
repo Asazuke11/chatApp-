@@ -10,24 +10,20 @@ const Config = require('../config');
 
 //ニコニコ風コメント機能//
 // root -> "/"
-const socket = io(`/top`); //<- 引数があるのでここで接続開始
+const socket = io(`/index`); //<- 引数があるのでここで接続開始
 
 socket.on('start data', (startObj) => {
-  const HexNum = require('crypto').randomBytes(8).toString('hex');
-  const marginTop_Array = ["10", "50", "90", "130", "170", "210", "250", "290", "330"];
-  const marginTop_random = Math.floor(Math.random() * marginTop_Array.length);
-  const marginTop = marginTop_Array[marginTop_random];
-  $('.nico-comentArea').append(
-    `<div class="move-text" id="C-${HexNum}" style="top:${marginTop}px;">${startObj.coment}</div>`
-  );
-  $(`#C-${HexNum}`).on('animationend', function () {
-    $(`#C-${HexNum}`).remove();
-  });
+  $('.item-Connection-Count').addClass('animated jello faster');
+  setTimeout(RemoveClass,1000);
+  function RemoveClass(){
+    $('.item-Connection-Count').removeClass('animated jello faster');
+  }
 });
 
 //イベント：コネクションがあった
 socket.on('connection_count', (count) => {
   $('#connectionCount').text(`${count.count}`);
+  $('#login_now').text(`${count.roomAcount}/7`);
 })
 //イベント：コネクションが切れた
 socket.on('disconnection_count', (count) => {
@@ -135,7 +131,7 @@ $('#Button_change_userName').click(() => {
   * chaURL:画像のファイル名
   * 向こう側でデータベースupsertで更新
   */
-  $.post(`/username/${cookieID}`, {
+  $.post(`/index/username/${cookieID}`, {
     input_Value: input_Value,
     chaURL: `${Characterimage_Array[char_Filename]}`
   },
@@ -145,11 +141,16 @@ $('#Button_change_userName').click(() => {
     })
 })
 
-//部屋変更ボタンクリック時の挙動
-$('#Button_makeRoom').click(() => {
-  const user_cookie = $("#Button_makeRoom").data("user-id");
-  if(!user_cookie){
-    $('#error-getCookie').text("※ページをリロードしてください。");
-    return;
-  };
+$('#check_in').click(() => {
+  $(".PlayArea").fadeIn();
+  socket.emit("PlayArea-login", {
+    userCookie:$("#Button_change_userName").data("user-id"),
+    userPicUrl:$("#cha").data("user-picurl"),
+    userName:$(".userName").data("username")
+  });
 });
+
+//roomへjoinした
+socket.on("Status-login", (msg) => {
+  $('#login_now').text(`${msg.roomAconnect_Now}/7`);
+})

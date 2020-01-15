@@ -131,7 +131,8 @@ header{
   padding-bottom: 0px;
   margin: 10px;
   color:snow;
-  background-color: rgba(109, 54, 211, 0.9);
+  background-color: rgba(108, 69, 180, 0.9);
+  border: dotted 1px rgb(24, 3, 48);
   border-radius:5px;
 }
 /*インプット部品のデコレーション設定*/
@@ -197,34 +198,7 @@ header{
   height: 200px;
 }
 
-/*部屋作成画面*/
-.item-room-input-area{
-  display: none;
-  padding: 10px;
-  padding-left: 20px;
-  padding-bottom: 30px;
-  margin: 10px;
-  margin-right: 180px;
-  color:snow;
-  background-color: rgba(211, 98, 54, 0.5);
-  border-radius:5px;
-}
 
-#Button_makeRoom{
-	width: 200px;
-	text-align: center;
-	text-decoration: none;
-  color: var(--Button-Text);
-  background: var(--Button);
-	border-radius: 3px;
-  transition: .4s;
-  box-shadow: 0 0 3px var(--Button-Text);
-}
-/*名前変更ボタンオンマウス時*/
-#Button_makeRoom:hover{
-  background:var(--Button);
-  color: var(--Paragraph);
-}
 
 /*::::::::::::::::::::::::::::::::::::::::::*/
 /********  　ヘッダー部設定ここまで　  ********/
@@ -280,12 +254,17 @@ main{
 
 .item-RoomList{
   margin: auto;
+  max-height: 500px;
 }
 
 .item-RoomList > table{
   text-align: center;
   background-color: rgba(8, 44, 44, 0.3);
   color:var(--Button-Text);
+}
+
+#check_in:hover{
+  background-color: rgba(240, 248, 255, 0.3);
 }
 
 /*ドッドmiddle*/
@@ -360,4 +339,30 @@ main{
 
 .marker-R {
   background: linear-gradient(transparent 70%, #ffc1c1 100%);
+}
+
+/*::::::::::::::::::::::::::::::::::::::*/
+/****** 　 　プレイエリア設定　  　　******/
+/*::::::::::::::::::::::::::::::::::::::*/
+
+.PlayArea{
+  position: absolute;
+  display: none;
+  top:0;
+  padding: 30px;
+  margin: auto;
+  width: 100vw;
+  height: 100vh;
+  min-width: 1000px;
+  min-height: 900px;
+  background-color: rgba(0, 0, 0, 0.9);
+  z-index: 100;
+}
+
+.card{
+  width: 200px;
+  height: 320px;
+}
+.card-img-top{
+  border: solid 2px brown;
 }

@@ -28,7 +28,6 @@ passport.deserializeUser(function (obj, done) {
 
 //routesファイル//
 var indexRouter = require('./routes/index');
-var roomRouter = require('./routes/room');
 
 var app = express();
 app.use(helmet());
@@ -52,7 +51,6 @@ app.use(passport.session());
 
 //ルート//
 app.use('/index', indexRouter);
-app.use('/room', roomRouter);
 
 
 // catch 404 and forward to error handler
