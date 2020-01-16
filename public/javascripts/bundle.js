@@ -107,13 +107,12 @@ global.jQuery = jquery__WEBPACK_IMPORTED_MODULE_0___default.a;
 
 
 
-var Config = __webpack_require__(290); // const username = $('#main').attr('data-username');
-//ニコニコ風コメント機能//
-// root -> "/"
+var Config = __webpack_require__(290); //ニコニコ風コメント機能//
+// namespace -> "/index"
+//接続開始
 
 
-var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_2___default()("/index"); //<- 引数があるのでここで接続開始
-
+var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_2___default()("/index");
 socket.on('start data', function (startObj) {
   jquery__WEBPACK_IMPORTED_MODULE_0___default()('.item-Connection-Count').addClass('animated jello faster');
   setTimeout(RemoveClass, 1000);
@@ -203,7 +202,8 @@ function initChar() {
   return chaFile;
 }
 
-var Characterimage_Array = initChar();
+var Characterimage_Array = initChar(); //☓ボタンを押したときにクローズ
+
 jquery__WEBPACK_IMPORTED_MODULE_0___default()('.close_heder_toast').click(function () {
   jquery__WEBPACK_IMPORTED_MODULE_0___default()(".item-name-input-area").css("display", "none");
   jquery__WEBPACK_IMPORTED_MODULE_0___default()(".item-room-input-area").css("display", "none");
@@ -247,12 +247,18 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()('#Button_change_userName').click(f
   });
 });
 jquery__WEBPACK_IMPORTED_MODULE_0___default()('#check_in').click(function () {
-  jquery__WEBPACK_IMPORTED_MODULE_0___default()(".PlayArea").fadeIn();
-  socket.emit("PlayArea-login", {
-    userCookie: jquery__WEBPACK_IMPORTED_MODULE_0___default()("#Button_change_userName").data("user-id"),
-    userPicUrl: jquery__WEBPACK_IMPORTED_MODULE_0___default()("#cha").data("user-picurl"),
-    userName: jquery__WEBPACK_IMPORTED_MODULE_0___default()(".userName").data("username")
+  var cookieID = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#check_in').data('usercookie');
+  jquery__WEBPACK_IMPORTED_MODULE_0___default.a.post("/index/user-updatedata/".concat(cookieID), {}, function (data) {
+    socket.emit("PlayArea-login", data);
   });
+});
+socket.on('chaCard', function (data) {
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()(".PlayArea").fadeIn();
+  var USERMAP = data.userMap;
+
+  for (var key in USERMAP) {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#play').append("\n    <div class=\"item-CharacterCard card\">\n    <img src=\"./images/cha/".concat(USERMAP[key][1].userPicUrl, "\" class=\"card-img-top\" class=\"card-body\" class=\"card-title\">\n    <p> ").concat(USERMAP[key][1].userName, "</p>\n    </div>\n    "));
+  }
 }); //roomへjoinした
 
 socket.on("Status-login", function (msg) {

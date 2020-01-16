@@ -7,7 +7,6 @@ const trackingIdKey = 'tracking_id';
 
 
 var User = require('../models/user');
-var Room = require('../models/room');
 
 
 router.get('/', function (req, res, next) {
@@ -37,7 +36,8 @@ router.get('/', function (req, res, next) {
           res.render('index', {
             title: Title_Name,
             subtitle: subTitle_Name,
-            database_data: database_data
+            database_data: database_data,
+            nowCookie:cookies.get(trackingIdKey)
           });
         });
       });
@@ -62,7 +62,8 @@ router.get('/', function (req, res, next) {
             res.render('index', {
               title: Title_Name,
               subtitle: subTitle_Name,
-              database_data: database_data
+              database_data: database_data,
+              nowCookie:cookies.get(trackingIdKey)
             });
         });
       });
@@ -82,6 +83,21 @@ router.post(`/username/:cookieID`, (req, res, next) => {
       username: req.body.input_Value
     });
   });
+});
+
+router.post(`/user-updatedata/:cookieID`, (req, res, next) => {
+
+  User.findOne({
+    where: {
+      userId: req.params.cookieID
+    }
+  }).then((data) => {
+    res.json({
+      userId:data.userId,
+      picURL: data.picURL,
+      username: data.username
+    });
+});
 });
 
 module.exports = router;

@@ -4,24 +4,23 @@ function createWebSocketServer(io, game) {
   var connection_count = 0;
 
   Io_Index.on('connection', (socket) => {
-    // console.log(Io_Index.adapter.nsp.adapter.rooms);
+    //room-Aが存在していたらログイン数、存在しなければ０とする関数
     let connect_now_rooma = roomA_count();
-    function roomA_count(){
-      if(Io_Index.adapter.nsp.adapter.rooms["room-A"]){
+    function roomA_count() {
+      if (Io_Index.adapter.nsp.adapter.rooms["room-A"]) {
         return Io_Index.adapter.rooms["room-A"].length;
-      }else{
+      } else {
         return 0;
       };
     }
-    console.log(connect_now_rooma);
     Io_Index.emit('connection_count', {
       //index空間の接続人数表示
       count: Io_Index.adapter.nsp.server.eio.clientsCount,
-      roomAcount:connect_now_rooma
+      roomAcount: connect_now_rooma
     });
 
     //部屋全体へコネクション情報送信
-    Io_Index.emit('start data',{});
+    Io_Index.emit('start data', {});
 
     //クライアントからチャットコメント受信
     socket.on('chat', (msg) => {
@@ -32,35 +31,37 @@ function createWebSocketServer(io, game) {
 
     //クライアントからプレイエリアログイン情報
     let ROGIN_member = new Map();
-    socket.on('PlayArea-login',(userData) => {
+    socket.on('PlayArea-login', (data) => {
       socket.join('room-A');
-      ROGIN_member.set(userData.userCookie,{
-        userPicUrl:userData.userPicUrl,
-        userName:userData.userName
+      ROGIN_member.set(data.userId, {
+        userPicUrl: data.picURL,
+        userName: data.username
       });
-      // console.log(Io_Index.adapter.rooms["room-A"].length);
-      Io_Index.to('room-A').emit('Status-login',{
-        userData:userData
+      let ROGIN_member_Object = Array.from(ROGIN_member);
+
+      Io_Index.to('room-A').emit('chaCard', {
+        userData: data,
+        userMap:ROGIN_member_Object
       });
-      Io_Index.emit("Status-login",{
+      Io_Index.emit("Status-login", {
         roomAconnect_Now: Io_Index.adapter.rooms["room-A"].length
       })
       let RoomA_nowLogin_length = Io_Index.adapter.rooms["room-A"].length;
-      socket.on("disconnect",() => {
+      socket.on("disconnect", () => {
         RoomA_nowLogin_length--
-        Io_Index.emit("Status-login",{
+        Io_Index.emit("Status-login", {
           roomAconnect_Now: RoomA_nowLogin_length
         })
       })
 
-      
-  });
+
+    });
 
     //クライアントがセッション切断
     socket.on('disconnect', () => {
 
       //部屋全体へ接続人数情報の更新
-      Io_Index.emit('disconnection_count',{
+      Io_Index.emit('disconnection_count', {
         discount: Io_Index.adapter.nsp.server.eio.clientsCount
       });
 

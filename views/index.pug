@@ -95,16 +95,10 @@ block content
                   td
                     marquee(scrollamount="3") 
                   td#login_now 
-                  td(data-userCookie=database_data.userId,data-userPicUrl=database_data.picURL,data-userName=database_data.username
-                    )#check_in
+                  td(data-usercookie=`${nowCookie}`)#check_in
                    span 予約する
       .PlayArea.container-fluid
-        .row.justify-content-md-center
-          .item-CharacterCard.card
-            img(src=`./images/cha/${database_data.picURL}`).card-img-top
-            .card-body
-              .card-title
-                p #{database_data.username}
+        .row.justify-content-md-center#play
       .NicoComentInputArea.container
         .row.justify-content-end
           p#nicoComent-input-area

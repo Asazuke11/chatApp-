@@ -6,11 +6,13 @@ import bootstrap from 'bootstrap';
 import io from 'socket.io-client';
 import { isConditional } from "babel-types";
 const Config = require('../config');
-// const username = $('#main').attr('data-username');
+
 
 //ニコニコ風コメント機能//
-// root -> "/"
-const socket = io(`/index`); //<- 引数があるのでここで接続開始
+// namespace -> "/index"
+
+//接続開始
+const socket = io(`/index`);
 
 socket.on('start data', (startObj) => {
   $('.item-Connection-Count').addClass('animated jello faster');
@@ -96,6 +98,7 @@ function initChar() {
 }
 const Characterimage_Array = initChar();
 
+//☓ボタンを押したときにクローズ
 $('.close_heder_toast').click(() => {
   $(".item-name-input-area").css("display","none");
   $(".item-room-input-area").css("display","none");
@@ -142,13 +145,26 @@ $('#Button_change_userName').click(() => {
 })
 
 $('#check_in').click(() => {
-  $(".PlayArea").fadeIn();
-  socket.emit("PlayArea-login", {
-    userCookie:$("#Button_change_userName").data("user-id"),
-    userPicUrl:$("#cha").data("user-picurl"),
-    userName:$(".userName").data("username")
-  });
+  let cookieID = $('#check_in').data('usercookie');
+  $.post(`/index/user-updatedata/${cookieID}`, {
+  },
+    (data) => {
+      socket.emit("PlayArea-login", data);
+    });
 });
+
+socket.on('chaCard',(data) => {
+  $(".PlayArea").fadeIn();
+  let USERMAP = data.userMap;
+  for(let key in USERMAP){
+    $('#play').append(`
+    <div class="item-CharacterCard card">
+    <img src="./images/cha/${USERMAP[key][1].userPicUrl}" class="card-img-top" class="card-body" class="card-title">
+    <p> ${USERMAP[key][1].userName}</p>
+    </div>
+    `)
+  }
+})
 
 //roomへjoinした
 socket.on("Status-login", (msg) => {

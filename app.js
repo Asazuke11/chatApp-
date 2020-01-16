@@ -13,9 +13,8 @@ var passport = require('passport');
 
 //DB//
 var User = require('./models/user');
-var Room = require('./models/room');
+
 User.sync();
-Room.sync();
 
 //認証//
 passport.serializeUser(function (user, done) {
