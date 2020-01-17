@@ -1,7 +1,8 @@
 function createWebSocketServer(io, game) {
   //トップページ
   const Io_Index = io.of('/index');
-  var connection_count = 0;
+  let ROGIN_member = [];
+  let userCookie_value;
 
   Io_Index.on('connection', (socket) => {
     //room-Aが存在していたらログイン数、存在しなければ０とする関数
@@ -30,36 +31,36 @@ function createWebSocketServer(io, game) {
     })
 
     //クライアントからプレイエリアログイン情報
-    let ROGIN_member = new Map();
     socket.on('PlayArea-login', (data) => {
       socket.join('room-A');
-      ROGIN_member.set(data.userId, {
-        userPicUrl: data.picURL,
-        userName: data.username
-      });
-      let ROGIN_member_Object = Array.from(ROGIN_member);
+
+      ROGIN_member.push({userCookie:data.userId,userPicUrl: data.picURL,userName: data.username});
 
       Io_Index.to('room-A').emit('chaCard', {
         userData: data,
-        userMap:ROGIN_member_Object
+        userArray:ROGIN_member
       });
       Io_Index.emit("Status-login", {
         roomAconnect_Now: Io_Index.adapter.rooms["room-A"].length
       })
       let RoomA_nowLogin_length = Io_Index.adapter.rooms["room-A"].length;
+
       socket.on("disconnect", () => {
         RoomA_nowLogin_length--
+        const disconnect_user = socket.handshake.headers.cookie.split('tracking_id=')[1].split(';')[0];
+        const disconnect_Array_index = ROGIN_member.findIndex(({userCookie}) => userCookie === disconnect_user);
+        ROGIN_member.splice(disconnect_Array_index,1);
+        Io_Index.to('room-A').emit('chaCard', {
+          userArray:ROGIN_member
+        });
         Io_Index.emit("Status-login", {
           roomAconnect_Now: RoomA_nowLogin_length
         })
       })
-
-
     });
 
     //クライアントがセッション切断
     socket.on('disconnect', () => {
-
       //部屋全体へ接続人数情報の更新
       Io_Index.emit('disconnection_count', {
         discount: Io_Index.adapter.nsp.server.eio.clientsCount

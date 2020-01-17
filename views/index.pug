@@ -8,15 +8,22 @@ block content
       span#contest-title #{subtitle}
         i(class="fas fa-camera")
 
+    .item-NameDisplayarea
+      p 現在使用中のネーム
+      .frame-namearea
+        if database_data
+          p.nameDisplay
+            b #{database_data.username}
+        else
+          p.nameDisplay
+            b ななしの村人
+
     header.container
       //-画面上部コンテンツアイコンエリア
       .row.justify-content-end.align-items-center
         .item-Icon-Setting.col-1
-          img#Room-list(src="images/icon/list-unordered.png" alt="部屋アイコン" data-toggle="tooltip" title="部屋一覧")
-        .item-Icon-Setting.col-1
-          img#Room-make(src="images/icon/add-box-line.png" alt="部屋作成アイコン" data-toggle="tooltip" title="部屋を作成")
-        .item-Icon-Setting.col-1
           img#Name-Setting(src="images/icon/user-smile-line.png" alt="設定アイコン" data-toggle="tooltip" title="プレイヤー設定")
+          span(style="color:snow;") 設定
         .item-Connection-CountArea.col-1
           .item-Connection-Count
             img#connection-icon(src="images/icon/emotion-line.png" alt="接続人数アイコン")
@@ -25,7 +32,7 @@ block content
       .row.justify-content-end
         .item-name-input-area
           p
-            button.close.close_heder_toast &times;
+            button(style="color:snow;").close.close_heder_toast &times;
           p プレイヤー名の設定
           p
             input(name="username", cols="10", rows="1" placeholder="名前を入力してくさい").input-Parts-setting#input-name
@@ -60,6 +67,22 @@ block content
           img(class="animated bounce faster")#titlePic(src="images/pic/title-Logo.png" alt="タイトル画像")
           //-右、コンテンツテキストエリア
         .item-Description-Area.col-6
+          .item-RoomList.table-responsive
+            table.table.table-dark.table-striped.table-hover.table-bordered.table-sm.text-nowrap
+              thead.thead-dark
+                tr
+                  th(scope="col" style="width:160px;") ルーム名
+                  th(scope="col" style="width:320px;") コメント
+                  th(scope="col" style="width:80px;") 入室情報
+                  th(scope="col" style="width:100px;") 入室
+              tbody#CreateRoom
+                tr
+                  th(scope="row") テスト村
+                  td
+                    marquee(scrollamount="3") 
+                  td#login_now 
+                  td(data-usercookie=`${nowCookie}`)#check_in
+                   span 予約する
           //-コンテンツ説明文
           .item-Description-text
             span.marker-B 人狼くんとは？
@@ -81,22 +104,7 @@ block content
               br
             span ・このアプリはクッキーを使用しています。
               br
-          .item-RoomList.table-responsive
-            table.table.table-dark.table-striped.table-hover.table-bordered.table-sm.text-nowrap
-              thead.thead-dark
-                tr
-                  th(scope="col" style="width:160px;") ルーム名
-                  th(scope="col" style="width:320px;") コメント
-                  th(scope="col" style="width:80px;") 入室情報
-                  th(scope="col" style="width:100px;") 入室
-              tbody#CreateRoom
-                tr
-                  th(scope="row") テスト村
-                  td
-                    marquee(scrollamount="3") 
-                  td#login_now 
-                  td(data-usercookie=`${nowCookie}`)#check_in
-                   span 予約する
+
       .PlayArea.container-fluid
         .row.justify-content-md-center#play
       .NicoComentInputArea.container

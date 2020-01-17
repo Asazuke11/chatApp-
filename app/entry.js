@@ -62,26 +62,14 @@ socket.on("chat", (msg) => {
 });
 
 //ヘッダーアイコンクリックの挙動//
-$('#Name-Setting').click(() => {
+$('.item-Icon-Setting').click(() => {
   let CSS_status = $(".item-name-input-area").css("display");
   if(CSS_status === "none"){
-    $(".item-room-input-area").css("display","none");
     $(".item-name-input-area").css("display","block");
   }else{
   $(".item-name-input-area").css("display","none");
   }
 });
-
-$('#Room-make').click(() => {
-  let CSS_status = $(".item-room-input-area").css("display");
-  if(CSS_status === "none"){
-    $(".item-name-input-area").css("display","none");
-    $(".item-room-input-area").css("display","block");
-  }else{
-  $(".item-room-input-area").css("display","none");
-  }
-});
-
 
 //  画像ファイル名を入れた配列の作成  //
 //  →
@@ -101,7 +89,6 @@ const Characterimage_Array = initChar();
 //☓ボタンを押したときにクローズ
 $('.close_heder_toast').click(() => {
   $(".item-name-input-area").css("display","none");
-  $(".item-room-input-area").css("display","none");
 })
 
 //名前変更ボタンクリック時の挙動//
@@ -140,7 +127,8 @@ $('#Button_change_userName').click(() => {
   },
     (data) => {
       $('#cha').attr('src', `./images/cha/${data.picURL}`);
-      $('.userName').text(`${data.username}`)
+      $('.userName').text(`${data.username}`);
+      $('.nameDisplay').text(`${data.username}`);
     })
 })
 
@@ -155,15 +143,16 @@ $('#check_in').click(() => {
 
 socket.on('chaCard',(data) => {
   $(".PlayArea").fadeIn();
-  let USERMAP = data.userMap;
-  for(let key in USERMAP){
+  $('#play').empty();
+  let USERMAP = data.userArray;
+  USERMAP.forEach((e) => {
     $('#play').append(`
     <div class="item-CharacterCard card">
-    <img src="./images/cha/${USERMAP[key][1].userPicUrl}" class="card-img-top" class="card-body" class="card-title">
-    <p> ${USERMAP[key][1].userName}</p>
+    <img src="./images/cha/${e.userPicUrl}" class="card-img-top" class="card-body" class="card-title">
+    <p> ${e.userName}</p>
     </div>
     `)
-  }
+  });
 })
 
 //roomへjoinした

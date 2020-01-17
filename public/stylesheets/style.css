@@ -92,6 +92,27 @@
   z-index: 7;
 }
 
+.item-NameDisplayarea{
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+  text-align: right;
+  padding: 7px;
+  color:snow;
+  right:20px; top:60px;
+  font-family:'M PLUS Rounded 1c',sans-serif; font-size: medium;
+  z-index: 7;
+}
+
+.frame-namearea{
+  padding-left: 3px;padding-right: 3px;
+  height: 24px;
+  text-align: center;
+  color:rgb(228, 53, 40);
+  background-color: rgb(218, 218, 218);
+  border-radius: 5px;
+}
+
 /*ナビゲーションヘッダーレイアウト設定*/
 header{
   position: absolute;
@@ -131,7 +152,7 @@ header{
   padding-bottom: 0px;
   margin: 10px;
   color:snow;
-  background-color: rgba(108, 69, 180, 0.9);
+  background-color: rgba(27, 19, 43, 0.9);
   border: dotted 1px rgb(24, 3, 48);
   border-radius:5px;
 }
@@ -246,7 +267,6 @@ main{
 
 /*説明テキスト*/
 .item-Description-text{
-  display: none;
   margin: auto;
   font-size: 14px;color:snow;
   padding: 8px;

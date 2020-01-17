@@ -167,24 +167,13 @@ socket.on("chat", function (msg) {
   });
 }); //ヘッダーアイコンクリックの挙動//
 
-jquery__WEBPACK_IMPORTED_MODULE_0___default()('#Name-Setting').click(function () {
+jquery__WEBPACK_IMPORTED_MODULE_0___default()('.item-Icon-Setting').click(function () {
   var CSS_status = jquery__WEBPACK_IMPORTED_MODULE_0___default()(".item-name-input-area").css("display");
 
   if (CSS_status === "none") {
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()(".item-room-input-area").css("display", "none");
     jquery__WEBPACK_IMPORTED_MODULE_0___default()(".item-name-input-area").css("display", "block");
   } else {
     jquery__WEBPACK_IMPORTED_MODULE_0___default()(".item-name-input-area").css("display", "none");
-  }
-});
-jquery__WEBPACK_IMPORTED_MODULE_0___default()('#Room-make').click(function () {
-  var CSS_status = jquery__WEBPACK_IMPORTED_MODULE_0___default()(".item-room-input-area").css("display");
-
-  if (CSS_status === "none") {
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()(".item-name-input-area").css("display", "none");
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()(".item-room-input-area").css("display", "block");
-  } else {
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()(".item-room-input-area").css("display", "none");
   }
 }); //  画像ファイル名を入れた配列の作成  //
 //  →
@@ -206,7 +195,6 @@ var Characterimage_Array = initChar(); //☓ボタンを押したときにクロ
 
 jquery__WEBPACK_IMPORTED_MODULE_0___default()('.close_heder_toast').click(function () {
   jquery__WEBPACK_IMPORTED_MODULE_0___default()(".item-name-input-area").css("display", "none");
-  jquery__WEBPACK_IMPORTED_MODULE_0___default()(".item-room-input-area").css("display", "none");
 }); //名前変更ボタンクリック時の挙動//
 
 jquery__WEBPACK_IMPORTED_MODULE_0___default()('#Button_change_userName').click(function () {
@@ -244,6 +232,7 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()('#Button_change_userName').click(f
   }, function (data) {
     jquery__WEBPACK_IMPORTED_MODULE_0___default()('#cha').attr('src', "./images/cha/".concat(data.picURL));
     jquery__WEBPACK_IMPORTED_MODULE_0___default()('.userName').text("".concat(data.username));
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('.nameDisplay').text("".concat(data.username));
   });
 });
 jquery__WEBPACK_IMPORTED_MODULE_0___default()('#check_in').click(function () {
@@ -254,11 +243,11 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()('#check_in').click(function () {
 });
 socket.on('chaCard', function (data) {
   jquery__WEBPACK_IMPORTED_MODULE_0___default()(".PlayArea").fadeIn();
-  var USERMAP = data.userMap;
-
-  for (var key in USERMAP) {
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#play').append("\n    <div class=\"item-CharacterCard card\">\n    <img src=\"./images/cha/".concat(USERMAP[key][1].userPicUrl, "\" class=\"card-img-top\" class=\"card-body\" class=\"card-title\">\n    <p> ").concat(USERMAP[key][1].userName, "</p>\n    </div>\n    "));
-  }
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('#play').empty();
+  var USERMAP = data.userArray;
+  USERMAP.forEach(function (e) {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#play').append("\n    <div class=\"item-CharacterCard card\">\n    <img src=\"./images/cha/".concat(e.userPicUrl, "\" class=\"card-img-top\" class=\"card-body\" class=\"card-title\">\n    <p> ").concat(e.userName, "</p>\n    </div>\n    "));
+  });
 }); //roomへjoinした
 
 socket.on("Status-login", function (msg) {
