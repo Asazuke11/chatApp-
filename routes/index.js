@@ -8,7 +8,6 @@ const trackingIdKey = 'tracking_id';
 
 var User = require('../models/user');
 
-
 router.get('/', function (req, res, next) {
 
   const cookies = new Cookies(req, res);
@@ -36,8 +35,7 @@ router.get('/', function (req, res, next) {
           res.render('index', {
             title: Title_Name,
             subtitle: subTitle_Name,
-            database_data: database_data,
-            nowCookie:cookies.get(trackingIdKey)
+            database_data: database_data
           });
         });
       });
@@ -62,8 +60,7 @@ router.get('/', function (req, res, next) {
             res.render('index', {
               title: Title_Name,
               subtitle: subTitle_Name,
-              database_data: database_data,
-              nowCookie:cookies.get(trackingIdKey)
+              database_data: database_data
             });
         });
       });
@@ -71,33 +68,5 @@ router.get('/', function (req, res, next) {
   };
 });　//〆router.get
 
-router.post(`/username/:cookieID`, (req, res, next) => {
-  User.upsert({
-    userId: req.params.cookieID,
-    picURL: req.body.chaURL,
-    username: req.body.input_Value
-  }).then(() => {
-    res.json({
-      status: 'OK',
-      picURL: req.body.chaURL,
-      username: req.body.input_Value
-    });
-  });
-});
-
-router.post(`/user-updatedata/:cookieID`, (req, res, next) => {
-
-  User.findOne({
-    where: {
-      userId: req.params.cookieID
-    }
-  }).then((data) => {
-    res.json({
-      userId:data.userId,
-      picURL: data.picURL,
-      username: data.username
-    });
-});
-});
 
 module.exports = router;

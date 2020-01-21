@@ -107,12 +107,16 @@ global.jQuery = jquery__WEBPACK_IMPORTED_MODULE_0___default.a;
 
 
 
-var Config = __webpack_require__(290); //ニコニコ風コメント機能//
+var Config = __webpack_require__(290);
+
+var userId = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#databaseData').data('userid');
+var username = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#databaseData').data('username');
+var picURL = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#databaseData').data('userpic'); //ニコニコ風コメント機能//
 // namespace -> "/index"
 //接続開始
 
+var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_2___default()("/index"); //クライアントのコネクションがあったときにアニメclass追加と削除
 
-var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_2___default()("/index");
 socket.on('start data', function (startObj) {
   jquery__WEBPACK_IMPORTED_MODULE_0___default()('.item-Connection-Count').addClass('animated jello faster');
   setTimeout(RemoveClass, 1000);
@@ -120,16 +124,16 @@ socket.on('start data', function (startObj) {
   function RemoveClass() {
     jquery__WEBPACK_IMPORTED_MODULE_0___default()('.item-Connection-Count').removeClass('animated jello faster');
   }
-}); //イベント：コネクションがあった
+}); //受信：count: indexとroom-Aの接続人数
 
 socket.on('connection_count', function (count) {
   jquery__WEBPACK_IMPORTED_MODULE_0___default()('#connectionCount').text("".concat(count.count));
-  jquery__WEBPACK_IMPORTED_MODULE_0___default()('#login_now').text("".concat(count.roomAcount, "/7"));
-}); //イベント：コネクションが切れた
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('.login_now').text("".concat(count.roomAcount, "/7"));
+}); //受信：count:コネクションが切れた後の人数
 
 socket.on('disconnection_count', function (count) {
   jquery__WEBPACK_IMPORTED_MODULE_0___default()('#connectionCount').text("".concat(count.discount));
-}); //ニコニココメント入力ボタン
+}); //ニコニココメントボタンによる送信
 
 jquery__WEBPACK_IMPORTED_MODULE_0___default()("#Button_send-coment").click(function () {
   if (jquery__WEBPACK_IMPORTED_MODULE_0___default()("#input-coment").val().length === 0) {
@@ -137,10 +141,9 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()("#Button_send-coment").click(funct
   }
 
   ;
-  socket.emit("chat", jquery__WEBPACK_IMPORTED_MODULE_0___default()("#input-coment").val());
+  socket.emit("nico", jquery__WEBPACK_IMPORTED_MODULE_0___default()("#input-coment").val());
   jquery__WEBPACK_IMPORTED_MODULE_0___default()("#input-coment").val("");
-  return false;
-}); //ニコニココメントエンターキー機能
+}); //ニコニココメントをエンターキーでも送れる機能
 
 jquery__WEBPACK_IMPORTED_MODULE_0___default()("#input-coment").keypress(function (e) {
   if (e.which === 13) {
@@ -149,13 +152,12 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()("#input-coment").keypress(function
     }
 
     ;
-    socket.emit("chat", jquery__WEBPACK_IMPORTED_MODULE_0___default()("#input-coment").val());
+    socket.emit("nico", jquery__WEBPACK_IMPORTED_MODULE_0___default()("#input-coment").val());
     jquery__WEBPACK_IMPORTED_MODULE_0___default()("#input-coment").val("");
-    return false;
   }
-}); //イベント：ニココメントを受け取った
+}); //受信：ニココメント
 
-socket.on("chat", function (msg) {
+socket.on("sending nicoComent", function (msg) {
   var HexNum = __webpack_require__(291).randomBytes(8).toString('hex');
 
   var marginTop_Array = ["10", "50", "90", "130", "170", "210", "250", "290", "330"];
@@ -176,7 +178,6 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()('.item-Icon-Setting').click(functi
     jquery__WEBPACK_IMPORTED_MODULE_0___default()(".item-name-input-area").css("display", "none");
   }
 }); //  画像ファイル名を入れた配列の作成  //
-//  →
 //　Characterimage_Array = [s-f001.png,s-f002.png,...s-f370.png]　//
 
 function initChar() {
@@ -199,11 +200,10 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()('.close_heder_toast').click(functi
 
 jquery__WEBPACK_IMPORTED_MODULE_0___default()('#Button_change_userName').click(function () {
   //ボタンの属性データからクッキーの値を取得
-  var cookieID = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#Button_change_userName').data('user-id');
   var char_Filename = Math.floor(Math.random() * Characterimage_Array.length);
   jquery__WEBPACK_IMPORTED_MODULE_0___default()('#error-div').text(""); //クッキーの値が取れなかった時
 
-  if (!cookieID) {
+  if (!userId) {
     jquery__WEBPACK_IMPORTED_MODULE_0___default()('#error-div').text("※ページをリロードしてください。");
     return;
   } //インプットエリアの値の取得
@@ -217,41 +217,51 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()('#Button_change_userName').click(f
     //文字数が11以上
     jquery__WEBPACK_IMPORTED_MODULE_0___default()('#error-div').text("※ニックネームは１０文字までです。");
     return;
-  } //Ajax
-
-  /*送るデータ
-  * input_Value:インプットから取得した名前のデータ
-  * chaURL:画像のファイル名
-  * 向こう側でデータベースupsertで更新
-  */
+  } //送信：キャラクター変更データ
 
 
-  jquery__WEBPACK_IMPORTED_MODULE_0___default.a.post("/index/username/".concat(cookieID), {
+  socket.emit("playerData_update", {
+    userId: userId,
     input_Value: input_Value,
-    chaURL: "".concat(Characterimage_Array[char_Filename])
-  }, function (data) {
+    picURL: "".concat(Characterimage_Array[char_Filename])
+  });
+  socket.on('playerData_update_data', function (data) {
     jquery__WEBPACK_IMPORTED_MODULE_0___default()('#cha').attr('src', "./images/cha/".concat(data.picURL));
     jquery__WEBPACK_IMPORTED_MODULE_0___default()('.userName').text("".concat(data.username));
     jquery__WEBPACK_IMPORTED_MODULE_0___default()('.nameDisplay').text("".concat(data.username));
   });
 });
 jquery__WEBPACK_IMPORTED_MODULE_0___default()('#check_in').click(function () {
-  var cookieID = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#check_in').data('usercookie');
-  jquery__WEBPACK_IMPORTED_MODULE_0___default.a.post("/index/user-updatedata/".concat(cookieID), {}, function (data) {
-    socket.emit("PlayArea-login", data);
+  if (jquery__WEBPACK_IMPORTED_MODULE_0___default()("#check_in").text() === "満席") {
+    return;
+  }
+
+  ;
+  socket.emit("PlayArea-login", {
+    userId: userId
   });
 });
+socket.on('Check-Room-member', function (data) {
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()("#check_in").text("".concat(data.status));
+}); //キャンセルボタン・リロードでルーム切断
+
+jquery__WEBPACK_IMPORTED_MODULE_0___default()('#cancel-button').click(function () {
+  window.location.reload();
+});
+socket.on('window-close', function () {
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()(".PlayArea").fadeOut();
+});
 socket.on('chaCard', function (data) {
-  jquery__WEBPACK_IMPORTED_MODULE_0___default()(".PlayArea").fadeIn();
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()(".PlayArea").fadeIn("fast");
   jquery__WEBPACK_IMPORTED_MODULE_0___default()('#play').empty();
   var USERMAP = data.userArray;
   USERMAP.forEach(function (e) {
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#play').append("\n    <div class=\"item-CharacterCard card\">\n    <img src=\"./images/cha/".concat(e.userPicUrl, "\" class=\"card-img-top\" class=\"card-body\" class=\"card-title\">\n    <p> ").concat(e.userName, "</p>\n    </div>\n    "));
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#play').append("\n    <div class=\"item-CharacterCard card justify-content-around\">\n    <img src=\"./images/cha/".concat(e.userPicUrl, "\" class=\"card-img-top\" class=\"card-body\" class=\"card-title\">\n    <p>\u3000").concat(e.userName, "\u3000</p>\n    </div>\n    "));
   });
 }); //roomへjoinした
 
-socket.on("Status-login", function (msg) {
-  jquery__WEBPACK_IMPORTED_MODULE_0___default()('#login_now').text("".concat(msg.roomAconnect_Now, "/7"));
+socket.on("Count_room-A_login", function (msg) {
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('.login_now').text("".concat(msg.roomAconnect_Now, "/7"));
 });
 
 /***/ }),

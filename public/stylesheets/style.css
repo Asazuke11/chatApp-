@@ -92,10 +92,11 @@
   z-index: 7;
 }
 
+/*右上名前の表示プレート*/
 .item-NameDisplayarea{
   position: absolute;
   background-color: rgba(0, 0, 0, 0.2);
-  border-radius: 3px;
+  border-radius: 1px;
   text-align: right;
   padding: 7px;
   color:snow;
@@ -103,15 +104,15 @@
   font-family:'M PLUS Rounded 1c',sans-serif; font-size: medium;
   z-index: 7;
 }
-
 .frame-namearea{
   padding-left: 3px;padding-right: 3px;
   height: 24px;
   text-align: center;
   color:rgb(228, 53, 40);
   background-color: rgb(218, 218, 218);
-  border-radius: 5px;
+  border-radius: 2px;
 }
+
 
 /*ナビゲーションヘッダーレイアウト設定*/
 header{
@@ -123,7 +124,7 @@ header{
 
 /*ナビアイコンにマウスが当たると拡大する設定*/
 .item-Icon-Setting:hover{
-  transform: scale(1.2);
+  transform: scale(1.1);
 }
 
 
@@ -366,23 +367,119 @@ main{
 /*::::::::::::::::::::::::::::::::::::::*/
 
 .PlayArea{
-  position: absolute;
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 20px;
   display: none;
-  top:0;
-  padding: 30px;
-  margin: auto;
+  border: solid 1px rgba(117, 117, 117, 0.5);
   width: 100vw;
   height: 100vh;
-  min-width: 1000px;
-  min-height: 900px;
-  background-color: rgba(0, 0, 0, 0.9);
+  background-color: rgba(0, 0, 0, 0.8);
   z-index: 100;
 }
 
-.card{
-  width: 200px;
-  height: 320px;
+#play{
+  height: 100vh;
+  margin: auto;
 }
+
+.loading-text{
+  position: absolute;
+  margin: auto;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 100px;
+  width: 480px;
+  padding: 10px;
+  border-radius: 3px;
+  color:rgb(51, 80, 177);
+  background-color: rgba(240, 248, 255, 0.9);
+  z-index: 105;
+}
+
+.wait_button{
+  position: absolute;
+  bottom: 0;right: 0;
+  margin: 10px;
+  color:rgb(51, 80, 177);
+  text-align: right;
+}
+
+#cancel-button{
+  border: solid 1px;
+  border-radius: 3px;
+  margin: 10px;
+  padding: 2px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color:rgba(93, 114, 184, 0.6);
+  box-shadow: 0 0 5px rgba(28, 19, 39, 0.3);
+}
+#cancel-button:hover{
+  color:rgb(240, 162, 138);
+}
+
+#ok-button{
+  border: solid 1px;
+  border-radius: 3px;
+  margin: 10px;
+  padding: 2px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color:rgba(93, 114, 184,0.8);
+  box-shadow: 0 0 5px rgba(28, 19, 39, 0.3);
+}
+#ok-button:hover{
+  color:rgb(240, 162, 138);
+}
+
+
+#bg-video{
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  z-index: 100;
+  opacity: 0.3;
+ }
+
+.card{
+  position: relative;
+  margin: 10px;
+  height: 200px;
+  text-align: center;
+  background-color: var(--Button);
+  color: snow;
+  box-shadow: 0 0 10px blanchedalmond;
+  font-weight: bold;
+  font-size: 14px;
+  z-index: 101;
+}
+
 .card-img-top{
-  border: solid 2px brown;
+  margin: 10px;
+  border: solid 1px rgb(255, 194, 194);
+  width: 150px;height: 150px;
+  object-position:0 0;
+  object-fit: cover;
+  overflow: hidden;
+}
+
+.Fukidashi{
+  position: absolute;
+  padding: 3px;
+  padding-left: 10px;
+  padding-right: 10px;
+  top:-10px;
+  left:50%;
+  width: 200px;
+  color: rgb(12, 18, 37);
+  background-color: rgba(253, 248, 241, 0.9);
+  border-radius: 10px;
 }

@@ -21,9 +21,9 @@ block content
     header.container
       //-画面上部コンテンツアイコンエリア
       .row.justify-content-end.align-items-center
-        .item-Icon-Setting.col-1
+        .item-Icon-Setting
           img#Name-Setting(src="images/icon/user-smile-line.png" alt="設定アイコン" data-toggle="tooltip" title="プレイヤー設定")
-          span(style="color:snow;") 設定
+          span(style="color:snow;") 名前の設定
         .item-Connection-CountArea.col-1
           .item-Connection-Count
             img#connection-icon(src="images/icon/emotion-line.png" alt="接続人数アイコン")
@@ -41,13 +41,10 @@ block content
           p
             small.text-mutedr#error-div
           if database_data
-            #Button_change_userName(
-              data-user-id=database_data.userId
-              ) 変更
+            #Button_change_userName 変更
           else 
-            #Button_change_userName(
-              data-user-id=userId
-              ) 変更
+            #Button_change_userName 変更
+            small.text-mutedr テスト
           p
             small.text-muted 周りの人を不快にする名前は控えましょう。
           br
@@ -55,8 +52,8 @@ block content
           .item-char-area
             if database_data
               img(
-                src=`./images/cha/${database_data.picURL}` data-user-picurl=database_data.picURL)#cha
-              span.userName(data-username=database_data.username) #{database_data.username}
+                src=`./images/cha/${database_data.picURL}` )#cha
+              span.userName #{database_data.username}
             else
               span.userName ななしの村人
     main
@@ -80,8 +77,8 @@ block content
                   th(scope="row") テスト村
                   td
                     marquee(scrollamount="3") 
-                  td#login_now 
-                  td(data-usercookie=`${nowCookie}`)#check_in
+                  td.login_now 
+                  td#check_in
                    span 予約する
           //-コンテンツ説明文
           .item-Description-text
@@ -104,11 +101,25 @@ block content
               br
             span ・このアプリはクッキーを使用しています。
               br
-
       .PlayArea.container-fluid
+        video#bg-video(src="images/mp4/Moon.mp4" autoplay loop)
         .row.justify-content-md-center#play
+        .loading-text
+          img(src="images/icon/ajax-loader.gif")
+          span 　他のプレイヤーを待っています。
+          small 　(必要人数３人・最大７人)
+          .wait_button
+            span 現在の参加人数 
+            b.login_now
+            span#cancel-button キャンセル
+            span#ok-button スタート
       .NicoComentInputArea.container
         .row.justify-content-end
           p#nicoComent-input-area
             input(name="text", cols="10", rows="1" placeholder="コメントを入力" )#input-coment
             button#Button_send-coment コメント
+      script#databaseData(
+        data-userid=database_data.userId,
+        data-username=database_data.username,
+        data-userpic=database_data.picURL
+      )
