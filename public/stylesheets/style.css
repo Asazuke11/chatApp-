@@ -479,8 +479,9 @@ main{
   padding-right: 10px;
   top:-10px;
   left:50%;
-  width: 200px;
+  width: 100px;
   color: rgb(12, 18, 37);
   background-color: rgba(253, 248, 241, 0.9);
   border-radius: 10px;
+  z-index: 105;
 }

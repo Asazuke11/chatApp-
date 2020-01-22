@@ -8,8 +8,8 @@ import { isConditional } from "babel-types";
 const Config = require('../config');
 
 const userId = $('#databaseData').data('userid');
-const username = $('#databaseData').data('username');
-const picURL = $('#databaseData').data('userpic');
+// const username = $('#databaseData').data('username');
+// const picURL = $('#databaseData').data('userpic');
 
 
 //ニコニコ風コメント機能//
@@ -17,7 +17,6 @@ const picURL = $('#databaseData').data('userpic');
 
 //接続開始
 const socket = io(`/index`);
-
 //クライアントのコネクションがあったときにアニメclass追加と削除
 socket.on('start data', (startObj) => {
   $('.item-Connection-Count').addClass('animated jello faster');
@@ -156,19 +155,31 @@ socket.on('window-close', () => {
   $(".PlayArea").fadeOut();
 })
 
-let USERMAP;
 socket.on('chaCard', (data) => {
   $(".PlayArea").fadeIn("fast");
   $('#play').empty();//初期化
-  console.log(data.userArray);
-  USERMAP = data.userArray;
-  USERMAP.forEach((e) => {
+  let Ready_count = 0;
+  data.userArray.forEach((key) => {
+    if(key[1].Ready === true){
+      Ready_count = Ready_count + 1;
+      if(Ready_count === data.userArray.length && 2 < data.userArray.length){
+        socket.emit('Game-start',{});
+      };
     $('#play').append(`
     <div class="item-CharacterCard card justify-content-around">
-    <img src="./images/cha/${e.userPicUrl}" class="card-img-top" class="card-body" class="card-title">
-    <p>　${e.userName}　</p>
+    <div class="Fukidashi">Ready!</div>
+    <img src="./images/cha/${key[1].userPicUrl}" class="card-img-top" class="card-body" class="card-title">
+    <p>　${key[1].userName}　</p>
     </div>
     `)
+    }else{
+      $('#play').append(`
+      <div class="item-CharacterCard card justify-content-around">
+      <img src="./images/cha/${key[1].userPicUrl}" class="card-img-top" class="card-body" class="card-title">
+      <p>　${key[1].userName}　</p>
+      </div>
+      `)
+    };
   });
 })
 
@@ -182,6 +193,30 @@ socket.on("Count_room-A_login", (msg) => {
   }
 });
 
+//準備完了ボタン押された
 $('#ok-button').click(() => {
-  socket.emit('Ready', {userId});
+  socket.emit('Ready', {});
 });
+
+//受信：Ready:trueになった連想配列
+socket.on('Ready-ok',(data) => {
+  $('#play').empty();//初期化
+  USERMAP = data.userArray;
+  USERMAP.forEach((data) => {
+    if(data.Ready === true){
+    $('#play').append(`
+    <div class="item-CharacterCard card justify-content-around">
+    <div class="Fukidashi">Ready!</div>
+    <img src="./images/cha/${data.userPicUrl}" class="card-img-top" class="card-body" class="card-title">
+    <p>　${data.userName}　</p>
+    </div>
+    `)}else{
+      $('#play').append(`
+      <div class="item-CharacterCard card justify-content-around">
+      <img src="./images/cha/${data.userPicUrl}" class="card-img-top" class="card-body" class="card-title">
+      <p>　${data.userName}　</p>
+      </div>
+      `)
+    };
+  });
+})

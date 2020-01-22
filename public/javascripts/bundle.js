@@ -109,9 +109,9 @@ global.jQuery = jquery__WEBPACK_IMPORTED_MODULE_0___default.a;
 
 var Config = __webpack_require__(290);
 
-var userId = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#databaseData').data('userid');
-var username = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#databaseData').data('username');
-var picURL = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#databaseData').data('userpic'); //ニコニコ風コメント機能//
+var userId = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#databaseData').data('userid'); // const username = $('#databaseData').data('username');
+// const picURL = $('#databaseData').data('userpic');
+//ニコニコ風コメント機能//
 // namespace -> "/index"
 //接続開始
 
@@ -251,15 +251,26 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()('#cancel-button').click(function (
 socket.on('window-close', function () {
   jquery__WEBPACK_IMPORTED_MODULE_0___default()(".PlayArea").fadeOut();
 });
-var USERMAP;
 socket.on('chaCard', function (data) {
   jquery__WEBPACK_IMPORTED_MODULE_0___default()(".PlayArea").fadeIn("fast");
   jquery__WEBPACK_IMPORTED_MODULE_0___default()('#play').empty(); //初期化
 
-  console.log(data.userArray);
-  USERMAP = data.userArray;
-  USERMAP.forEach(function (e) {
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#play').append("\n    <div class=\"item-CharacterCard card justify-content-around\">\n    <img src=\"./images/cha/".concat(e.userPicUrl, "\" class=\"card-img-top\" class=\"card-body\" class=\"card-title\">\n    <p>\u3000").concat(e.userName, "\u3000</p>\n    </div>\n    "));
+  var Ready_count = 0;
+  data.userArray.forEach(function (key) {
+    if (key[1].Ready === true) {
+      Ready_count = Ready_count + 1;
+
+      if (Ready_count === data.userArray.length && 2 < data.userArray.length) {
+        socket.emit('Game-start', {});
+      }
+
+      ;
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#play').append("\n    <div class=\"item-CharacterCard card justify-content-around\">\n    <div class=\"Fukidashi\">Ready!</div>\n    <img src=\"./images/cha/".concat(key[1].userPicUrl, "\" class=\"card-img-top\" class=\"card-body\" class=\"card-title\">\n    <p>\u3000").concat(key[1].userName, "\u3000</p>\n    </div>\n    "));
+    } else {
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#play').append("\n      <div class=\"item-CharacterCard card justify-content-around\">\n      <img src=\"./images/cha/".concat(key[1].userPicUrl, "\" class=\"card-img-top\" class=\"card-body\" class=\"card-title\">\n      <p>\u3000").concat(key[1].userName, "\u3000</p>\n      </div>\n      "));
+    }
+
+    ;
   });
 }); //roomへjoinした
 
@@ -271,10 +282,24 @@ socket.on("Count_room-A_login", function (msg) {
   } else {
     jquery__WEBPACK_IMPORTED_MODULE_0___default()("#ok-button").css("visibility", "hidden");
   }
-});
+}); //準備完了ボタン押された
+
 jquery__WEBPACK_IMPORTED_MODULE_0___default()('#ok-button').click(function () {
-  socket.emit('Ready', {
-    userId: userId
+  socket.emit('Ready', {});
+}); //受信：Ready:trueになった連想配列
+
+socket.on('Ready-ok', function (data) {
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('#play').empty(); //初期化
+
+  USERMAP = data.userArray;
+  USERMAP.forEach(function (data) {
+    if (data.Ready === true) {
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#play').append("\n    <div class=\"item-CharacterCard card justify-content-around\">\n    <div class=\"Fukidashi\">Ready!</div>\n    <img src=\"./images/cha/".concat(data.userPicUrl, "\" class=\"card-img-top\" class=\"card-body\" class=\"card-title\">\n    <p>\u3000").concat(data.userName, "\u3000</p>\n    </div>\n    "));
+    } else {
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#play').append("\n      <div class=\"item-CharacterCard card justify-content-around\">\n      <img src=\"./images/cha/".concat(data.userPicUrl, "\" class=\"card-img-top\" class=\"card-body\" class=\"card-title\">\n      <p>\u3000").concat(data.userName, "\u3000</p>\n      </div>\n      "));
+    }
+
+    ;
   });
 });
 
