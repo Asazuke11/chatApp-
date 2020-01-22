@@ -251,10 +251,13 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()('#cancel-button').click(function (
 socket.on('window-close', function () {
   jquery__WEBPACK_IMPORTED_MODULE_0___default()(".PlayArea").fadeOut();
 });
+var USERMAP;
 socket.on('chaCard', function (data) {
   jquery__WEBPACK_IMPORTED_MODULE_0___default()(".PlayArea").fadeIn("fast");
-  jquery__WEBPACK_IMPORTED_MODULE_0___default()('#play').empty();
-  var USERMAP = data.userArray;
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('#play').empty(); //初期化
+
+  console.log(data.userArray);
+  USERMAP = data.userArray;
   USERMAP.forEach(function (e) {
     jquery__WEBPACK_IMPORTED_MODULE_0___default()('#play').append("\n    <div class=\"item-CharacterCard card justify-content-around\">\n    <img src=\"./images/cha/".concat(e.userPicUrl, "\" class=\"card-img-top\" class=\"card-body\" class=\"card-title\">\n    <p>\u3000").concat(e.userName, "\u3000</p>\n    </div>\n    "));
   });
@@ -262,6 +265,17 @@ socket.on('chaCard', function (data) {
 
 socket.on("Count_room-A_login", function (msg) {
   jquery__WEBPACK_IMPORTED_MODULE_0___default()('.login_now').text("".concat(msg.roomAconnect_Now, "/7"));
+
+  if (msg.roomAconnect_Now > 2 && msg.roomAconnect_Now < 8) {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()("#ok-button").css("visibility", "visible");
+  } else {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()("#ok-button").css("visibility", "hidden");
+  }
+});
+jquery__WEBPACK_IMPORTED_MODULE_0___default()('#ok-button').click(function () {
+  socket.emit('Ready', {
+    userId: userId
+  });
 });
 
 /***/ }),

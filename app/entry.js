@@ -156,10 +156,12 @@ socket.on('window-close', () => {
   $(".PlayArea").fadeOut();
 })
 
+let USERMAP;
 socket.on('chaCard', (data) => {
   $(".PlayArea").fadeIn("fast");
-  $('#play').empty();
-  let USERMAP = data.userArray;
+  $('#play').empty();//初期化
+  console.log(data.userArray);
+  USERMAP = data.userArray;
   USERMAP.forEach((e) => {
     $('#play').append(`
     <div class="item-CharacterCard card justify-content-around">
@@ -173,4 +175,13 @@ socket.on('chaCard', (data) => {
 //roomへjoinした
 socket.on("Count_room-A_login", (msg) => {
   $('.login_now').text(`${msg.roomAconnect_Now}/7`);
+  if(msg.roomAconnect_Now > 2 && msg.roomAconnect_Now < 8){
+    $("#ok-button").css("visibility","visible");
+  }else{
+    $("#ok-button").css("visibility","hidden");
+  }
+});
+
+$('#ok-button').click(() => {
+  socket.emit('Ready', {userId});
 });

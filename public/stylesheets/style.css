@@ -423,6 +423,7 @@ main{
 }
 
 #ok-button{
+  visibility : hidden;
   border: solid 1px;
   border-radius: 3px;
   margin: 10px;
