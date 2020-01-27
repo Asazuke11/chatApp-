@@ -10,12 +10,6 @@ router.get('/', function (req, res, next) {
 
   const cookies = new Cookies(req, res);
 
-  res.render('index', {
-    title: Title_Name,
-    subtitle: subTitle_Name,
-    database_data: database_data
-  });
-
   addTrackingCookie(cookies)
   upsert_expires(cookies);
 
@@ -70,7 +64,7 @@ router.get('/', function (req, res, next) {
       });
     };
   };
-});　//〆router.get
+});
 
 
 module.exports = router;
