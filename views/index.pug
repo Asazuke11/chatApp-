@@ -103,16 +103,28 @@ block content
               br
       .PlayArea.container-fluid
         video#bg-video(src="images/mp4/Moon.mp4" autoplay loop)
-        .row.justify-content-md-center#play
-        .loading-text
-          img(src="images/icon/ajax-loader.gif")
-          span 　他のプレイヤーを待っています。
-          small 　(必要人数３人・最大７人)
-          .wait_button
-            span 現在の参加人数 
-            b.login_now
-            span#cancel-button キャンセル
-            span#ok-button 準備完了
+        .Robby
+          .row.justify-content-md-center#play
+          .loading-text
+            img(src="images/icon/ajax-loader.gif")
+            span 　他のプレイヤーを待っています。
+            small 　(必要人数３人・最大７人)
+            .wait_button
+              span 現在の参加人数 
+              b.login_now
+              span#cancel-button キャンセル
+              span#ok-button 準備完了
+        .Game_Play
+          .TimePlate
+            p 夜の時間
+          .Game-1
+          .Player_NamePlate_Area.container-fluid
+            .row.justify-content-md-center#Player-Game-1-Area
+        .Game_Play_Role-description
+          .TimePlate
+            p 夜の時間
+          .Game-2-Role_description_Area
+
       .NicoComentInputArea.container
         .row.justify-content-end
           p#nicoComent-input-area

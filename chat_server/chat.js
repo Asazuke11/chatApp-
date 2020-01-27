@@ -12,7 +12,6 @@ function roomA_count(Io_Index) {
 
 //データベースのプレイヤー情報を更新
 function playerData_update(data){
-  console.log(data);
   User.upsert({
     userId:data.userId,
     picURL:data.picURL,
@@ -20,6 +19,35 @@ function playerData_update(data){
   });
 };
 
+function lott_Role (player_Array) {
+  let ROLE = ROLE_Array(player_Array);
+  for(let i = 0; i < player_Array.length;i++){
+    let RandomNumber = Math.floor(Math.random() * player_Array.length);
+    player_Array[i][1].Role = ROLE[RandomNumber];
+    ROLE.splice(RandomNumber,1);
+  }
+};
+
+function ROLE_Array(player_Array) {
+    if(player_Array.length === 3){
+      return ["村人","人狼","人狼","占い師","怪盗"];
+    };
+    if(player_Array.length === 4){
+      return ["村人","村人","人狼","人狼","占い師","怪盗"];
+    }
+    if(player_Array.length === 5){
+      return ["村人","村人","村人","人狼","人狼","占い師","怪盗"];
+    }
+    if(player_Array.length === 6){
+      return ["村人","村人","村人","村人","人狼","人狼","占い師","怪盗"];
+    }
+    if(player_Array.length === 7){
+      return ["村人","村人","村人","村人","村人","人狼","人狼","占い師","怪盗"];
+    }
+}
+
+
+
 module.exports = {
-  User,roomA_count,playerData_update
+  User,roomA_count,playerData_update,lott_Role
 };

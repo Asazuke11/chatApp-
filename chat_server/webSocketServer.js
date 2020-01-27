@@ -75,10 +75,13 @@ function createWebSocketServer(io, chat) {
         if(ROGIN_member_Map.size > 6){
           Io_Index.emit("Check-Room-member",{
             status:"満席"
-          })
+          });
         };
 
-        console.log(ROGIN_member_Map);
+        Io_Index.to(socket.id).emit('SOCKET-ID',{
+          ID: socket.id
+        })
+        // console.log(ROGIN_member_Map);
         const ROGIN_member_Map_Array = Array.from(ROGIN_member_Map);
 
         //ROOM-Aへ送信：入室した全員のmapデータ
@@ -95,7 +98,33 @@ function createWebSocketServer(io, chat) {
           Io_Index.emit("Check-Room-member",{
             status:"プレイ中"
           });
+          
         });
+        
+        socket.on('lottery-Role',() => {
+          const ROGIN_member_Map_Array = Array.from(ROGIN_member_Map);
+          if((ROGIN_member_Map_Array[0][0]) === (socket.id)){
+            //ロールを付与
+            chat.lott_Role(ROGIN_member_Map_Array);
+
+            //Mapデータに変換しデータを更新
+            upDate_Role_map(ROGIN_member_Map_Array);
+            function upDate_Role_map(ROGIN_member_Map_Array){
+              for(let i = 0; i < ROGIN_member_Map_Array.length;i++){
+                ROGIN_member_Map.set(ROGIN_member_Map_Array[i][0],{
+                  userCookie: ROGIN_member_Map_Array[i][1].userCookie,
+                  userPicUrl: ROGIN_member_Map_Array[i][1].userPicUrl,
+                  userName: ROGIN_member_Map_Array[i][1].userName,
+                  Ready:ROGIN_member_Map_Array[i][1].Ready,
+                  Role:ROGIN_member_Map_Array[i][1].Role
+              })
+            }
+            }
+            Io_Index.to('room-A').emit('send-Role_Array',{
+              ROGIN_member_Map_Array
+            });
+          }
+        })
 
         //キャンセル時
         socket.on("disconnect", () => {

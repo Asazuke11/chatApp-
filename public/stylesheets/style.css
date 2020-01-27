@@ -485,3 +485,99 @@ main{
   border-radius: 10px;
   z-index: 105;
 }
+
+.Game_Play{
+  display: none;
+}
+
+.TimePlate{
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 20px;
+  width: 150px;
+  height: 35px;
+  color:snow;
+  font-weight: bold;
+  font-size: 20px;
+  text-align: center;
+  background-image: linear-gradient(
+    -32deg,
+    var(--Background) 25%,
+    rgba(10, 15, 44, 0.8) 90%,
+    rgba(10, 15, 44, 0.8) 100%
+);
+  border: solid 2px rgb(110, 110, 110);
+  border-radius: 3px;
+}
+
+.Player_NamePlate_Area{
+  position: absolute;
+  margin: auto;
+  bottom: 0;
+  height: 230px;
+  width: 100vw;
+  z-index: 200;
+}
+
+.item-Player-char{
+  position: relative;
+  margin: 10px;
+}
+.char-size{
+  width: 100px;
+  height: 200px;
+  object-position:50% 0;
+  object-fit: cover;
+  overflow: hidden;
+  border: solid 3px rgb(255, 178, 178);
+  filter: drop-shadow(0px 0px 10px rgb(24, 4, 46));
+  border-radius:3px;
+}
+/*名前表示エリア*/
+.Player-Name{
+  position: absolute;
+  right: 5px;
+  bottom: 10px;
+  color:var(--Headline);
+  text-shadow: 0 0 4px black;
+  font-size: 20px;
+  background-image: linear-gradient(
+    rgba(255, 255, 255, 0) 25%,
+    rgba(240, 0, 0, 0.5) 80%,
+    rgba(240, 0, 0, 0.8) 100%
+);
+}
+
+.Game-1{
+  position: absolute;
+  top:100px;
+  width: 100vw;
+  height: 120px;
+  margin: auto;
+  text-align: center;
+  color: snow;
+  background-color: rgba(0, 0, 0, 0.8);
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.Game-1 > marquee{
+  text-align: center;
+}
+
+.Game_Play_Role-description{
+  display: none;
+}
+.Game-2-Role_description_Area{
+    position: absolute;
+    top:100px;
+    width: 100vw;
+    height: 130px;
+    margin: auto;
+    text-align: center;
+    color: snow;
+    background-color: rgba(0, 0, 0, 0.8);
+    font-weight: bold;
+    font-size: 20px;
+  }

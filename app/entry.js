@@ -8,8 +8,7 @@ import { isConditional } from "babel-types";
 const Config = require('../config');
 
 const userId = $('#databaseData').data('userid');
-// const username = $('#databaseData').data('username');
-// const picURL = $('#databaseData').data('userpic');
+let user_socketId ="";
 
 
 //ニコニコ風コメント機能//
@@ -145,6 +144,9 @@ $('#check_in').click(() => {
 socket.on('Check-Room-member',(data) => {
   $("#check_in").text(`${data.status}`);
 });
+socket.on("SOCKET-ID",(data) => {
+  user_socketId = data.ID;
+})
 
 //キャンセルボタン・リロードでルーム切断
 $('#cancel-button').click(() => {
@@ -164,6 +166,20 @@ socket.on('chaCard', (data) => {
       Ready_count = Ready_count + 1;
       if(Ready_count === data.userArray.length && 2 < data.userArray.length){
         socket.emit('Game-start',{});
+        $(".Robby").fadeOut();
+        $(".Game_Play").fadeIn();
+        data.userArray.forEach((key) =>{
+          $("#Player-Game-1-Area").append(`
+          <div class="item-Player-char">
+          <img src="./images/cha/${key[1].userPicUrl}" class="char-size">
+          <span class="Player-Name">${key[1].userName}</span>
+          </div>
+          `)
+        });
+        Game1_info();
+        setTimeout(() => {
+          socket.emit('lottery-Role',{});
+        },5000);
       };
     $('#play').append(`
     <div class="item-CharacterCard card justify-content-around">
@@ -182,6 +198,13 @@ socket.on('chaCard', (data) => {
     };
   });
 })
+
+function Game1_info(){
+  $(".Game-1").append(`
+  <marquee behavior="slide" direction="up">これより、各プレイヤーにロールを振り分けます。<br>ワンナイトルールのロールは「村人」「占い師」「怪盗」「人狼」の４つです。<br><span class="marker-Y">ロールの振り分け</span><br>人狼ｘ２　占い師ｘ１　怪盗ｘ１　村人ｘ１ - ４</marquee>
+  `);
+}
+
 
 //roomへjoinした
 socket.on("Count_room-A_login", (msg) => {
@@ -219,4 +242,20 @@ socket.on('Ready-ok',(data) => {
       `)
     };
   });
+})
+
+//受信:ロール付きのプレイヤーデータ
+socket.on('send-Role_Array',(data) => {
+  $(".Game_Play").fadeOut();
+  $(".Game_Play_Role-description").fadeIn();
+
+  data.ROGIN_member_Map_Array.forEach((e) => {
+    if((e[0]) === user_socketId){
+      $(".Game-2-Role_description_Area").append(`
+      あなたのロールは<br>
+      <span style="font-size:42px;">- ${e[1].Role} -</span><br>
+      に決まりました。
+      `);
+    }
+  })
 })

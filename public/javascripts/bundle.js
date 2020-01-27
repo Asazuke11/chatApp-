@@ -109,9 +109,8 @@ global.jQuery = jquery__WEBPACK_IMPORTED_MODULE_0___default.a;
 
 var Config = __webpack_require__(290);
 
-var userId = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#databaseData').data('userid'); // const username = $('#databaseData').data('username');
-// const picURL = $('#databaseData').data('userpic');
-//ニコニコ風コメント機能//
+var userId = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#databaseData').data('userid');
+var user_socketId = ""; //ニコニコ風コメント機能//
 // namespace -> "/index"
 //接続開始
 
@@ -243,6 +242,9 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()('#check_in').click(function () {
 });
 socket.on('Check-Room-member', function (data) {
   jquery__WEBPACK_IMPORTED_MODULE_0___default()("#check_in").text("".concat(data.status));
+});
+socket.on("SOCKET-ID", function (data) {
+  user_socketId = data.ID;
 }); //キャンセルボタン・リロードでルーム切断
 
 jquery__WEBPACK_IMPORTED_MODULE_0___default()('#cancel-button').click(function () {
@@ -262,6 +264,15 @@ socket.on('chaCard', function (data) {
 
       if (Ready_count === data.userArray.length && 2 < data.userArray.length) {
         socket.emit('Game-start', {});
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()(".Robby").fadeOut();
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()(".Game_Play").fadeIn();
+        data.userArray.forEach(function (key) {
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()("#Player-Game-1-Area").append("\n          <div class=\"item-Player-char\">\n          <img src=\"./images/cha/".concat(key[1].userPicUrl, "\" class=\"char-size\">\n          <span class=\"Player-Name\">").concat(key[1].userName, "</span>\n          </div>\n          "));
+        });
+        Game1_info();
+        setTimeout(function () {
+          socket.emit('lottery-Role', {});
+        }, 5000);
       }
 
       ;
@@ -272,7 +283,12 @@ socket.on('chaCard', function (data) {
 
     ;
   });
-}); //roomへjoinした
+});
+
+function Game1_info() {
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()(".Game-1").append("\n  <marquee behavior=\"slide\" direction=\"up\">\u3053\u308C\u3088\u308A\u3001\u5404\u30D7\u30EC\u30A4\u30E4\u30FC\u306B\u30ED\u30FC\u30EB\u3092\u632F\u308A\u5206\u3051\u307E\u3059\u3002<br>\u30EF\u30F3\u30CA\u30A4\u30C8\u30EB\u30FC\u30EB\u306E\u30ED\u30FC\u30EB\u306F\u300C\u6751\u4EBA\u300D\u300C\u5360\u3044\u5E2B\u300D\u300C\u602A\u76D7\u300D\u300C\u4EBA\u72FC\u300D\u306E\uFF14\u3064\u3067\u3059\u3002<br><span class=\"marker-Y\">\u30ED\u30FC\u30EB\u306E\u632F\u308A\u5206\u3051</span><br>\u4EBA\u72FC\uFF58\uFF12\u3000\u5360\u3044\u5E2B\uFF58\uFF11\u3000\u602A\u76D7\uFF58\uFF11\u3000\u6751\u4EBA\uFF58\uFF11 - \uFF14</marquee>\n  ");
+} //roomへjoinした
+
 
 socket.on("Count_room-A_login", function (msg) {
   jquery__WEBPACK_IMPORTED_MODULE_0___default()('.login_now').text("".concat(msg.roomAconnect_Now, "/7"));
@@ -300,6 +316,16 @@ socket.on('Ready-ok', function (data) {
     }
 
     ;
+  });
+}); //受信:ロール付きのプレイヤーデータ
+
+socket.on('send-Role_Array', function (data) {
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()(".Game_Play").fadeOut();
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()(".Game_Play_Role-description").fadeIn();
+  data.ROGIN_member_Map_Array.forEach(function (e) {
+    if (e[0] === user_socketId) {
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()(".Game-2-Role_description_Area").append("\n      \u3042\u306A\u305F\u306E\u30ED\u30FC\u30EB\u306F<br>\n      <span style=\"font-size:42px;\">- ".concat(e[1].Role, " -</span><br>\n      \u306B\u6C7A\u307E\u308A\u307E\u3057\u305F\u3002\n      "));
+    }
   });
 });
 
