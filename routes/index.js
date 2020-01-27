@@ -4,13 +4,17 @@ const Cookies = require('cookies');
 const Title_Name = '人狼ゲーム支援あぷり。';
 const subTitle_Name = 'Webアプリコンテスト 2019 冬';
 const trackingIdKey = 'tracking_id';
-
-
 var User = require('../models/user');
 
 router.get('/', function (req, res, next) {
 
   const cookies = new Cookies(req, res);
+
+  res.render('index', {
+    title: Title_Name,
+    subtitle: subTitle_Name,
+    database_data: database_data
+  });
 
   addTrackingCookie(cookies)
   upsert_expires(cookies);
