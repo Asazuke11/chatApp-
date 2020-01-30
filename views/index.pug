@@ -76,7 +76,7 @@ block content
                 tr
                   th(scope="row") テスト村
                   td
-                    marquee(scrollamount="3") 
+                    span テスト運用の為部屋は一つです。
                   td.login_now 
                   td#check_in
                    span 予約する
@@ -128,14 +128,19 @@ block content
           .Game-3-Role_description_time
           .Uranaishi-play-aria
             .row.justify-content-md-center#uranai-list
+          .jinrou-play-aria
+            .row.justify-content-md-center#jinrou-list
           .Kaitou-play-aria
             .row.justify-content-md-center#kaitou-list
           .waiting-text#wait-uranaishi
             img(src="images/icon/ajax-loader.gif")
             span 　占い師が占いをしています。少々お待ち下さい。<br>※占い師が存在しない場合でも10秒お待ちいただきます。
+          .waiting-text#wait-jinrou
+            img(src="images/icon/ajax-loader.gif")
+            span 　人狼が活動しています。少々お待ち下さい。<br>※人狼が存在しない場合でも10秒お待ちいただきます。
           .waiting-text#wait-kaitou
             img(src="images/icon/ajax-loader.gif")
-            span 　怪盗の時間です。少々お待ち下さい。<br>※怪盗が存在しない場合でも10秒お待ちいただきます。
+            span 　怪盗が活動しています。少々お待ち下さい。<br>※怪盗が存在しない場合でも10秒お待ちいただきます。
       .NicoComentInputArea.container
         .row.justify-content-end
           p#nicoComent-input-area

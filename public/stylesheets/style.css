@@ -589,7 +589,7 @@ main{
 }
 .Game-2-Role_description_Area{
     position: absolute;
-    top:100px;
+    top:60px;
     width: 100vw;
     margin: auto;
     text-align: center;
@@ -605,7 +605,7 @@ main{
 
 .Game-3-Role_description_time{
   position: absolute;
-  top:100px;
+  top:60px;
   width: 98vw;
   margin: auto;
   padding: 10px;
@@ -617,6 +617,13 @@ main{
   border-radius: 3px;
 }
 .Uranaishi-play-aria{
+  position: absolute;
+  bottom: 40px;
+  margin: auto;
+  width: 100vw;
+  z-index: 350;
+}
+.jinrou-play-aria{
   position: absolute;
   bottom: 40px;
   margin: auto;

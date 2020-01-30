@@ -273,8 +273,9 @@ socket.on('send-Role_Array', (data) => {
     $(".Game_Play_Role-description").fadeOut();
     let div_count = 0;
     setTimeout(() => {
+      $("#uranai-list").fadeOut();
       socket.emit('uranaisi-timeout',{});
-    },11000);
+    },12000);
     setTimeout(() => {
       data.ROGIN_member_Map_Array.forEach((e) => {
         if (e[0] === user_socketId) {
@@ -303,7 +304,7 @@ socket.on('send-Role_Array', (data) => {
           のぞき見るか、この対局で使われなかったロールを見ることができます。<br>
           村人たちに、自分が占い師であることを信用させつつ、<br>
           事実を皆に伝えましょう。
-          <br><br>占う人を選んでください。※１０秒以内に選んでください。<br><br>
+          <br><br><span style="color:rgba(207, 79, 79);font-size:26px;">占う人を選んでください。</span><br>※１０秒以内に選んでください。<br><br>
           `);
             data.ROGIN_member_Map_Array.forEach((key) => {
             if(!(key[0] === user_socketId)){
@@ -315,7 +316,7 @@ socket.on('send-Role_Array', (data) => {
               `)
               $(`#uranai-${div_count}`).click(() => {
                 $(".Game-3-Role_description_time").append(`
-                  <p>${key[1].userName}さんのロールは「<span style="color:rgba(207, 79, 79);">${key[1].Role}</span>」と出ました。
+                  <p>${key[1].userName}さんのロールは「<span style="font-size:30px; color:rgba(207, 79, 79);">${key[1].Role}</span>」と出ました。
                 `);
                 $("#uranai-list").fadeOut();
               });
@@ -331,7 +332,7 @@ socket.on('send-Role_Array', (data) => {
           夜の時間に、プレイヤー１人のロールと自分のロールを<br>
           こっそり入れ替えることができます。入れ替えたロールが<br>
           人狼であった場合、あなたは人狼となります。入れ替えた事は<br>
-          自分自身以外知ることはできません。
+          あなた以外、知ることはできません。
           `);
           };
         };
@@ -343,36 +344,84 @@ socket.on('send-Role_Array', (data) => {
   }, 4000);
 });
 
-socket.on('kaitou-start', (e) =>{
-  $('#wait-uranaishi').fadeOut();
+socket.on('jinrou-start', (e) => {
+
+  setTimeout(() => {
+    socket.emit('jinrou-timeout',{});
+  },11000);
+
   e.ROGIN_member_Map_Array.forEach((key) => {
-    if(key[1].Role === "怪盗"){
-      $(".Game-3-Role_description_time").append(`
-      <span style="font-size:42px;color:rgba(207, 79, 79);">- ${key[1].Role} -</span><br>
-      村を騒がす怪盗です。<br>
-      夜の時間に、プレイヤー１人のロールと自分のロールを<br>
-      こっそり入れ替えることができます。入れ替えたロールが<br>
-      人狼であった場合、あなたは人狼となります。入れ替えた事は<br>
-      自分自身以外知ることはできません。<br>
-      入れ替える人を選んでください。(選ばないこともできます)
-      `);
-      e.ROGIN_member_Map_Array.forEach((key) => {
-        if(!(key[0] === user_socketId)){
-          $("#kaitou-list").append(`
-          <div class="item-Player-char" id="uranai-${div_count}">
+    if(key[0] === user_socketId){
+    if (!(key[1].Role === "人狼")) {
+      $('#wait-uranaishi').fadeOut();
+      $('#wait-jinrou').fadeIn();
+    }
+  };
+  });
+});
+
+socket.on('jinrou-turn', (e) => {
+  setTimeout(() => {
+    $("#jinrou-list").fadeOut();
+  },10000);
+
+  $('#wait-uranaishi').fadeOut();
+  $(".Game-3-Role_description_time").append(`
+    <br><br><span style="color:rgba(207, 79, 79);font-size:26px">人狼プレイヤーを表示します。</span><br>(※人狼が一人の場合は自身のみが表示されます。)<br>
+  `);
+  e.ROGIN_member_Map_Array.forEach((key) => {
+      if (key[1].Role === "人狼") {
+        $("#jinrou-list").append(`
+          <div class="item-Player-char">
           <img src="./images/cha/${key[1].userPicUrl}" class="char-size">
           <span class="Player-Name">${key[1].userName}</span>
           </div>
           `)
-          $(`#uranai-${div_count}`).click(() => {
+      };
+  });
+});
 
-            $("#kaitou-list").fadeOut();
-          });
-          div_count++;
-        };
-        });
-    }else{
+socket.on('kaitou-start', (e) => {
+  e.ROGIN_member_Map_Array.forEach((key) => {
+    if(key[0] === user_socketId){
+    if (!(key[1].Role === "怪盗")) {
+      $('#wait-jinrou').fadeOut();
       $('#wait-kaitou').fadeIn();
     }
+  };
+  });
+});
+
+socket.on('kaitou-turn', (e) => {
+  setTimeout(() => {
+    $("#kaitou-list").fadeOut();
+    socket.emit('kaitou-timeout',{});
+  },12000);
+  let div_count = 0;
+  $('#wait-jinrou').fadeOut();
+  $(".Game-3-Role_description_time").append(`
+    <br><br><span style="color:rgba(207, 79, 79);font-size:26px">入れ替える人を選んでください。</span><br>(選ばないこともできます。※１０秒以内)<br>
+  `);
+  e.ROGIN_member_Map_Array.forEach((key) => {
+      if (!(key[1].Role === "怪盗")) {
+        $("#kaitou-list").append(`
+          <div class="item-Player-char" id="kaitou-${div_count}">
+          <img src="./images/cha/${key[1].userPicUrl}" class="char-size">
+          <span class="Player-Name">${key[1].userName}</span>
+          </div>
+          `)
+        $(`#kaitou-${div_count}`).click(() => {
+          $(".Game-3-Role_description_time").append(`
+          <br>${key[1].userName}さんのロール「<span style="font-size:30px;color:rgba(207, 79, 79);">${key[1].Role}</span>」と入れ替えました。
+          `);
+          socket.emit('kaitou-work',{
+            kaitou : user_socketId,
+            change_aite : key[0],
+            henkou_Role:key[1].Role
+          });
+          $("#kaitou-list").fadeOut();
+        });
+        div_count++;
+      };
   });
 });

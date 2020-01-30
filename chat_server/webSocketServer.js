@@ -130,11 +130,63 @@ function createWebSocketServer(io, chat) {
           }
         });
 
+
+        //人狼の行動ターン
         socket.on('uranaisi-timeout',() => {
+          console.log(ROGIN_member_Map);
+          let ROGIN_member_Map_Array = Array.from(ROGIN_member_Map);
+          if(ROGIN_member_Map_Array[0][0] === socket.id){
+          Io_Index.to('room-A').emit('jinrou-start', {
+            ROGIN_member_Map_Array
+          });
+          ROGIN_member_Map_Array.forEach((key) => {
+            if(key[1].Role === "人狼"){
+              Io_Index.to(`${key[0]}`).emit('jinrou-turn', {
+                ROGIN_member_Map_Array
+              });
+            }
+          });
+        }
+        });
+
+        //怪盗の行動ターン
+        socket.on('jinrou-timeout', () => {
+          let ROGIN_member_Map_Array = Array.from(ROGIN_member_Map);
+          if(ROGIN_member_Map_Array[0][0] === socket.id){
           Io_Index.to('room-A').emit('kaitou-start', {
             ROGIN_member_Map_Array
           });
+          ROGIN_member_Map_Array.forEach((key) => {
+            if(key[1].Role === "怪盗"){
+              Io_Index.to(`${key[0]}`).emit('kaitou-turn', {
+                ROGIN_member_Map_Array
+              });
+            }
+          });
+        };
         });
+        socket.on('kaitou-work',(data) => {
+          const change_Kaitou_data = ROGIN_member_Map.get(data.kaitou);
+          const change_taisyou_data = ROGIN_member_Map.get(data.change_aite);
+          ROGIN_member_Map.set(data.kaitou,{
+            userCookie: change_Kaitou_data.userCookie,
+            userPicUrl: change_Kaitou_data.userPicUrl,
+            userName: change_Kaitou_data.userName,
+            Ready: change_Kaitou_data.Ready,
+            Role: data.henkou_Role
+          });
+          ROGIN_member_Map.set(data.change_aite,{
+            userCookie: change_taisyou_data.userCookie,
+            userPicUrl: change_taisyou_data.userPicUrl,
+            userName: change_taisyou_data.userName,
+            Ready: change_taisyou_data.Ready,
+            Role:"怪盗"
+          });
+        
+          console.log(ROGIN_member_Map);
+        })
+
+
 
         //キャンセル時
         socket.on("disconnect", () => {
