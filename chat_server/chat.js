@@ -20,12 +20,17 @@ function playerData_update(data){
 };
 
 function lott_Role (player_Array) {
+  try{
   let ROLE = ROLE_Array(player_Array);
   for(let i = 0; i < player_Array.length;i++){
-    let RandomNumber = Math.floor(Math.random() * player_Array.length);
+    let RandomNumber = Math.floor(Math.random() * ROLE.length);
     player_Array[i][1].Role = ROLE[RandomNumber];
     ROLE.splice(RandomNumber,1);
   }
+}
+catch (e) {
+  console.log(e);
+}
 };
 
 function ROLE_Array(player_Array) {

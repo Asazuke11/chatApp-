@@ -400,6 +400,25 @@ main{
   z-index: 105;
 }
 
+.reset{
+  position: absolute;
+  margin: auto;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  height: 100px;
+  width: 480px;
+  padding: 10px;
+  border-radius: 3px;
+  color:rgb(51, 80, 177);
+  background-color: rgba(240, 248, 255, 0.9);
+  z-index: 500;
+}
+
 .wait_button{
   position: absolute;
   bottom: 0;right: 0;
@@ -408,7 +427,7 @@ main{
   text-align: right;
 }
 
-#cancel-button{
+.cancel-button{
   border: solid 1px;
   border-radius: 3px;
   margin: 10px;
@@ -418,7 +437,7 @@ main{
   color:rgba(93, 114, 184, 0.6);
   box-shadow: 0 0 5px rgba(28, 19, 39, 0.3);
 }
-#cancel-button:hover{
+.cancel-button:hover{
   color:rgb(240, 162, 138);
 }
 
@@ -553,7 +572,6 @@ main{
   position: absolute;
   top:100px;
   width: 100vw;
-  height: 120px;
   margin: auto;
   text-align: center;
   color: snow;
@@ -573,11 +591,72 @@ main{
     position: absolute;
     top:100px;
     width: 100vw;
-    height: 130px;
     margin: auto;
     text-align: center;
     color: snow;
     background-color: rgba(0, 0, 0, 0.8);
     font-weight: bold;
     font-size: 20px;
-  }
+}
+
+.Game_play_Uranaishi{
+  display: none;
+}
+
+.Game-3-Role_description_time{
+  position: absolute;
+  top:100px;
+  width: 98vw;
+  margin: auto;
+  padding: 10px;
+  text-align: center;
+  color: snow;
+  background-color: rgba(0, 0, 0, 0.8);
+  font-weight: bold;
+  font-size: 18px;
+  border-radius: 3px;
+}
+.Uranaishi-play-aria{
+  position: absolute;
+  bottom: 40px;
+  margin: auto;
+  width: 100vw;
+  z-index: 350;
+}
+.Kaitou-play-aria{
+  position: absolute;
+  bottom: 40px;
+  margin: auto;
+  width: 100vw;
+  z-index: 350;
+}
+
+.Uranaishi-play-aria img{
+  opacity: 0.5;
+}
+.Uranaishi-play-aria img:hover{
+  opacity: 1;
+}
+.Kaitou-play-aria img{
+  opacity: 0.5;
+}
+.Kaitou-play-aria img:hover{
+  opacity: 1;
+}
+
+.waiting-text{
+  display: none;
+  position: absolute;
+  margin: auto;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 70px;
+  width: 480px;
+  padding: 10px;
+  border-radius: 3px;
+  color:rgb(51, 80, 177);
+  background-color: rgba(240, 248, 255, 0.9);
+  z-index: 105;
+}

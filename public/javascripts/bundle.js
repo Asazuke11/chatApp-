@@ -236,6 +236,12 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()('#check_in').click(function () {
   }
 
   ;
+
+  if (jquery__WEBPACK_IMPORTED_MODULE_0___default()("#check_in").text() === "プレイ中") {
+    return;
+  }
+
+  ;
   socket.emit("PlayArea-login", {
     userId: userId
   });
@@ -247,11 +253,17 @@ socket.on("SOCKET-ID", function (data) {
   user_socketId = data.ID;
 }); //キャンセルボタン・リロードでルーム切断
 
-jquery__WEBPACK_IMPORTED_MODULE_0___default()('#cancel-button').click(function () {
+jquery__WEBPACK_IMPORTED_MODULE_0___default()('.cancel-button').click(function () {
   window.location.reload();
 });
 socket.on('window-close', function () {
   jquery__WEBPACK_IMPORTED_MODULE_0___default()(".PlayArea").fadeOut();
+});
+socket.on('reset', function () {
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('.reset').css("display", "flex");
+  setTimeout(function () {
+    window.location.reload();
+  }, 1000);
 });
 socket.on('chaCard', function (data) {
   jquery__WEBPACK_IMPORTED_MODULE_0___default()(".PlayArea").fadeIn("fast");
@@ -286,7 +298,7 @@ socket.on('chaCard', function (data) {
 });
 
 function Game1_info() {
-  jquery__WEBPACK_IMPORTED_MODULE_0___default()(".Game-1").append("\n  <marquee behavior=\"slide\" direction=\"up\">\u3053\u308C\u3088\u308A\u3001\u5404\u30D7\u30EC\u30A4\u30E4\u30FC\u306B\u30ED\u30FC\u30EB\u3092\u632F\u308A\u5206\u3051\u307E\u3059\u3002<br>\u30EF\u30F3\u30CA\u30A4\u30C8\u30EB\u30FC\u30EB\u306E\u30ED\u30FC\u30EB\u306F\u300C\u6751\u4EBA\u300D\u300C\u5360\u3044\u5E2B\u300D\u300C\u602A\u76D7\u300D\u300C\u4EBA\u72FC\u300D\u306E\uFF14\u3064\u3067\u3059\u3002<br><span class=\"marker-Y\">\u30ED\u30FC\u30EB\u306E\u632F\u308A\u5206\u3051</span><br>\u4EBA\u72FC\uFF58\uFF12\u3000\u5360\u3044\u5E2B\uFF58\uFF11\u3000\u602A\u76D7\uFF58\uFF11\u3000\u6751\u4EBA\uFF58\uFF11 - \uFF14</marquee>\n  ");
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()(".Game-1").append("\n  <marquee behavior=\"slide\" direction=\"up\">\u3053\u308C\u3088\u308A\u3001\u5404\u30D7\u30EC\u30A4\u30E4\u30FC\u306B\u30ED\u30FC\u30EB\u3092\u632F\u308A\u5206\u3051\u307E\u3059\u3002<br>\u30EF\u30F3\u30CA\u30A4\u30C8\u30EB\u30FC\u30EB\u306E\u30ED\u30FC\u30EB\u306F\u300C\u6751\u4EBA\u300D\u300C\u5360\u3044\u5E2B\u300D\u300C\u602A\u76D7\u300D\u300C\u4EBA\u72FC\u300D\u306E\uFF14\u3064\u3067\u3059\u3002<br><span class=\"marker-Y\">\u30ED\u30FC\u30EB\u306E\u632F\u308A\u5206\u3051</span><br>\u4EBA\u72FC\uFF58\uFF12\u3000\u5360\u3044\u5E2B\uFF58\uFF11\u3000\u602A\u76D7\uFF58\uFF11\u3000\u6751\u4EBA\uFF58\uFF11\u4EBA\u304B\u3089\uFF14\u4EBA(\u53C2\u52A0\u4EBA\u6570\u3067\u5909\u52D5)</marquee>\n  ");
 } //roomへjoinした
 
 
@@ -325,6 +337,83 @@ socket.on('send-Role_Array', function (data) {
   data.ROGIN_member_Map_Array.forEach(function (e) {
     if (e[0] === user_socketId) {
       jquery__WEBPACK_IMPORTED_MODULE_0___default()(".Game-2-Role_description_Area").append("\n      \u3042\u306A\u305F\u306E\u30ED\u30FC\u30EB\u306F<br>\n      <span style=\"font-size:42px;\">- ".concat(e[1].Role, " -</span><br>\n      \u306B\u6C7A\u307E\u308A\u307E\u3057\u305F\u3002\n      "));
+    }
+  });
+  setTimeout(function () {
+    //ロールの振り分け画面消去
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()(".Game_Play_Role-description").fadeOut();
+    var div_count = 0;
+    setTimeout(function () {
+      socket.emit('uranaisi-timeout', {});
+    }, 11000);
+    setTimeout(function () {
+      data.ROGIN_member_Map_Array.forEach(function (e) {
+        if (e[0] === user_socketId) {
+          if (e[1].Role === "村人") {
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#wait-uranaishi').fadeIn();
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()(".Game-3-Role_description_time").append("\n          <span style=\"font-size:42px;color:rgba(207, 79, 79);\">- ".concat(e[1].Role, " -</span><br>\n          \u7279\u6B8A\u306A\u80FD\u529B\u306F\u3042\u308A\u307E\u305B\u3093\u3002\u663C\u306B\u4EBA\u72FC\u3092\u898B\u3064\u3051\u308C\u3070\u52DD\u5229\u3067\u3059\u3002<br>\n          \u30D7\u30EC\u30A4\u30E4\u30FC\u9054\u306B\u8CEA\u554F\u3057\u306A\u304C\u3089\u3001\u8A71\u306E\u77DB\u76FE\u3092\u63A2\u3057\u3001<br>\n          \u60C5\u5831\u3092\u6574\u7406\u3057\u3001\u4EBA\u72FC\u3092\u898B\u3064\u3051\u307E\u3057\u3087\u3046\u3002\n          "));
+          }
+
+          ;
+
+          if (e[1].Role === "人狼") {
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#wait-uranaishi').fadeIn();
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()(".Game-3-Role_description_time").append("\n          <span style=\"font-size:42px;color:rgba(207, 79, 79);\">- ".concat(e[1].Role, " -</span><br>\n          \u4EBA\u9593\u3092\u8972\u3046\u4EBA\u72FC\u3067\u3059\u3002\u4EBA\u9593\u9054\u304B\u3089\u6B63\u4F53\u3092\u96A0\u3057\u307E\u3057\u3087\u3046<br>\n          \u4EBA\u72FC\u304C\u4E8C\u4EBA\u3044\u308B\u5834\u5408\u306F\u3001\u304A\u4E92\u3044\u6B63\u4F53\u3092\u77E5\u308B\u3053\u3068\u304C\u3067\u304D\u307E\u3059\u3002<br>\n          \u5360\u3044\u5E2B\u3084\u6751\u4EBA\u3092\u540D\u4E57\u308B\u306A\u3069\u3057\u3066\u3001\u63A8\u7406\u306E\u90AA\u9B54\u3092\u3057\u307E\u3057\u3087\u3046\u3002\n          "));
+          }
+
+          ;
+
+          if (e[1].Role === "占い師") {
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()(".Game-3-Role_description_time").append("\n          <span style=\"font-size:42px;color:rgba(207, 79, 79);\">- ".concat(e[1].Role, " -</span><br>\n          \u771F\u5B9F\u3092\u5360\u3048\u308B\u5360\u3044\u5E2B\u3067\u3059\u3002\u5360\u3044\u306E\u529B\u306B\u3088\u308A\u3001\u30D7\u30EC\u30A4\u30E4\u30FC1\u4EBA\u306E\u30ED\u30FC\u30EB\u3092<br>\n          \u306E\u305E\u304D\u898B\u308B\u304B\u3001\u3053\u306E\u5BFE\u5C40\u3067\u4F7F\u308F\u308C\u306A\u304B\u3063\u305F\u30ED\u30FC\u30EB\u3092\u898B\u308B\u3053\u3068\u304C\u3067\u304D\u307E\u3059\u3002<br>\n          \u6751\u4EBA\u305F\u3061\u306B\u3001\u81EA\u5206\u304C\u5360\u3044\u5E2B\u3067\u3042\u308B\u3053\u3068\u3092\u4FE1\u7528\u3055\u305B\u3064\u3064\u3001<br>\n          \u4E8B\u5B9F\u3092\u7686\u306B\u4F1D\u3048\u307E\u3057\u3087\u3046\u3002\n          <br><br>\u5360\u3046\u4EBA\u3092\u9078\u3093\u3067\u304F\u3060\u3055\u3044\u3002\u203B\uFF11\uFF10\u79D2\u4EE5\u5185\u306B\u9078\u3093\u3067\u304F\u3060\u3055\u3044\u3002<br><br>\n          "));
+            data.ROGIN_member_Map_Array.forEach(function (key) {
+              if (!(key[0] === user_socketId)) {
+                jquery__WEBPACK_IMPORTED_MODULE_0___default()("#uranai-list").append("\n              <div class=\"item-Player-char\" id=\"uranai-".concat(div_count, "\">\n              <img src=\"./images/cha/").concat(key[1].userPicUrl, "\" class=\"char-size\">\n              <span class=\"Player-Name\">").concat(key[1].userName, "</span>\n              </div>\n              "));
+                jquery__WEBPACK_IMPORTED_MODULE_0___default()("#uranai-".concat(div_count)).click(function () {
+                  jquery__WEBPACK_IMPORTED_MODULE_0___default()(".Game-3-Role_description_time").append("\n                  <p>".concat(key[1].userName, "\u3055\u3093\u306E\u30ED\u30FC\u30EB\u306F\u300C<span style=\"color:rgba(207, 79, 79);\">").concat(key[1].Role, "</span>\u300D\u3068\u51FA\u307E\u3057\u305F\u3002\n                "));
+                  jquery__WEBPACK_IMPORTED_MODULE_0___default()("#uranai-list").fadeOut();
+                });
+                div_count++;
+              }
+
+              ;
+            });
+          }
+
+          ;
+
+          if (e[1].Role === "怪盗") {
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#wait-uranaishi').fadeIn();
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()(".Game-3-Role_description_time").append("\n          <span style=\"font-size:42px;color:rgba(207, 79, 79);\">- ".concat(e[1].Role, " -</span><br>\n          \u6751\u3092\u9A12\u304C\u3059\u602A\u76D7\u3067\u3059\u3002<br>\n          \u591C\u306E\u6642\u9593\u306B\u3001\u30D7\u30EC\u30A4\u30E4\u30FC\uFF11\u4EBA\u306E\u30ED\u30FC\u30EB\u3068\u81EA\u5206\u306E\u30ED\u30FC\u30EB\u3092<br>\n          \u3053\u3063\u305D\u308A\u5165\u308C\u66FF\u3048\u308B\u3053\u3068\u304C\u3067\u304D\u307E\u3059\u3002\u5165\u308C\u66FF\u3048\u305F\u30ED\u30FC\u30EB\u304C<br>\n          \u4EBA\u72FC\u3067\u3042\u3063\u305F\u5834\u5408\u3001\u3042\u306A\u305F\u306F\u4EBA\u72FC\u3068\u306A\u308A\u307E\u3059\u3002\u5165\u308C\u66FF\u3048\u305F\u4E8B\u306F<br>\n          \u81EA\u5206\u81EA\u8EAB\u4EE5\u5916\u77E5\u308B\u3053\u3068\u306F\u3067\u304D\u307E\u305B\u3093\u3002\n          "));
+          }
+
+          ;
+        }
+
+        ;
+      }); //各ロールの説明＆占い師の行動パターン
+
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('.Game_play_Uranaishi').fadeIn();
+    }, 1000);
+  }, 4000);
+});
+socket.on('kaitou-start', function (e) {
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('#wait-uranaishi').fadeOut();
+  e.ROGIN_member_Map_Array.forEach(function (key) {
+    if (key[1].Role === "怪盗") {
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()(".Game-3-Role_description_time").append("\n      <span style=\"font-size:42px;color:rgba(207, 79, 79);\">- ".concat(key[1].Role, " -</span><br>\n      \u6751\u3092\u9A12\u304C\u3059\u602A\u76D7\u3067\u3059\u3002<br>\n      \u591C\u306E\u6642\u9593\u306B\u3001\u30D7\u30EC\u30A4\u30E4\u30FC\uFF11\u4EBA\u306E\u30ED\u30FC\u30EB\u3068\u81EA\u5206\u306E\u30ED\u30FC\u30EB\u3092<br>\n      \u3053\u3063\u305D\u308A\u5165\u308C\u66FF\u3048\u308B\u3053\u3068\u304C\u3067\u304D\u307E\u3059\u3002\u5165\u308C\u66FF\u3048\u305F\u30ED\u30FC\u30EB\u304C<br>\n      \u4EBA\u72FC\u3067\u3042\u3063\u305F\u5834\u5408\u3001\u3042\u306A\u305F\u306F\u4EBA\u72FC\u3068\u306A\u308A\u307E\u3059\u3002\u5165\u308C\u66FF\u3048\u305F\u4E8B\u306F<br>\n      \u81EA\u5206\u81EA\u8EAB\u4EE5\u5916\u77E5\u308B\u3053\u3068\u306F\u3067\u304D\u307E\u305B\u3093\u3002<br>\n      \u5165\u308C\u66FF\u3048\u308B\u4EBA\u3092\u9078\u3093\u3067\u304F\u3060\u3055\u3044\u3002(\u9078\u3070\u306A\u3044\u3053\u3068\u3082\u3067\u304D\u307E\u3059)\n      "));
+      e.ROGIN_member_Map_Array.forEach(function (key) {
+        if (!(key[0] === user_socketId)) {
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()("#kaitou-list").append("\n          <div class=\"item-Player-char\" id=\"uranai-".concat(div_count, "\">\n          <img src=\"./images/cha/").concat(key[1].userPicUrl, "\" class=\"char-size\">\n          <span class=\"Player-Name\">").concat(key[1].userName, "</span>\n          </div>\n          "));
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()("#uranai-".concat(div_count)).click(function () {
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()("#kaitou-list").fadeOut();
+          });
+          div_count++;
+        }
+
+        ;
+      });
+    } else {
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#wait-kaitou').fadeIn();
     }
   });
 });
@@ -36609,7 +36698,7 @@ module.exports = {
   Pass_Add: {
     Session_Secret: "87c4c504b2c72405"
   },
-  ipAddress: 'http://localhost:8000'
+  ipAddress: 'https://whispering-hollows-42826.herokuapp.com/'
 };
 
 /***/ }),

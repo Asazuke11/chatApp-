@@ -103,6 +103,8 @@ block content
               br
       .PlayArea.container-fluid
         video#bg-video(src="images/mp4/Moon.mp4" autoplay loop)
+        .reset
+          span 　メンバーの接続が切れました。リセットします。
         .Robby
           .row.justify-content-md-center#play
           .loading-text
@@ -112,26 +114,31 @@ block content
             .wait_button
               span 現在の参加人数 
               b.login_now
-              span#cancel-button キャンセル
+              span.cancel-button キャンセル
               span#ok-button 準備完了
         .Game_Play
-          .TimePlate
-            p 夜の時間
           .Game-1
           .Player_NamePlate_Area.container-fluid
             .row.justify-content-md-center#Player-Game-1-Area
         .Game_Play_Role-description
+          .Game-2-Role_description_Area
+        .Game_play_Uranaishi
           .TimePlate
             p 夜の時間
-          .Game-2-Role_description_Area
-
+          .Game-3-Role_description_time
+          .Uranaishi-play-aria
+            .row.justify-content-md-center#uranai-list
+          .Kaitou-play-aria
+            .row.justify-content-md-center#kaitou-list
+          .waiting-text#wait-uranaishi
+            img(src="images/icon/ajax-loader.gif")
+            span 　占い師が占いをしています。少々お待ち下さい。<br>※占い師が存在しない場合でも10秒お待ちいただきます。
+          .waiting-text#wait-kaitou
+            img(src="images/icon/ajax-loader.gif")
+            span 　怪盗の時間です。少々お待ち下さい。<br>※怪盗が存在しない場合でも10秒お待ちいただきます。
       .NicoComentInputArea.container
         .row.justify-content-end
           p#nicoComent-input-area
             input(name="text", cols="10", rows="1" placeholder="コメントを入力" )#input-coment
             button#Button_send-coment コメント
-      script#databaseData(
-        data-userid=database_data.userId,
-        data-username=database_data.username,
-        data-userpic=database_data.picURL
-      )
+      script#databaseData(data-userid=database_data.userId)
