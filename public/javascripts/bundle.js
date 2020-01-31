@@ -119,11 +119,12 @@ var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_2___default()("/index"); 
 socket.on('start data', function (startObj) {
   jquery__WEBPACK_IMPORTED_MODULE_0___default()('.item-Connection-Count').addClass('animated jello faster');
   setTimeout(RemoveClass, 1000);
+});
 
-  function RemoveClass() {
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()('.item-Connection-Count').removeClass('animated jello faster');
-  }
-}); //受信：count: indexとroom-Aの接続人数
+function RemoveClass() {
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('.item-Connection-Count').removeClass('animated jello faster');
+} //受信：count: indexとroom-Aの接続人数
+
 
 socket.on('connection_count', function (count) {
   jquery__WEBPACK_IMPORTED_MODULE_0___default()('#connectionCount').text("".concat(count.count));
@@ -393,7 +394,7 @@ socket.on('send-Role_Array', function (data) {
         ;
       }); //各ロールの説明＆占い師の行動パターン
 
-      jquery__WEBPACK_IMPORTED_MODULE_0___default()('.Game_play_Uranaishi').fadeIn();
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('.Game_play_Yoru').fadeIn();
     }, 1000);
   }, 4000);
 });
@@ -427,6 +428,10 @@ socket.on('jinrou-turn', function (e) {
   });
 });
 socket.on('kaitou-start', function (e) {
+  setTimeout(function () {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()("#kaitou-list").fadeOut();
+    socket.emit('kaitou-timeout', {});
+  }, 12000);
   e.ROGIN_member_Map_Array.forEach(function (key) {
     if (key[0] === user_socketId) {
       if (!(key[1].Role === "怪盗")) {
@@ -439,10 +444,7 @@ socket.on('kaitou-start', function (e) {
   });
 });
 socket.on('kaitou-turn', function (e) {
-  setTimeout(function () {
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()("#kaitou-list").fadeOut();
-    socket.emit('kaitou-timeout', {});
-  }, 12000);
+  //各キャラクターをボタンにした時に使う連番番号
   var div_count = 0;
   jquery__WEBPACK_IMPORTED_MODULE_0___default()('#wait-jinrou').fadeOut();
   jquery__WEBPACK_IMPORTED_MODULE_0___default()(".Game-3-Role_description_time").append("\n    <br><br><span style=\"color:rgba(207, 79, 79);font-size:26px\">\u5165\u308C\u66FF\u3048\u308B\u4EBA\u3092\u9078\u3093\u3067\u304F\u3060\u3055\u3044\u3002</span><br>(\u9078\u3070\u306A\u3044\u3053\u3068\u3082\u3067\u304D\u307E\u3059\u3002\u203B\uFF11\uFF10\u79D2\u4EE5\u5185)<br>\n  ");
@@ -463,6 +465,66 @@ socket.on('kaitou-turn', function (e) {
 
     ;
   });
+}); //昼の時間部分
+
+socket.on('Hiru-start', function () {
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('.PlayArea').fadeOut();
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('.PlayArea-Hiru').fadeIn();
+  socket.emit('countDOWN', {});
+}); //昼のセリフの送信
+
+jquery__WEBPACK_IMPORTED_MODULE_0___default()("#Button_send-Hirucoment").click(function () {
+  if (jquery__WEBPACK_IMPORTED_MODULE_0___default()("#coment-Hiru").val().length === 0) {
+    return;
+  }
+
+  ;
+  socket.emit("Serifu", jquery__WEBPACK_IMPORTED_MODULE_0___default()("#coment-Hiru").val());
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()("#coment-Hiru").val("");
+});
+socket.on('add-coment-hiru', function (e) {
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()("#comawari").append("\n  <div class=\"item-Cat animated lightSpeedIn faster\">\n  <img src=\"./images/cha/".concat(e.player.userPicUrl, "\" class=\"char-Catsize-L\">\n  <div class=\"fukidasi-Catsize-L\">\n    <span>").concat(e.coment, "</span>\n  </div>\n  </div>\n  "));
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('.Column-Aria').animate({
+    scrollTop: jquery__WEBPACK_IMPORTED_MODULE_0___default()('#comawari')[0].scrollHeight
+  });
+});
+socket.on('countDOWN-now', function (time) {
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()(".TimeWatch").text("\u6B8B\u308A\u6642\u9593\uFF1A".concat(time.cnt, "\u79D2"));
+});
+socket.on('countDOWN-end', function () {
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()(".TimeWatch").text("\u6295\u7968\u306E\u6642\u9593\u3067\u3059\u3002");
+});
+jquery__WEBPACK_IMPORTED_MODULE_0___default()("#go-vote-button").click(function () {
+  socket.emit('go-vote', {});
+});
+jquery__WEBPACK_IMPORTED_MODULE_0___default()("#go-vote-cancel-button").click(function () {
+  socket.emit('go-vote-cancel', {});
+});
+socket.on('emit_go_vote', function (n) {
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('.go-vote-cunt').text("\u6295\u7968\u524D\u5012\u3057\u306E\u30EA\u30AF\u30A8\u30B9\u30C8\u304C\u3042\u308A\u307E\u3059\u3002".concat(n.go_vote_cunt, "\u540D"));
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('.go-vote-cunt').addClass('animated jello faster');
+  setTimeout(RemoveClass, 1000);
+});
+socket.on('VOTE-VOTE', function (e) {
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('.vote-button').fadeOut();
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('.go-vote-cunt').text("\u53C2\u52A0\u8005\u5168\u54E1\u304C\u8CDB\u6210\u3057\u307E\u3057\u305F\u3002");
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('#wait-VOTEVOTE').fadeIn();
+  setTimeout(function () {
+    var div_count = 0;
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#wait-VOTEVOTE').fadeOut();
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('.PlayArea-Hiru').fadeOut();
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('.PlayArea-Vote').fadeIn();
+    e.ROGIN_member_Map_Array.forEach(function (key) {
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()("#vote-list").append("\n      <div class=\"item-CharacterCard card justify-content-around\" id=\"vote-".concat(div_count, "\">\n      <img src=\"./images/cha/").concat(key[1].userPicUrl, "\" class=\"card-img-top\" class=\"card-body\" class=\"card-title\">\n      <p>\u3000").concat(key[1].userName, "\u3000</p>\n      </div>\n      "));
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()("#vote-".concat(div_count)).click(function () {
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#vote-title').text("受け付けました！");
+        socket.emit('vote-send-server', {
+          player: key[0]
+        });
+      });
+      div_count++;
+    });
+  }, 7000);
 });
 
 /***/ }),

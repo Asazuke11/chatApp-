@@ -21,6 +21,7 @@ function createWebSocketServer(io, chat) {
       Io_Index.volatile.emit('sending nicoComent', msg);
     });
 
+
     //受信：プレイヤーデータ更新
     socket.on("playerData_update", (data) => {
       chat.playerData_update(data);
@@ -133,7 +134,6 @@ function createWebSocketServer(io, chat) {
 
         //人狼の行動ターン
         socket.on('uranaisi-timeout',() => {
-          console.log(ROGIN_member_Map);
           let ROGIN_member_Map_Array = Array.from(ROGIN_member_Map);
           if(ROGIN_member_Map_Array[0][0] === socket.id){
           Io_Index.to('room-A').emit('jinrou-start', {
@@ -168,12 +168,13 @@ function createWebSocketServer(io, chat) {
         socket.on('kaitou-work',(data) => {
           const change_Kaitou_data = ROGIN_member_Map.get(data.kaitou);
           const change_taisyou_data = ROGIN_member_Map.get(data.change_aite);
+          const rirekituki = "元怪盗から " + data.henkou_Role + "　とすり替わりました。";
           ROGIN_member_Map.set(data.kaitou,{
             userCookie: change_Kaitou_data.userCookie,
             userPicUrl: change_Kaitou_data.userPicUrl,
             userName: change_Kaitou_data.userName,
             Ready: change_Kaitou_data.Ready,
-            Role: data.henkou_Role
+            Role: rirekituki
           });
           ROGIN_member_Map.set(data.change_aite,{
             userCookie: change_taisyou_data.userCookie,
@@ -182,10 +183,115 @@ function createWebSocketServer(io, chat) {
             Ready: change_taisyou_data.Ready,
             Role:"怪盗"
           });
-        
-          console.log(ROGIN_member_Map);
+        });
+
+        //夜の時間終了
+        socket.on('kaitou-timeout',() => {
+          let ROGIN_member_Map_Array = Array.from(ROGIN_member_Map);
+          if(ROGIN_member_Map_Array[0][0] === socket.id){
+          Io_Index.to('room-A').emit('Hiru-start',{});
+          };
+        });
+
+        //カウントダウン開始
+        socket.on('countDOWN', () => {
+          let ROGIN_member_Map_Array = Array.from(ROGIN_member_Map);
+          if(ROGIN_member_Map_Array[0][0] === socket.id){
+
+          let cnt = 0;
+          cnt = 60 * 10;
+          setInterval(() => {
+            if (cnt < 0) { 
+              Io_Index.to('room-A').emit('countDOWN-end',{});
+              Io_Index.to('room-A').emit('VOTE-VOTE',{
+                ROGIN_member_Map_Array
+              });
+              return;
+             };
+            Io_Index.to('room-A').emit('countDOWN-now', {
+              cnt
+            });
+            cnt--
+          }, 1000);
+        };
         })
 
+        //お昼部分
+        socket.on('Serifu', (serifu) => {
+          const player_data = ROGIN_member_Map.get(socket.id);
+          let add_br_coment = serifu.replace(/\n/g, "<br>");
+          Io_Index.to('room-A').emit('add-coment-hiru', {
+            player: player_data,
+            coment:add_br_coment
+          });
+        });
+
+        socket.on('go-vote',() => {
+          let go_vote_cunt = 0;
+          cunt_go_vote(emit_go_vote);
+
+          function cunt_go_vote(emit_go_vote){
+            const change_vote_data = ROGIN_member_Map.get(socket.id);
+            ROGIN_member_Map.set(socket.id,{
+              userCookie: change_vote_data.userCookie,
+              userPicUrl: change_vote_data.userPicUrl,
+              userName: change_vote_data.userName,
+              Ready: change_vote_data.Ready,
+              Role: change_vote_data.Role,
+              go_vote:true
+            });
+            const ROGIN_member_Map_Array = Array.from(ROGIN_member_Map);
+            ROGIN_member_Map_Array.forEach((e) =>{
+              if(e[1].go_vote){
+                go_vote_cunt++
+              }
+            });
+            emit_go_vote()
+          };
+
+          function emit_go_vote(){
+            if(go_vote_cunt === ROGIN_member_Map.size){
+              const ROGIN_member_Map_Array = Array.from(ROGIN_member_Map);
+              Io_Index.to('room-A').emit('countDOWN-end',{});
+              Io_Index.to('room-A').emit('VOTE-VOTE',{
+                ROGIN_member_Map_Array
+              });
+              return;
+            }
+            Io_Index.to('room-A').emit('emit_go_vote', {go_vote_cunt});
+          }
+        });
+
+        socket.on('go-vote-cancel',() => {
+          let go_vote_cunt = 0;
+          cunt_go_vote(emit_go_vote_cancel);
+
+          function cunt_go_vote(emit_go_vote){
+            const change_vote_data = ROGIN_member_Map.get(socket.id);
+            ROGIN_member_Map.set(socket.id,{
+              userCookie: change_vote_data.userCookie,
+              userPicUrl: change_vote_data.userPicUrl,
+              userName: change_vote_data.userName,
+              Ready: change_vote_data.Ready,
+              Role: change_vote_data.Role,
+              go_vote:false
+            });
+            const ROGIN_member_Map_Array = Array.from(ROGIN_member_Map);
+            ROGIN_member_Map_Array.forEach((e) =>{
+              if(e[1].go_vote){
+                go_vote_cunt++
+              }
+            });
+            emit_go_vote_cancel()
+          };
+          function emit_go_vote_cancel(){
+            Io_Index.to('room-A').emit('emit_go_vote', {go_vote_cunt});
+          }
+        });
+
+        socket.on('vote-send-server', (e) => {
+          console.log(e);
+        })
 
 
         //キャンセル時

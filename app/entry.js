@@ -20,10 +20,10 @@ const socket = io(`/index`);
 socket.on('start data', (startObj) => {
   $('.item-Connection-Count').addClass('animated jello faster');
   setTimeout(RemoveClass, 1000);
-  function RemoveClass() {
-    $('.item-Connection-Count').removeClass('animated jello faster');
-  }
 });
+function RemoveClass() {
+  $('.item-Connection-Count').removeClass('animated jello faster');
+}
 
 //受信：count: indexとroom-Aの接続人数
 socket.on('connection_count', (count) => {
@@ -338,7 +338,7 @@ socket.on('send-Role_Array', (data) => {
         };
       })
       //各ロールの説明＆占い師の行動パターン
-      $('.Game_play_Uranaishi').fadeIn();
+      $('.Game_play_Yoru').fadeIn();
 
     }, 1000);
   }, 4000);
@@ -382,6 +382,10 @@ socket.on('jinrou-turn', (e) => {
 });
 
 socket.on('kaitou-start', (e) => {
+  setTimeout(() => {
+    $("#kaitou-list").fadeOut();
+    socket.emit('kaitou-timeout',{});
+  },12000);
   e.ROGIN_member_Map_Array.forEach((key) => {
     if(key[0] === user_socketId){
     if (!(key[1].Role === "怪盗")) {
@@ -393,11 +397,9 @@ socket.on('kaitou-start', (e) => {
 });
 
 socket.on('kaitou-turn', (e) => {
-  setTimeout(() => {
-    $("#kaitou-list").fadeOut();
-    socket.emit('kaitou-timeout',{});
-  },12000);
+  //各キャラクターをボタンにした時に使う連番番号
   let div_count = 0;
+
   $('#wait-jinrou').fadeOut();
   $(".Game-3-Role_description_time").append(`
     <br><br><span style="color:rgba(207, 79, 79);font-size:26px">入れ替える人を選んでください。</span><br>(選ばないこともできます。※１０秒以内)<br>
@@ -424,4 +426,83 @@ socket.on('kaitou-turn', (e) => {
         div_count++;
       };
   });
+});
+
+//昼の時間部分
+
+socket.on('Hiru-start', () => {
+  $('.PlayArea').fadeOut();
+  $('.PlayArea-Hiru').fadeIn();
+  socket.emit('countDOWN',{});
+});
+
+//昼のセリフの送信
+$("#Button_send-Hirucoment").click(() => {
+  if ($("#coment-Hiru").val().length === 0) { return; };
+  socket.emit("Serifu", $("#coment-Hiru").val());
+  $("#coment-Hiru").val("");
+})
+
+socket.on('add-coment-hiru',(e) => {
+  $("#comawari").append(`
+  <div class="item-Cat animated lightSpeedIn faster">
+  <img src="./images/cha/${e.player.userPicUrl}" class="char-Catsize-L">
+  <div class="fukidasi-Catsize-L">
+    <span>${e.coment}</span>
+  </div>
+  </div>
+  `);
+
+  $('.Column-Aria').animate({
+    scrollTop : $('#comawari')[0].scrollHeight
+  });
+})
+
+socket.on('countDOWN-now',(time) => {
+  $(".TimeWatch").text(`残り時間：${time.cnt}秒`);
+})
+
+socket.on('countDOWN-end',() => {
+  $(".TimeWatch").text(`投票の時間です。`);
+})
+
+$("#go-vote-button").click(() => {
+  socket.emit('go-vote',{});
+});
+$("#go-vote-cancel-button").click(() => {
+  socket.emit('go-vote-cancel',{});
+});
+
+socket.on('emit_go_vote', (n) => {
+  $('.go-vote-cunt').text(`投票前倒しのリクエストがあります。${n.go_vote_cunt}名`)
+  $('.go-vote-cunt').addClass('animated jello faster');
+  setTimeout(RemoveClass, 1000);
+});
+
+socket.on('VOTE-VOTE', (e) => {
+  $('.vote-button').fadeOut();
+  $('.go-vote-cunt').text(`参加者全員が賛成しました。`);
+  $('#wait-VOTEVOTE').fadeIn();
+  setTimeout(() => {
+    let div_count = 0;
+    $('#wait-VOTEVOTE').fadeOut();
+    $('.PlayArea-Hiru').fadeOut();
+    $('.PlayArea-Vote').fadeIn();
+    e.ROGIN_member_Map_Array.forEach((key) => {
+      $("#vote-list").append(`
+      <div class="item-CharacterCard card justify-content-around" id="vote-${div_count}">
+      <img src="./images/cha/${key[1].userPicUrl}" class="card-img-top" class="card-body" class="card-title">
+      <p>　${key[1].userName}　</p>
+      </div>
+      `);
+      $(`#vote-${div_count}`).click(() => {
+        $('#vote-title').text("受け付けました！");
+        $('vote-list').fadeOut();
+        socket.emit('vote-send-server',{
+           player: key[0]
+        });
+      });
+      div_count++;
+    })
+  },7000)
 });

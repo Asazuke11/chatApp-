@@ -102,7 +102,7 @@ block content
             span ・このアプリはクッキーを使用しています。
               br
       .PlayArea.container-fluid
-        video#bg-video(src="images/mp4/Moon.mp4" autoplay loop)
+        video#bg-video-yoru1(src="images/mp4/Moon.mp4" autoplay loop)
         .reset
           span 　メンバーの接続が切れました。リセットします。
         .Robby
@@ -122,7 +122,7 @@ block content
             .row.justify-content-md-center#Player-Game-1-Area
         .Game_Play_Role-description
           .Game-2-Role_description_Area
-        .Game_play_Uranaishi
+        .Game_play_Yoru
           .TimePlate
             p 夜の時間
           .Game-3-Role_description_time
@@ -141,6 +141,37 @@ block content
           .waiting-text#wait-kaitou
             img(src="images/icon/ajax-loader.gif")
             span 　怪盗が活動しています。少々お待ち下さい。<br>※怪盗が存在しない場合でも10秒お待ちいただきます。
+      .PlayArea-Hiru.container-fluid
+        .Game_play_Hiru
+          .TimePlate-Hiru
+            p 昼の時間
+          .waiting-text#wait-VOTEVOTE
+            span 　全員が投票に合意しました。<br>　人狼と思われるプレイヤーに投票してください。
+        .row
+          .col-8.Column-Aria.container-fluid
+            img(src="../images/pic/023yado4-1024x768.jpg")#bg-image
+            .row#comawari
+          .col-4.Data-Aria.container
+            .Game_play_Watch
+              .TimeWatch
+            .Vote-Area
+              .go-vote-cunt
+                p 
+              .vote-button
+                p = 投票の要求 =
+                p
+                  button#go-vote-button 時間前倒しの提案
+                p
+                  button#go-vote-cancel-button キャンセル
+            .row
+              .item-ComentArea.coment-hiru-Area
+                textarea.form-control(rows="5" placeholder="セリフを入力してください")#coment-Hiru
+                button#Button_send-Hirucoment 発言をする
+      .PlayArea-Vote.container-fluid
+        .row.justify-content-md-center#vote-title
+          p 人狼と思われる人に投票してください。
+        .row.justify-content-md-center#vote-list
+        
       .NicoComentInputArea.container
         .row.justify-content-end
           p#nicoComent-input-area
