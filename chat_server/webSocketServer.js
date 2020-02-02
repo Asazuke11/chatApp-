@@ -6,6 +6,11 @@ function createWebSocketServer(io, chat) {
   let play_Now = false;
 
   Io_Index.on('connection', (socket) => {
+    //入室０の時マップデリート
+    
+    if (!(Io_Index.adapter.nsp.adapter.rooms["room-A"])) {
+      ROGIN_member_Map.delete()
+    };
 
     //現在の入室プレイヤー人数を取得する関数
     Io_Index.emit('connection_count', {
@@ -64,7 +69,6 @@ function createWebSocketServer(io, chat) {
         }
       }).then((playerData) => {
         socket.join('room-A');
-
         //socketのidをkey値に
         ROGIN_member_Map.set(socket.id, {
           userCookie: playerData.userId,
