@@ -2,14 +2,13 @@ function createWebSocketServer(io, chat) {
 
   const Io_Index = io.of('/index');
   var Array_count = require('count-array-values')//配列要素を数えるライブラリ
-  const ROGIN_member_Map = new Map();
+  let ROGIN_member_Map = new Map();
   let play_Now = false;
 
   Io_Index.on('connection', (socket) => {
     //入室０の時マップデリート
-    
     if (!(Io_Index.adapter.nsp.adapter.rooms["room-A"])) {
-      ROGIN_member_Map.delete()
+      ROGIN_member_Map.clear();
     };
 
     //現在の入室プレイヤー人数を取得する関数
@@ -83,6 +82,7 @@ function createWebSocketServer(io, chat) {
             status: "満席"
           });
         };
+      
 
         //待受中の状態
         play_Now = false;
@@ -91,8 +91,7 @@ function createWebSocketServer(io, chat) {
           ID: socket.id
         })
 
-        const ROGIN_member_Map_Array = Array.from(ROGIN_member_Map);
-
+        let ROGIN_member_Map_Array = Array.from(ROGIN_member_Map);
         //ROOM-Aへ送信：入室した全員のmapデータ
         Io_Index.to('room-A').emit('chaCard', {
           userArray: ROGIN_member_Map_Array
@@ -108,7 +107,6 @@ function createWebSocketServer(io, chat) {
           Io_Index.emit("Check-Room-member", {
             status: "プレイ中"
           });
-
         });
 
         socket.on('lottery-Role', () => {
@@ -263,7 +261,10 @@ function createWebSocketServer(io, chat) {
             }
             Io_Index.to('room-A').emit('emit_go_vote', { go_vote_count });
           }
+
         });
+
+
         socket.on('stopCount', () => {
           Io_Index.to('room-A').emit('countDOWN-end', {});
           clearInterval(setTimer);
@@ -305,7 +306,8 @@ function createWebSocketServer(io, chat) {
           function emit_go_vote_cancel() {
             Io_Index.to('room-A').emit('emit_go_vote', { go_vote_count });
           }
-        });
+
+        });//
 
         //受信：投票データ
         socket.on('vote-send-server', (e) => {
@@ -356,52 +358,46 @@ function createWebSocketServer(io, chat) {
               let target_mem_count = -1;
               //参加人数の半数以上が同数取った時はバラけと判断。
               let required_number = Math.ceil(aggregate_result.length / 2);
-              for(let i = 0; i < aggregate_result.length; i++){
-                if(aggregate_result[0].count === aggregate_result[i].count){
+              for (let i = 0; i < aggregate_result.length; i++) {
+                if (aggregate_result[0].count === aggregate_result[i].count) {
                   target_mem_count = target_mem_count + 1;
                 }
               }
-              console.log(ROGIN_member_Map_Array);
-              console.log(required_number);
-              console.log(target_mem_count);
-              console.log(aggregate_result);
 
-              if(target_mem_count >= required_number){
+              if (target_mem_count >= required_number) {
                 Io_Index.to('room-A').emit('VOTE-Result', {
-                  data : ROGIN_member_Map_Array,
+                  data: ROGIN_member_Map_Array,
                   result_flag: 0,
                   result_array: aggregate_result
                 });
               };
-              if(target_mem_count < required_number){
+              if (target_mem_count < required_number) {
                 Io_Index.to('room-A').emit('VOTE-Result', {
-                  data : ROGIN_member_Map_Array,
+                  data: ROGIN_member_Map_Array,
                   result_flag: 1,
                   result_array: aggregate_result,
-                  equal_num:target_mem_count
+                  equal_num: target_mem_count
                 });
               };
-            }
+            };
 
             //送信：投票済み人数送信(全員ではない)
             Io_Index.to('room-A').emit('emit_vote', {
               length: ROGIN_member_Map.size,
               vote_count: vote_count
             });
-          }
-
-
+          };
+        });
+          
           //キャンセル時
           socket.on("disconnect", () => {
-            let ROGIN_member_Map_Array = Array.from(ROGIN_member_Map);
             if (play_Now) {
               Io_Index.to('room-A').emit('reset', {});
             };
-            //接続ユーザのクッキーをsplitで抽出
             //退出したユーザを配列から削除
+            
             ROGIN_member_Map.delete(socket.id);
-            ROGIN_member_Map_Array = Array.from(ROGIN_member_Map);
-
+            let ROGIN_member_Map_Array = Array.from(ROGIN_member_Map);
             //ゲームが始まる前の切断時の挙動
             if (!play_Now) {
               //Room-Aへ送信：現在の入室全員の入った配列データ
@@ -414,26 +410,26 @@ function createWebSocketServer(io, chat) {
                 })
               };
             }
-
-            Io_Index.emit("Count_room-A_login", {
-              roomAconnect_Now: ROGIN_member_Map.size
-            });
+            
+          Io_Index.emit("Count_room-A_login", {
+            roomAconnect_Now: ROGIN_member_Map.size
           });
-
+          
         });
       });
 
-      //クライアントがセッション切断
-      socket.on('disconnect', () => {
-        //部屋全体へ接続人数情報の更新
-        Io_Index.emit('disconnection_count', {
-          discount: Io_Index.adapter.nsp.server.eio.clientsCount
-        });
 
+    //クライアントがセッション切断
+    socket.on('disconnect', () => {
+      //部屋全体へ接続人数情報の更新
+      Io_Index.emit('disconnection_count', {
+        discount: Io_Index.adapter.nsp.server.eio.clientsCount
       });
 
     });
+
   });
+});
 }
 
 module.exports = {
