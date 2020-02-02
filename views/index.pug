@@ -18,7 +18,7 @@ block content
           p.nameDisplay
             b ななしの村人
 
-    header.container
+    header.container#header
       //-画面上部コンテンツアイコンエリア
       .row.justify-content-end.align-items-center
         .item-Icon-Setting
@@ -28,7 +28,7 @@ block content
           .item-Connection-Count
             img#connection-icon(src="images/icon/emotion-line.png" alt="接続人数アイコン")
             span#connectionCount
-      //-部屋作成エリア
+      //-名前変更エリア
       .row.justify-content-end
         .item-name-input-area
           p
@@ -57,7 +57,7 @@ block content
             else
               span.userName ななしの村人
     main
-      .row.justify-content-center
+      .row.justify-content-center#main
         .item-titleLogo.col-5
           img#dott-m(src="images/pic/dott-m.png" alt="背景ドット１")
           img#dott-s(src="images/pic/dott-s.png" alt="背景ドット2")
@@ -103,8 +103,6 @@ block content
               br
       .PlayArea.container-fluid
         video#bg-video-yoru1(src="images/mp4/Moon.mp4" autoplay loop)
-        .reset
-          span 　メンバーの接続が切れました。リセットします。
         .Robby
           .row.justify-content-md-center#play
           .loading-text
@@ -145,8 +143,10 @@ block content
         .Game_play_Hiru
           .TimePlate-Hiru
             p 昼の時間
+          .waiting-text#Start-Talk
+            span 　ゲーム開始です。
           .waiting-text#wait-VOTEVOTE
-            span 　全員が投票に合意しました。<br>　人狼と思われるプレイヤーに投票してください。
+            span 　投票を始めます。<br>　人狼と思われるプレイヤーに投票してください。
         .row
           .col-8.Column-Aria.container-fluid
             img(src="../images/pic/023yado4-1024x768.jpg")#bg-image
@@ -168,10 +168,23 @@ block content
                 textarea.form-control(rows="5" placeholder="セリフを入力してください")#coment-Hiru
                 button#Button_send-Hirucoment 発言をする
       .PlayArea-Vote.container-fluid
-        .row.justify-content-md-center#vote-title
-          p 人狼と思われる人に投票してください。
+        .row.justify-content-md-center#vote-area
+          p#vote-title 人狼と思われる人に投票してください。
+          span#vote-num
         .row.justify-content-md-center#vote-list
-        
+        .row.justify-content-md-center#vote-result
+          span 　全員の投票が終わりました。
+        .row.justify-content-md-center#vote-result-area
+          p.animated.flipInY#kekka 結果発表
+            small (※同票の場合は複数)<br>
+        .row.justify-content-md-center
+          #vote-list-result
+          #vote-list-result-text
+        .reset
+          span 　メンバーの接続が切れました。リセットします。
+      .PlayArea-result-end.container-fluid
+        video#bg-video-yoru1(src="images/mp4/jinro.mp4" autoplay loop)
+        #result-text-end
       .NicoComentInputArea.container
         .row.justify-content-end
           p#nicoComent-input-area

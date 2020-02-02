@@ -49,7 +49,7 @@ function ROLE_Array(player_Array) {
     if(player_Array.length === 7){
       return ["村人","村人","村人","村人","村人","人狼","人狼","占い師","怪盗"];
     }
-}
+};
 
 
 

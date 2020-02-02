@@ -413,6 +413,7 @@ main{
   width: 480px;
   padding: 10px;
   border-radius: 3px;
+  font-size: 18px;
   color:rgb(51, 80, 177);
   background-color: rgba(240, 248, 255, 0.9);
   z-index: 500;
@@ -472,6 +473,7 @@ main{
   position: relative;
   margin: 10px;
   height: 200px;
+  width: 170px;
   text-align: center;
   background-color: var(--Button);
   color: snow;
@@ -572,6 +574,7 @@ main{
   top:100px;
   width: 100vw;
   margin: auto;
+  padding: 10px;
   text-align: center;
   color: snow;
   background-color: rgba(0, 0, 0, 0.8);
@@ -659,7 +662,7 @@ main{
   bottom: 0;
   left: 0;
   height: 70px;
-  width: 480px;
+  width: 450px;
   padding: 10px;
   border-radius: 3px;
   color:rgb(51, 80, 177);
@@ -807,7 +810,7 @@ display: none;
 }
 .go-vote-cunt{
   position: absolute;
-  border: 1px solid;
+  border: 1px solid rgba(255, 250, 250, 0.5);
   height: 80px;
   width: 230px;
   top: 60px;
@@ -853,4 +856,40 @@ display: none;
 }
 #vote-list img:hover{
   opacity: 1;
+}
+#vote-result{
+  display: none;
+  position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+  font-size: 34px;
+  margin: auto;
+  text-align: center;
+}
+#vote-result-area {
+  display: none;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+  font-size: 34px;
+  margin: auto;
+  text-align: center;
+}
+
+.PlayArea-result-end{
+  display: none;
+}
+
+#result-text-end{
+  position: absolute;
+	top: 50%;
+  left: 50%;
+  width: 600px;
+	transform: translate(-50%, -50%);
+  font-size: 20px;
+  color: snow;
+  margin: auto;
+  text-align: center;
 }

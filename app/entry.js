@@ -6,7 +6,6 @@ import bootstrap from 'bootstrap';
 import io from 'socket.io-client';
 import { isConditional } from "babel-types";
 const Config = require('../config');
-
 const userId = $('#databaseData').data('userid');
 let user_socketId = "";
 
@@ -209,6 +208,8 @@ socket.on('chaCard', (data) => {
 })
 
 function Game1_info() {
+  $("#header").fadeOut();
+  $("#main").fadeOut();
   $(".Game-1").append(`
   <marquee behavior="slide" direction="up">これより、各プレイヤーにロールを振り分けます。<br>ワンナイトルールのロールは「村人」「占い師」「怪盗」「人狼」の４つです。<br><span class="marker-Y">ロールの振り分け</span><br>人狼ｘ２　占い師ｘ１　怪盗ｘ１　村人ｘ１人から４人(参加人数で変動)</marquee>
   `);
@@ -274,13 +275,13 @@ socket.on('send-Role_Array', (data) => {
     let div_count = 0;
     setTimeout(() => {
       $("#uranai-list").fadeOut();
-      socket.emit('uranaisi-timeout',{});
-    },12000);
+      socket.emit('uranaisi-timeout', {});
+    }, 12000);
     setTimeout(() => {
       data.ROGIN_member_Map_Array.forEach((e) => {
         if (e[0] === user_socketId) {
           if (e[1].Role === "村人") {
-          $('#wait-uranaishi').fadeIn();
+            $('#wait-uranaishi').fadeIn();
             $(".Game-3-Role_description_time").append(`
           <span style="font-size:42px;color:rgba(207, 79, 79);">- ${e[1].Role} -</span><br>
           特殊な能力はありません。昼に人狼を見つければ勝利です。<br>
@@ -307,21 +308,21 @@ socket.on('send-Role_Array', (data) => {
           <br><br><span style="color:rgba(207, 79, 79);font-size:26px;">占う人を選んでください。</span><br>※１０秒以内に選んでください。<br><br>
           `);
             data.ROGIN_member_Map_Array.forEach((key) => {
-            if(!(key[0] === user_socketId)){
-              $("#uranai-list").append(`
+              if (!(key[0] === user_socketId)) {
+                $("#uranai-list").append(`
               <div class="item-Player-char" id="uranai-${div_count}">
               <img src="./images/cha/${key[1].userPicUrl}" class="char-size">
               <span class="Player-Name">${key[1].userName}</span>
               </div>
               `)
-              $(`#uranai-${div_count}`).click(() => {
-                $(".Game-3-Role_description_time").append(`
+                $(`#uranai-${div_count}`).click(() => {
+                  $(".Game-3-Role_description_time").append(`
                   <p>${key[1].userName}さんのロールは「<span style="font-size:30px; color:rgba(207, 79, 79);">${key[1].Role}</span>」と出ました。
                 `);
-                $("#uranai-list").fadeOut();
-              });
-              div_count++;
-            };
+                  $("#uranai-list").fadeOut();
+                });
+                div_count++;
+              };
             });
           };
           if (e[1].Role === "怪盗") {
@@ -347,52 +348,52 @@ socket.on('send-Role_Array', (data) => {
 socket.on('jinrou-start', (e) => {
 
   setTimeout(() => {
-    socket.emit('jinrou-timeout',{});
-  },11000);
+    socket.emit('jinrou-timeout', {});
+  }, 11000);
 
   e.ROGIN_member_Map_Array.forEach((key) => {
-    if(key[0] === user_socketId){
-    if (!(key[1].Role === "人狼")) {
-      $('#wait-uranaishi').fadeOut();
-      $('#wait-jinrou').fadeIn();
-    }
-  };
+    if (key[0] === user_socketId) {
+      if (!(key[1].Role === "人狼")) {
+        $('#wait-uranaishi').fadeOut();
+        $('#wait-jinrou').fadeIn();
+      }
+    };
   });
 });
 
 socket.on('jinrou-turn', (e) => {
   setTimeout(() => {
     $("#jinrou-list").fadeOut();
-  },10000);
+  }, 10000);
 
   $('#wait-uranaishi').fadeOut();
   $(".Game-3-Role_description_time").append(`
     <br><br><span style="color:rgba(207, 79, 79);font-size:26px">人狼プレイヤーを表示します。</span><br>(※人狼が一人の場合は自身のみが表示されます。)<br>
   `);
   e.ROGIN_member_Map_Array.forEach((key) => {
-      if (key[1].Role === "人狼") {
-        $("#jinrou-list").append(`
+    if (key[1].Role === "人狼") {
+      $("#jinrou-list").append(`
           <div class="item-Player-char">
           <img src="./images/cha/${key[1].userPicUrl}" class="char-size">
           <span class="Player-Name">${key[1].userName}</span>
           </div>
           `)
-      };
+    };
   });
 });
 
 socket.on('kaitou-start', (e) => {
   setTimeout(() => {
     $("#kaitou-list").fadeOut();
-    socket.emit('kaitou-timeout',{});
-  },12000);
+    socket.emit('kaitou-timeout', {});
+  }, 12000);
   e.ROGIN_member_Map_Array.forEach((key) => {
-    if(key[0] === user_socketId){
-    if (!(key[1].Role === "怪盗")) {
-      $('#wait-jinrou').fadeOut();
-      $('#wait-kaitou').fadeIn();
-    }
-  };
+    if (key[0] === user_socketId) {
+      if (!(key[1].Role === "怪盗")) {
+        $('#wait-jinrou').fadeOut();
+        $('#wait-kaitou').fadeIn();
+      }
+    };
   });
 });
 
@@ -405,26 +406,26 @@ socket.on('kaitou-turn', (e) => {
     <br><br><span style="color:rgba(207, 79, 79);font-size:26px">入れ替える人を選んでください。</span><br>(選ばないこともできます。※１０秒以内)<br>
   `);
   e.ROGIN_member_Map_Array.forEach((key) => {
-      if (!(key[1].Role === "怪盗")) {
-        $("#kaitou-list").append(`
+    if (!(key[1].Role === "怪盗")) {
+      $("#kaitou-list").append(`
           <div class="item-Player-char" id="kaitou-${div_count}">
           <img src="./images/cha/${key[1].userPicUrl}" class="char-size">
           <span class="Player-Name">${key[1].userName}</span>
           </div>
           `)
-        $(`#kaitou-${div_count}`).click(() => {
-          $(".Game-3-Role_description_time").append(`
+      $(`#kaitou-${div_count}`).click(() => {
+        $(".Game-3-Role_description_time").append(`
           <br>${key[1].userName}さんのロール「<span style="font-size:30px;color:rgba(207, 79, 79);">${key[1].Role}</span>」と入れ替えました。
           `);
-          socket.emit('kaitou-work',{
-            kaitou : user_socketId,
-            change_aite : key[0],
-            henkou_Role:key[1].Role
-          });
-          $("#kaitou-list").fadeOut();
+        socket.emit('kaitou-work', {
+          kaitou: user_socketId,
+          change_aite: key[0],
+          henkou_Role: key[1].Role
         });
-        div_count++;
-      };
+        $("#kaitou-list").fadeOut();
+      });
+      div_count++;
+    };
   });
 });
 
@@ -433,7 +434,11 @@ socket.on('kaitou-turn', (e) => {
 socket.on('Hiru-start', () => {
   $('.PlayArea').fadeOut();
   $('.PlayArea-Hiru').fadeIn();
-  socket.emit('countDOWN',{});
+  socket.emit('countDOWN', {});
+  $('#Start-Talk').fadeIn();
+  setTimeout(() => {
+    $('#Start-Talk').fadeOut();
+  }, 3000)
 });
 
 //昼のセリフの送信
@@ -443,7 +448,7 @@ $("#Button_send-Hirucoment").click(() => {
   $("#coment-Hiru").val("");
 })
 
-socket.on('add-coment-hiru',(e) => {
+socket.on('add-coment-hiru', (e) => {
   $("#comawari").append(`
   <div class="item-Cat animated lightSpeedIn faster">
   <img src="./images/cha/${e.player.userPicUrl}" class="char-Catsize-L">
@@ -454,27 +459,32 @@ socket.on('add-coment-hiru',(e) => {
   `);
 
   $('.Column-Aria').animate({
-    scrollTop : $('#comawari')[0].scrollHeight
+    scrollTop: $('#comawari')[0].scrollHeight
   });
 })
 
-socket.on('countDOWN-now',(time) => {
+socket.on('countDOWN-now', (time) => {
   $(".TimeWatch").text(`残り時間：${time.cnt}秒`);
 })
 
-socket.on('countDOWN-end',() => {
+socket.on('countDOWN-end', () => {
   $(".TimeWatch").text(`投票の時間です。`);
 })
 
 $("#go-vote-button").click(() => {
-  socket.emit('go-vote',{});
+  socket.emit('go-vote', {});
 });
 $("#go-vote-cancel-button").click(() => {
-  socket.emit('go-vote-cancel',{});
+  socket.emit('go-vote-cancel', {});
+});
+
+socket.on('countDOWN-10', () => {
+  $('.vote-button').fadeOut();
+  $('.Vote-Area').fadeOut();
 });
 
 socket.on('emit_go_vote', (n) => {
-  $('.go-vote-cunt').text(`投票前倒しのリクエストがあります。${n.go_vote_cunt}名`)
+  $('.go-vote-cunt').text(`投票前倒しのリクエストがあります。${n.go_vote_count}名`)
   $('.go-vote-cunt').addClass('animated jello faster');
   setTimeout(RemoveClass, 1000);
 });
@@ -483,6 +493,7 @@ socket.on('VOTE-VOTE', (e) => {
   $('.vote-button').fadeOut();
   $('.go-vote-cunt').text(`参加者全員が賛成しました。`);
   $('#wait-VOTEVOTE').fadeIn();
+  socket.emit('stopCount', {});
   setTimeout(() => {
     let div_count = 0;
     $('#wait-VOTEVOTE').fadeOut();
@@ -497,12 +508,77 @@ socket.on('VOTE-VOTE', (e) => {
       `);
       $(`#vote-${div_count}`).click(() => {
         $('#vote-title').text("受け付けました！");
-        $('vote-list').fadeOut();
-        socket.emit('vote-send-server',{
-           player: key[0]
+        $('#vote-list').fadeOut();
+        socket.emit('vote-send-server', {
+          player: key[0]
         });
       });
       div_count++;
     })
-  },7000)
+  }, 7000)
 });
+
+socket.on("emit_vote", (e) => {
+  $('#vote-num').text(`(投票済み:${e.vote_count}/${e.length})`);
+});
+
+socket.on('VOTE-Result', (result) => {
+  const MapData = result.data;
+  const resultData = result.result_array;
+  const equal_count = result.equal_num;
+  $('#vote-area').fadeOut();
+  $('#vote-result').fadeIn();
+  if (result.result_flag === 0) {
+    setTimeout(() => {
+      $('#vote-result').fadeOut();
+      $('#vote-result-area').fadeIn();
+      setTimeout(() => {
+        $('#kekka').text('票がバラけ捕縛する人は決まりませんでした。')
+        setTimeout(() => {
+          $('.PlayArea-Vote').fadeOut();
+          $(".PlayArea-result-end").fadeIn();
+          MapData.forEach((e) => {
+            $("#result-text-end").append(`
+            <p>${e[1].userName}: Role->${e[1].Role}</p>
+            `);
+          })
+        },5000)
+      },5000)
+    }, 3000);
+  }
+  if (result.result_flag === 1) {
+    setTimeout(() => {
+      $('#vote-result').fadeOut();
+      $('#vote-result-area').fadeIn();
+      setTimeout(() => {
+        $('#vote-result-area').fadeOut();
+        for (let i = 0; i <= equal_count; i++) {
+          MapData.forEach((e) => {
+            if (e[0] === resultData[i].value) {
+              $('#vote-list-result').append(`
+              <div class="item-CharacterCard card justify-content-around">
+              <img src="./images/cha/${e[1].userPicUrl}" class="card-img-top" class="card-body" class="card-title">
+              <p>　${e[1].userName}　</p>
+              </div>
+            `)
+            $('#vote-list-result-text').append(`
+            <br><p> ${e[1].userName} : ${resultData[i].count}票</p>
+            `)
+            }
+          })
+        }
+        setTimeout(() => {
+          $('.PlayArea-Vote').fadeOut();
+          $(".PlayArea-result-end").fadeIn();
+          MapData.forEach((e) => {
+            $("#result-text-end").append(`
+            <p>${e[1].userName}: Role->${e[1].Role}</p>
+            `);
+          })
+        },5000)
+      },3000);
+    }, 5000);
+  }
+
+
+})

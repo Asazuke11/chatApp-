@@ -299,6 +299,8 @@ socket.on('chaCard', function (data) {
 });
 
 function Game1_info() {
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()("#header").fadeOut();
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()("#main").fadeOut();
   jquery__WEBPACK_IMPORTED_MODULE_0___default()(".Game-1").append("\n  <marquee behavior=\"slide\" direction=\"up\">\u3053\u308C\u3088\u308A\u3001\u5404\u30D7\u30EC\u30A4\u30E4\u30FC\u306B\u30ED\u30FC\u30EB\u3092\u632F\u308A\u5206\u3051\u307E\u3059\u3002<br>\u30EF\u30F3\u30CA\u30A4\u30C8\u30EB\u30FC\u30EB\u306E\u30ED\u30FC\u30EB\u306F\u300C\u6751\u4EBA\u300D\u300C\u5360\u3044\u5E2B\u300D\u300C\u602A\u76D7\u300D\u300C\u4EBA\u72FC\u300D\u306E\uFF14\u3064\u3067\u3059\u3002<br><span class=\"marker-Y\">\u30ED\u30FC\u30EB\u306E\u632F\u308A\u5206\u3051</span><br>\u4EBA\u72FC\uFF58\uFF12\u3000\u5360\u3044\u5E2B\uFF58\uFF11\u3000\u602A\u76D7\uFF58\uFF11\u3000\u6751\u4EBA\uFF58\uFF11\u4EBA\u304B\u3089\uFF14\u4EBA(\u53C2\u52A0\u4EBA\u6570\u3067\u5909\u52D5)</marquee>\n  ");
 } //roomへjoinした
 
@@ -471,6 +473,10 @@ socket.on('Hiru-start', function () {
   jquery__WEBPACK_IMPORTED_MODULE_0___default()('.PlayArea').fadeOut();
   jquery__WEBPACK_IMPORTED_MODULE_0___default()('.PlayArea-Hiru').fadeIn();
   socket.emit('countDOWN', {});
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('#Start-Talk').fadeIn();
+  setTimeout(function () {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#Start-Talk').fadeOut();
+  }, 3000);
 }); //昼のセリフの送信
 
 jquery__WEBPACK_IMPORTED_MODULE_0___default()("#Button_send-Hirucoment").click(function () {
@@ -500,8 +506,12 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()("#go-vote-button").click(function 
 jquery__WEBPACK_IMPORTED_MODULE_0___default()("#go-vote-cancel-button").click(function () {
   socket.emit('go-vote-cancel', {});
 });
+socket.on('countDOWN-10', function () {
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('.vote-button').fadeOut();
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('.Vote-Area').fadeOut();
+});
 socket.on('emit_go_vote', function (n) {
-  jquery__WEBPACK_IMPORTED_MODULE_0___default()('.go-vote-cunt').text("\u6295\u7968\u524D\u5012\u3057\u306E\u30EA\u30AF\u30A8\u30B9\u30C8\u304C\u3042\u308A\u307E\u3059\u3002".concat(n.go_vote_cunt, "\u540D"));
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('.go-vote-cunt').text("\u6295\u7968\u524D\u5012\u3057\u306E\u30EA\u30AF\u30A8\u30B9\u30C8\u304C\u3042\u308A\u307E\u3059\u3002".concat(n.go_vote_count, "\u540D"));
   jquery__WEBPACK_IMPORTED_MODULE_0___default()('.go-vote-cunt').addClass('animated jello faster');
   setTimeout(RemoveClass, 1000);
 });
@@ -509,6 +519,7 @@ socket.on('VOTE-VOTE', function (e) {
   jquery__WEBPACK_IMPORTED_MODULE_0___default()('.vote-button').fadeOut();
   jquery__WEBPACK_IMPORTED_MODULE_0___default()('.go-vote-cunt').text("\u53C2\u52A0\u8005\u5168\u54E1\u304C\u8CDB\u6210\u3057\u307E\u3057\u305F\u3002");
   jquery__WEBPACK_IMPORTED_MODULE_0___default()('#wait-VOTEVOTE').fadeIn();
+  socket.emit('stopCount', {});
   setTimeout(function () {
     var div_count = 0;
     jquery__WEBPACK_IMPORTED_MODULE_0___default()('#wait-VOTEVOTE').fadeOut();
@@ -518,6 +529,7 @@ socket.on('VOTE-VOTE', function (e) {
       jquery__WEBPACK_IMPORTED_MODULE_0___default()("#vote-list").append("\n      <div class=\"item-CharacterCard card justify-content-around\" id=\"vote-".concat(div_count, "\">\n      <img src=\"./images/cha/").concat(key[1].userPicUrl, "\" class=\"card-img-top\" class=\"card-body\" class=\"card-title\">\n      <p>\u3000").concat(key[1].userName, "\u3000</p>\n      </div>\n      "));
       jquery__WEBPACK_IMPORTED_MODULE_0___default()("#vote-".concat(div_count)).click(function () {
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#vote-title').text("受け付けました！");
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#vote-list').fadeOut();
         socket.emit('vote-send-server', {
           player: key[0]
         });
@@ -525,6 +537,64 @@ socket.on('VOTE-VOTE', function (e) {
       div_count++;
     });
   }, 7000);
+});
+socket.on("emit_vote", function (e) {
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('#vote-num').text("(\u6295\u7968\u6E08\u307F:".concat(e.vote_count, "/").concat(e.length, ")"));
+});
+socket.on('VOTE-Result', function (result) {
+  var MapData = result.data;
+  var resultData = result.result_array;
+  var equal_count = result.equal_num;
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('#vote-area').fadeOut();
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('#vote-result').fadeIn();
+
+  if (result.result_flag === 0) {
+    setTimeout(function () {
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#vote-result').fadeOut();
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#vote-result-area').fadeIn();
+      setTimeout(function () {
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#kekka').text('票がバラけ捕縛する人は決まりませんでした。');
+        setTimeout(function () {
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()('.PlayArea-Vote').fadeOut();
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()(".PlayArea-result-end").fadeIn();
+          MapData.forEach(function (e) {
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()("#result-text-end").append("\n            <p>".concat(e[1].userName, ": Role->").concat(e[1].Role, "</p>\n            "));
+          });
+        }, 5000);
+      }, 5000);
+    }, 3000);
+  }
+
+  if (result.result_flag === 1) {
+    setTimeout(function () {
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#vote-result').fadeOut();
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#vote-result-area').fadeIn();
+      setTimeout(function () {
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#vote-result-area').fadeOut();
+
+        var _loop = function _loop(i) {
+          MapData.forEach(function (e) {
+            if (e[0] === resultData[i].value) {
+              jquery__WEBPACK_IMPORTED_MODULE_0___default()('#vote-list-result').append("\n              <div class=\"item-CharacterCard card justify-content-around\">\n              <img src=\"./images/cha/".concat(e[1].userPicUrl, "\" class=\"card-img-top\" class=\"card-body\" class=\"card-title\">\n              <p>\u3000").concat(e[1].userName, "\u3000</p>\n              </div>\n            "));
+              jquery__WEBPACK_IMPORTED_MODULE_0___default()('#vote-list-result-text').append("\n            <br><p> ".concat(e[1].userName, " : ").concat(resultData[i].count, "\u7968</p>\n            "));
+            }
+          });
+        };
+
+        for (var i = 0; i <= equal_count; i++) {
+          _loop(i);
+        }
+
+        setTimeout(function () {
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()('.PlayArea-Vote').fadeOut();
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()(".PlayArea-result-end").fadeIn();
+          MapData.forEach(function (e) {
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()("#result-text-end").append("\n            <p>".concat(e[1].userName, ": Role->").concat(e[1].Role, "</p>\n            "));
+          });
+        }, 5000);
+      }, 3000);
+    }, 5000);
+  }
 });
 
 /***/ }),
