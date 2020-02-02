@@ -201,7 +201,7 @@ function createWebSocketServer(io, chat) {
         socket.on('countDOWN', () => {
           let ROGIN_member_Map_Array = Array.from(ROGIN_member_Map);
           if (ROGIN_member_Map_Array[0][0] === socket.id) {
-            const Time_Max = 20;
+            const Time_Max = 60 * 10;//１０分
             COUNT_DOWN(Time_Max);
             function COUNT_DOWN(cnt) {
               setTimer = setInterval(() => {
@@ -410,7 +410,7 @@ function createWebSocketServer(io, chat) {
                 })
               };
             }
-            
+
           Io_Index.emit("Count_room-A_login", {
             roomAconnect_Now: ROGIN_member_Map.size
           });
