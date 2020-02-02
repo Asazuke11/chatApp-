@@ -14,16 +14,3 @@ websocketを使った人狼ゲームをサポートするアプリです。
 
 * 接続人数表示
 * ニコニココメント風チャット
-
-
-
-module.exports = {
-  entry: {
-    entry: './src/js/entry.js',
-    index: './src/js/index.js'
-  },
-  output: {
-    filename: '[name].bundle.js',
-    path: __dirname + '/dist'
-  }
-};
