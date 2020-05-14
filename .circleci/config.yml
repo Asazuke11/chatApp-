@@ -1,33 +1,17 @@
-# ~/.circleci/config.yml
-version: 2
+version: 2.1
+orbs:
+  node: circleci/node@1.1.6
 jobs:
-  build:
-    docker:
-      - image: circleci/node:10.14.2
-    working_directory: ~/repo
-
+  build-and-test:
+    executor:
+      name: node/default
     steps:
       - checkout
-
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "package.json" }}
-          - v1-dependencies-
-
-      - run: yarn install
-
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
-        
-      - run: mkdir junit
-      - run:
-          command: node_modules/.bin/mocha test --reporter mocha-junit-reporter
-          environment:
-            MOCHA_FILE: ./junit/test-results.xml
-          when: always
-      - store_test_results:
-          path: ./junit
-      - store_artifacts:
-          path: ./junit
+      - node/with-cache:
+          steps:
+            - run: npm install
+            - run: npm test
+workflows:
+    build-and-test:
+      jobs:
+        - build-and-test
