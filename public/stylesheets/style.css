@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Kaisei+Decol:wght@500&display=swap');
+
 *{
   margin: 0;
   padding: 0px;
@@ -684,6 +686,7 @@ main{
 
 .Column-Aria{
   border: rgba(238, 102, 125, 0.5) 1px solid;
+  background-color: black;
   height: 90vh;
   overflow-x: hidden;
   overflow-y:auto;
@@ -694,7 +697,7 @@ main{
   top: 0;left:0;
   height: 100vh;
   width: 100vw;
-  filter: opacity(0.6);
+  filter: opacity(0.3);
 }
 .Data-Aria{
   background-image: linear-gradient(
@@ -706,37 +709,52 @@ main{
 }
 
 .item-Cat{
-  width: 300px;
+  width: 280px;
   height: 180px;
-  background-color: snow;
+  background-color: #16161a;
   border: solid 3px rgb(219, 219, 219);
   margin-top: 15px;
   margin-left: 15px;
   writing-mode: vertical-rl;
   overflow: hidden;
-  box-shadow: rgba(0, 255, 255, 0.8) 0 0 20px;
+  box-shadow: rgba(0, 255, 255, 0.8) 0 0 5px;
 }
 
 .char-Catsize-L{
   position: absolute;
   top:5px;
   left:5px;
-  width: 200px;
+  width: 280px;
   height: 180px;
-  object-position:50% 0;
-  object-fit: cover;
+  object-position:80% 2%;
+  object-fit: none;
   overflow: hidden;
   filter: drop-shadow(0px 0px 10px rgb(24, 4, 46));
 }
+
+#name-plate{
+  position: absolute;
+  bottom: 2px;
+  left:2px;
+  background-color: #ee4949f3;
+  font-family: 'Kaisei Decol', serif;
+  color:snow;
+  width: 100px;
+  height: 25px;
+  text-align: center;
+  writing-mode:horizontal-tb;
+}
+
 .fukidasi-Catsize-L{
   position: absolute;
-  top:5px;
-  right:5px;
+  top:0px;
+  right:0px;
   overflow: hidden;
   background-color: white;
   padding: 5px;
   height: 150px;
-  border-radius: 10px;
+  width: 60px;
+  border-radius: 0px;
   border: solid 1px black;
 }
 .char-Catsize-R{
@@ -764,6 +782,10 @@ main{
 
 .PlayArea-Hiru{
 display: none;
+}
+
+#hoge{
+  background-color: rgba(0, 0, 0);
 }
 
 .TimePlate-Hiru{

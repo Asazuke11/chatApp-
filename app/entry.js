@@ -429,8 +429,8 @@ socket.on('kaitou-turn', (e) => {
   });
 });
 
+$('.PlayArea-Hiru').fadeIn();
 //昼の時間部分
-
 socket.on('Hiru-start', () => {
   $('.PlayArea').fadeOut();
   $('.PlayArea-Hiru').fadeIn();
