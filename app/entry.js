@@ -429,7 +429,7 @@ socket.on('kaitou-turn', (e) => {
   });
 });
 
-$('.PlayArea-Hiru').fadeIn();
+
 //昼の時間部分
 socket.on('Hiru-start', () => {
   $('.PlayArea').fadeOut();
@@ -449,9 +449,10 @@ $("#Button_send-Hirucoment").click(() => {
 })
 
 socket.on('add-coment-hiru', (e) => {
-  $("#comawari").append(`
+  $("#comawari").prepend(`
   <div class="item-Cat animated lightSpeedIn faster">
   <img src="./images/cha/${e.player.userPicUrl}" class="char-Catsize-L">
+  <div id="name-plate">${e.player.userName}</div>
   <div class="fukidasi-Catsize-L">
     <span>${e.coment}</span>
   </div>

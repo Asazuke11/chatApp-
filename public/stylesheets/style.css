@@ -3,7 +3,6 @@
 *{
   margin: 0;
   padding: 0px;
-  font-family:'M PLUS Rounded 1c',sans-serif;
 }
 
 :root{
@@ -699,6 +698,8 @@ main{
   width: 100vw;
   filter: opacity(0.3);
 }
+
+
 .Data-Aria{
   background-image: linear-gradient(
     -32deg,
@@ -709,7 +710,7 @@ main{
 }
 
 .item-Cat{
-  width: 280px;
+  width: 30%;
   height: 180px;
   background-color: #16161a;
   border: solid 3px rgb(219, 219, 219);
@@ -724,10 +725,10 @@ main{
   position: absolute;
   top:5px;
   left:5px;
-  width: 280px;
+  width: 100%;
   height: 180px;
-  object-position:80% 2%;
-  object-fit: none;
+  object-position:100% 0;
+  object-fit: cover;
   overflow: hidden;
   filter: drop-shadow(0px 0px 10px rgb(24, 4, 46));
 }
@@ -739,10 +740,12 @@ main{
   background-color: #ee4949f3;
   font-family: 'Kaisei Decol', serif;
   color:snow;
-  width: 100px;
   height: 25px;
   text-align: center;
+  border-radius: 2px;
+  box-shadow: #3D2B4B 0 0 5px;
   writing-mode:horizontal-tb;
+  padding: 0 5px 0 5px;
 }
 
 .fukidasi-Catsize-L{
@@ -754,9 +757,12 @@ main{
   padding: 5px;
   height: 150px;
   width: 60px;
+  font-family: 'Kaisei Decol', serif;
   border-radius: 0px;
   border: solid 1px black;
 }
+
+
 .char-Catsize-R{
   position: absolute;
   top:5px;

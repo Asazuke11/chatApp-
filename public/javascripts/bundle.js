@@ -467,8 +467,7 @@ socket.on('kaitou-turn', function (e) {
 
     ;
   });
-});
-jquery__WEBPACK_IMPORTED_MODULE_0___default()('.PlayArea-Hiru').fadeIn(); //昼の時間部分
+}); //昼の時間部分
 
 socket.on('Hiru-start', function () {
   jquery__WEBPACK_IMPORTED_MODULE_0___default()('.PlayArea').fadeOut();
@@ -490,7 +489,7 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()("#Button_send-Hirucoment").click(f
   jquery__WEBPACK_IMPORTED_MODULE_0___default()("#coment-Hiru").val("");
 });
 socket.on('add-coment-hiru', function (e) {
-  jquery__WEBPACK_IMPORTED_MODULE_0___default()("#comawari").append("\n  <div class=\"item-Cat animated lightSpeedIn faster\">\n  <img src=\"./images/cha/".concat(e.player.userPicUrl, "\" class=\"char-Catsize-L\">\n  <div class=\"fukidasi-Catsize-L\">\n    <span>").concat(e.coment, "</span>\n  </div>\n  </div>\n  "));
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()("#comawari").prepend("\n  <div class=\"item-Cat animated lightSpeedIn faster\">\n  <img src=\"./images/cha/".concat(e.player.userPicUrl, "\" class=\"char-Catsize-L\">\n  <div id=\"name-plate\">").concat(e.player.userName, "</div>\n  <div class=\"fukidasi-Catsize-L\">\n    <span>").concat(e.coment, "</span>\n  </div>\n  </div>\n  "));
   jquery__WEBPACK_IMPORTED_MODULE_0___default()('.Column-Aria').animate({
     scrollTop: jquery__WEBPACK_IMPORTED_MODULE_0___default()('#comawari')[0].scrollHeight
   });
