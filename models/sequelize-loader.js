@@ -1,5 +1,5 @@
 'use strict';
-const Sequelize = require('sequelize');
+const {Sequelize, DataTypes} = require('sequelize');
 
 const dialectOptions = {
   ssl: {
@@ -7,7 +7,6 @@ const dialectOptions = {
     rejectUnauthorized: false
   }
 };
-
 const sequelize = process.env.DATABASE_URL ?
   // 本番環境
   new Sequelize(
@@ -20,13 +19,13 @@ const sequelize = process.env.DATABASE_URL ?
   :
   // 開発環境
   new Sequelize(
-      'postgres://postgres:postgres@localhost/wintern',
+    'postgres://postgres:postgres@db/jinrou_kun',
     {
       logging: false
     }
   );
 
 module.exports = {
-  database: sequelize,
-  Sequelize: Sequelize
+  sequelize,
+  DataTypes
 };

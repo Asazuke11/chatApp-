@@ -190,4 +190,4 @@ block content
           p#nicoComent-input-area
             input(name="text", cols="10", rows="1" placeholder="コメントを入力" )#input-coment
             button#Button_send-coment コメント
-      script#databaseData(data-userid=database_data.userId)
+      script#databaseData(data-userid=`${database_data.userId}`)

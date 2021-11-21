@@ -1,10 +1,8 @@
 'use strict';
 import $ from "jquery";
-const global = Function('return this;')();
 global.jQuery = $;
 import bootstrap from 'bootstrap';
 import io from 'socket.io-client';
-import { isConditional } from "babel-types";
 const Config = require('../config');
 const userId = $('#databaseData').data('userid');
 let user_socketId = "";
@@ -53,7 +51,7 @@ $("#input-coment").keypress((e) => {
 
 //受信：ニココメント
 socket.on("sending nicoComent", (msg) => {
-  const HexNum = require('crypto').randomBytes(8).toString('hex');
+  const HexNum = Math.floor(Math.random() * 10000);
   const marginTop_Array = ["10", "50", "90", "130", "170", "210", "250", "290", "330"];
   const marginTop_random = Math.floor(Math.random() * marginTop_Array.length);
   const marginTop = marginTop_Array[marginTop_random];
@@ -449,7 +447,7 @@ $("#Button_send-Hirucoment").click(() => {
 })
 
 socket.on('add-coment-hiru', (e) => {
-  $("#comawari").prepend(`
+  $("#comawari").append(`
   <div class="item-Cat animated lightSpeedIn faster">
   <img src="./images/cha/${e.player.userPicUrl}" class="char-Catsize-L">
   <div id="name-plate">${e.player.userName}</div>

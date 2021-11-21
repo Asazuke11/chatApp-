@@ -8,22 +8,12 @@ var helmet = require('helmet');
 var Config = require('./config');
 
 var session = require('express-session');
-var passport = require('passport');
-
 
 //DB//
 var User = require('./models/user');
 
 User.sync();
 
-//認証//
-passport.serializeUser(function (user, done) {
-  done(null, user);
-});
-
-passport.deserializeUser(function (obj, done) {
-  done(null, obj);
-});
 
 //routesファイル//
 var indexRouter = require('./routes/index');
@@ -43,10 +33,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //セッション//
 app.use(session({ secret: `${Config.Pass_Add.Session_Secret}`, resave: false, saveUninitialized: false }));
-
-app.use(passport.initialize()); //初期化
-app.use(passport.session());
-
 
 //ルート//
 app.use('/index', indexRouter);
