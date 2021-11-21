@@ -1,4 +1,4 @@
-## 人狼サポートツール「人狼くん。」　[![CircleCI](https://circleci.com/gh/Asazuke11/2019-20Winter/tree/cookie.svg?style=svg&circle-token=9c494b5264bc9a8de16293a2c371ef199bdf54d9)](https://circleci.com/gh/Asazuke11/2019-20Winter/tree/cookie)
+## 人狼サポートツール「人狼くん。」
 
 ### websocketを使って、人狼を「匿名」で遊ぶアプリです。  
 
