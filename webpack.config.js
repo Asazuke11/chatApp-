@@ -1,7 +1,7 @@
 module.exports = {
   context: __dirname + '/app',
   entry: {
-    entry:'./entry',
+    entry:['./ws','./main_And_buttonEvents','./local-modules','./room_And_buttonEvents'],
   },
   output: {
     path: __dirname + '/public/javascripts',

@@ -1,0 +1,70 @@
+/* google-font */
+@import url('https://fonts.googleapis.com/css2?family=DotGothic16&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Reggae+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kaisei+Decol:wght@500&display=swap');
+
+@import url("home/header.css");
+@import url("home/main.css");
+@import url("home/footer.css");
+@import url("Roby/Roby-main.css");
+
+
+*{
+  margin: 0;
+  padding: 0px;
+}
+
+:root{
+  /*フォントサイズ設定*/
+  --title-name: 8em; /*ホーム画面のタイトル*/
+  --name-plate-title-area: x-large; /*ホーム画面左のネームプレート*/
+  --Description-text: medium; /*説明文テキスト*/
+  --login-now: large; /*ログイン人数表示*/
+  --name-form: large; /*キャラクタフォームの「name」*/
+  --name-area: x-large; /*キャラクタフォームの名前部分*/
+
+  --color_gold:#F7B059;
+  --color_gold_opt:#f7b05988;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+.marker-B {
+  background: linear-gradient(transparent 80%, #c1e0ffab 100%);
+}
+.marker-Y {
+  background: linear-gradient(transparent 80%, #fff9c1bd 100%);
+}
+.marker-R {
+  background: linear-gradient(transparent 80%, #ffc1c1c7 100%);
+}
+
+.Wrapper{
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+body{
+  height: 100vh;
+  width: 100vw;
+  background: linear-gradient(180deg, #090938, #030213);
+  font-size: 10px;
+
+  display: grid;
+  grid-template:
+    " header   header " 10vh
+    " left     right  " 80vh
+    " footer   footer " 10vh
+    / 50vw     50vw
+  ;
+}

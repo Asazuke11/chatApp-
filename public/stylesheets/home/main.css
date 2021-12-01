@@ -1,0 +1,242 @@
+.left-area{
+  grid-area:left;
+  overflow: hidden;
+}
+
+#backGround-moon{
+  position: absolute;
+  top:0px;
+  left:0px;
+  width: 80%;
+  height: 100%;
+  background-image: url(../../images/pic/moon.png);
+  background-size: 100%;
+  background-repeat: no-repeat;
+  opacity: 0.8;
+  filter: drop-shadow(0 0 10px rgba(255, 255, 0, 0.6));
+  z-index: 2;
+}
+#backGround-jinroukun{
+  position: absolute;
+  margin-bottom: -5px;
+  right:7vw;
+  bottom: 0px;
+  height: 80vh;
+  filter: drop-shadow(1px 3px 5px rgba(223, 221, 120, 0.3));
+  z-index: 3;
+}
+
+.name-plate-title-area{
+  position: absolute;
+  bottom: 5vh;
+  right: 30vw;
+  padding: 5px;
+  font-family: 'Kaisei Decol', serif;
+  background-color: rgba(122, 42, 36, 0.9);
+  writing-mode: vertical-rl;
+  color:var(--color_gold);
+  font-size: var(--name-plate-title-area);
+  border-radius:1px;
+  box-shadow: 0 0 10px rgb(32, 32, 32);
+  z-index: 5;
+}
+
+
+
+/******************/
+
+
+.right-area{
+  grid-area:right;
+}
+
+.title-name{
+  font-size: var(--title-name);
+  font-family: 'Reggae One', cursive;
+  color:snow;
+  filter:drop-shadow(0px 0px 4px rgba(229, 255, 0, 0.8));
+}
+
+.Description-text{
+  margin-top: 2vh;
+  width:80%;
+  height: 48vh;
+  color:snow;
+  font-size: var(--Description-text);
+  line-height:1.8;
+  overflow: auto;
+  z-index: 3;
+}
+
+.login-now-area{
+  display: flex;
+  align-items: center;
+  position:absolute;
+  top:0px;
+  right:10px;
+  
+}
+
+#login-icon{
+  height: 23px;
+}
+
+#login-now{
+  display: inline;
+  margin-left: 10px;
+  color: snow;
+  font-size: var(--login-now);
+  z-index: 10;
+}
+
+
+/*******エディット***********/
+
+.Wrapper-editArea{
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+}
+
+.character-edit-area{
+  grid-area:left;
+  display: flex;
+  justify-content: right;
+  height: 80vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+.edit-area{
+  position: absolute;
+  top:0px;
+  left: -200px;
+  background-color: #801818f6;
+  box-shadow: 1px 1px 15px rgba(255, 255, 0, 0.2);
+  width: 400px;
+  height: 270px;
+  margin-right: 3vw;
+  font-family: 'Kaisei Decol', serif;
+  border: 3px double gray;
+  padding: 4px;
+  background-image: url(../../images/cha/s-f046.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.name-form{
+  position: absolute;
+  text-align: right;
+  margin: 5px;
+  bottom: 0px;
+  right:0px;
+  font-size: var(--name-form);
+}
+
+.name-area{
+  font-size: var(--name-area);
+  display: inline-block;
+  margin-right: 5px;
+  color: snow;
+  filter: drop-shadow(0 0 5px rgba(197, 197, 197, 0.7));
+  border-bottom:2px solid snow;
+}
+
+.character-select-button{
+  display: inline-block;
+  background: black;
+  width: 120px;
+  color: var(--color_gold);
+  font-family: 'Kaisei Decol', serif;
+  box-shadow: 0 0 15px #270000;
+  margin: 5px;
+}
+.name-select-button{
+  width: 50px;
+  background: #270000;
+  color: var(--color_gold);
+  font-family: 'Kaisei Decol', serif;
+  box-shadow: 0 0 8px#270000;
+  margin: 5px;
+}
+
+#name-input-area{
+  margin: 5px;
+}
+
+.name-select-button:hover{
+  background: #522D29;
+}
+.character-select-button:hover{
+  background: #522D29;
+}
+
+#name-cansel{
+  background-color: black;
+  margin-top: 5px;
+}
+#name-cansel:hover{
+  background: #522D29;
+}
+
+#back-button{
+  margin-right: 15px;
+  padding: 0px 16px 0px 16px;
+  border-radius: 2px;
+  filter:drop-shadow(0px 0px 2px rgba(255, 0, 0, 0.8));
+  border: 1px solid var(--color_gold_opt);
+}
+
+
+#roomA-login-button:hover{
+  transform: scale(1.1);
+  color: var(--color_gold);
+}
+#roomB-login-button:hover{
+  transform: scale(1.1);
+  color: var(--color_gold);
+}
+
+
+/*******ニコニコ風**********/
+
+
+/*ニコニコ風コメントの流れる範囲の設定*/
+.Wrapper-niconicoArea{
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  height: 100%;
+  width: 100vw;
+  overflow: hidden;
+  z-index: 1;
+}
+
+
+/*コメントを左から右に流す設定*/
+.move-text{
+  position: absolute;
+  right:-100px;
+  font-size: 20px;
+  color:snow;
+  text-shadow: 0px 0px 3px var(--Button);
+  /* transform: translateX(-100%); */
+  white-space:nowrap;
+  animation: NagareruComent 10s linear;
+  animation-iteration-count: 1;
+}
+
+/*ニコニコ風流れるコメントのアニメーション設定*/
+@keyframes NagareruComent {
+  100% {
+    right: 100%;
+  }
+}
+
+.nicoComeform{
+  position: absolute;
+  right: 15px;
+  bottom: 50px;
+  z-index: 5;
+}

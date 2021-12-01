@@ -1,0 +1,49 @@
+#back-button:hover{
+  transform: scale(1.1);
+  color: var(--color_gold);
+}
+
+.room-table{
+  position: absolute;
+  top:10vh;
+  text-align: left;
+  color: rgba(255, 250, 250, 0.9);
+  font-size:large;
+  opacity: 0.8;
+  z-index: 5;
+}
+
+table{
+  width:40vw;
+  border: 2px double rgba(255, 250, 250, 0.2);
+  box-shadow: 1px 0 10px rgba(255, 235, 171, 0.7);
+  background-color: #070707;
+}
+
+#table-head {
+  color: var(--color_gold);
+}
+
+th{
+  padding-left: 10px;
+}
+
+td{
+  text-align: center;
+}
+
+table tr:nth-child(odd){
+  background-color: rgba(104, 104, 104, 0.3)
+}
+table tr:nth-child(even){
+  background-color: rgba(43, 43, 43,0.3)
+}
+
+.loginButtonA:hover{
+  transform: scale(1.1);
+  color: var(--color_gold);
+}
+.loginButtonB:hover{
+  transform: scale(1.1);
+  color: var(--color_gold);
+}
