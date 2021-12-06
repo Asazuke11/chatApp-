@@ -27,6 +27,7 @@ $('#ok-button').click(() => {
 socket.on("準備OK", Array => {
   new Promise(resolve => {
     let Ready_count = 0;
+    const Arraysize = Array.length;
     $(".playerCardArea").empty();
     Array.forEach(key => {
       if(key[1].ready){
@@ -47,7 +48,7 @@ socket.on("準備OK", Array => {
     });
     resolve(Ready_count);
   }).then((c) => {
-    if(c >= 7){
+    if(c >= 3 && c == Arraysize){
       socket.emit("Game Start",{});
     }
   })
