@@ -1,193 +1,49 @@
 extends layout
 block content
-  #background-css-setting.container-fluid
-    //- ニコニコ風コメントが流れるエリア
-    .nico-comentArea
+  section.left-area
+    .Wrapper
+      #backGround-moon
+      img(src="../images/pic/f046.png", alt="イメージキャラクター")#backGround-jinroukun-main
 
-    .item-title-sub
-      span#contest-title #{subtitle}
-        i(class="fas fa-camera")
-
-    .item-NameDisplayarea
-      p 現在使用中のネーム
-      .frame-namearea
-        if database_data
-          p.nameDisplay
-            b #{database_data.username}
-        else
-          p.nameDisplay
-            b ななしの村人
-
-    header.container#header
-      //-画面上部コンテンツアイコンエリア
-      .row.justify-content-end.align-items-center
-        .item-Icon-Setting
-          img#Name-Setting(src="images/icon/user-smile-line.png" alt="設定アイコン" data-toggle="tooltip" title="プレイヤー設定")
-          span(style="color:snow;") 名前の設定
-        .item-Connection-CountArea.col-1
-          .item-Connection-Count
-            img#connection-icon(src="images/icon/emotion-line.png" alt="接続人数アイコン")
-            span#connectionCount
-      //-名前変更エリア
-      .row.justify-content-end
-        .item-name-input-area
-          p
-            button(style="color:snow;").close.close_heder_toast &times;
-          p プレイヤー名の設定
-          p
-            input(name="username", cols="10", rows="1" placeholder="名前を入力してくさい").input-Parts-setting#input-name
-            br
-            small.text-mutedr ※10文字まで。
-          p
-            small.text-mutedr#error-div
-          if database_data
-            #Button_change_userName 変更
-          else 
-            #Button_change_userName 変更
-            small.text-mutedr テスト
-          p
-            small.text-muted 周りの人を不快にする名前は控えましょう。
+  section.right-area
+    .Wrapper
+      .Wrapper-niconicoArea
+        p#nicoComent-input-area
+        .nicoComeform
+          input(name="text", cols="10", rows="1" placeholder="コメントを入力" )#input-coment
+          button#Button_send-coment コメント
+      .title-name 人狼くん
+      .Description-text
+        span.marker-B 人狼くんとは？
           br
-          span.display-nowName = 現在のプレイヤー設定 =
-          .item-char-area
-            if database_data
-              img(
-                src=`./images/cha/${database_data.picURL}` )#cha
-              span.userName #{database_data.username}
-            else
-              span.userName ななしの村人
-    main
-      .row.justify-content-center#main
-        .item-titleLogo.col-5
-          img#dott-m(src="images/pic/dott-m.png" alt="背景ドット１")
-          img#dott-s(src="images/pic/dott-s.png" alt="背景ドット2")
-          img(class="animated bounce faster" src="images/pic/title-Logo.png" alt="タイトル画像")#titlePic
-          //-右、コンテンツテキストエリア
-        .item-Description-Area.col-6
-          .item-RoomList.table-responsive
-            table.table.table-dark.table-striped.table-hover.table-bordered.table-sm.text-nowrap
-              thead.thead-dark
-                tr
-                  th(scope="col" style="width:160px;") ルーム名
-                  th(scope="col" style="width:320px;") コメント
-                  th(scope="col" style="width:80px;") 入室情報
-                  th(scope="col" style="width:100px;") 入室
-              tbody#CreateRoom
-                tr
-                  th(scope="row") テスト村
-                  td
-                    span テスト運用の為部屋は一つです。
-                  td.login_now 
-                  td#check_in
-                   span 予約する
-          //-コンテンツ説明文
-          .item-Description-text
-            span.marker-B 人狼くんとは？
-              br
-            span 人狼くんとは、パーティゲーム「人狼(ワンナイトルール)」をみんなで楽しむウェブアプリです。
-              a(href="http://1nite-jinro.mystrikingly.com/" target="_blank") (ワンナイトルールとは？)
-              br
-              br
-            span.marker-Y 遊び方
-              br
-            span 1.「名前の設定」から、プレイ中に使用する名前を設定。
-              br
-            span 2.「部屋を作る」から部屋を作る。
-              br
-            span 　もしくは既にある部屋のコメントから任意の部屋に入室。
-              br
-              br
-            span.marker-R ※注意
-              br
-            span ・このアプリはクッキーを使用しています。
-              br
-      .PlayArea.container-fluid
-        video#bg-video-yoru1(src="images/mp4/Moon.mp4" autoplay loop)
-        .Robby
-          .row.justify-content-md-center#play
-          .loading-text
-            img(src="images/icon/ajax-loader.gif")
-            span 　他のプレイヤーを待っています。
-            small 　(必要人数３人・最大７人)
-            .wait_button
-              span 現在の参加人数 
-              b.login_now
-              span.cancel-button キャンセル
-              span#ok-button 準備完了
-        .Game_Play
-          .Game-1
-          .Player_NamePlate_Area.container-fluid
-            .row.justify-content-md-center#Player-Game-1-Area
-        .Game_Play_Role-description
-          .Game-2-Role_description_Area
-        .Game_play_Yoru
-          .TimePlate
-            p 夜の時間
-          .Game-3-Role_description_time
-          .Uranaishi-play-aria
-            .row.justify-content-md-center#uranai-list
-          .jinrou-play-aria
-            .row.justify-content-md-center#jinrou-list
-          .Kaitou-play-aria
-            .row.justify-content-md-center#kaitou-list
-          .waiting-text#wait-uranaishi
-            img(src="images/icon/ajax-loader.gif")
-            span 　占い師が占いをしています。少々お待ち下さい。<br>※占い師が存在しない場合でも10秒お待ちいただきます。
-          .waiting-text#wait-jinrou
-            img(src="images/icon/ajax-loader.gif")
-            span 　人狼が活動しています。少々お待ち下さい。<br>※人狼が存在しない場合でも10秒お待ちいただきます。
-          .waiting-text#wait-kaitou
-            img(src="images/icon/ajax-loader.gif")
-            span 　怪盗が活動しています。少々お待ち下さい。<br>※怪盗が存在しない場合でも10秒お待ちいただきます。
-      .PlayArea-Hiru.container-fluid
-        .Game_play_Hiru
-          .TimePlate-Hiru
-            p 昼の時間
-          .waiting-text#Start-Talk
-            span 　ゲーム開始です。
-          .waiting-text#wait-VOTEVOTE
-            span 　投票を始めます。<br>　人狼と思われるプレイヤーに投票してください。
-        .row#hoge
-          .col-8.Column-Aria.container-fluid#hoge
-            img(src="../images/pic/023yado4-1024x768.jpg")#bg-image
-            .row#comawari
-          .col-4.Data-Aria.container
-            .Game_play_Watch
-              .TimeWatch
-            .Vote-Area
-              .go-vote-cunt
-                p 
-              .vote-button
-                p = 投票の要求 =
-                p
-                  button#go-vote-button 時間前倒しの提案
-                p
-                  button#go-vote-cancel-button キャンセル
-            .row
-              .item-ComentArea.coment-hiru-Area
-                textarea.form-control(rows="5" placeholder="セリフを入力してください")#coment-Hiru
-                button#Button_send-Hirucoment 発言をする
-      .PlayArea-Vote.container-fluid
-        .row.justify-content-md-center#vote-area
-          p#vote-title 人狼と思われる人に投票してください。
-          span#vote-num
-        .row.justify-content-md-center#vote-list
-        .row.justify-content-md-center#vote-result
-          span 　全員の投票が終わりました。
-        .row.justify-content-md-center#vote-result-area
-          p.animated.flipInY#kekka 結果発表
-            small (※同票の場合は複数)<br>
-        .row.justify-content-md-center
-          #vote-list-result
-          #vote-list-result-text
-        .reset
-          span 　メンバーの接続が切れました。リセットします。
-      .PlayArea-result-end.container-fluid
-        video#bg-video-yoru1(src="images/mp4/jinro.mp4" autoplay loop)
-        #result-text-end
-      .NicoComentInputArea.container
-        .row.justify-content-end
-          p#nicoComent-input-area
-            input(name="text", cols="10", rows="1" placeholder="コメントを入力" )#input-coment
-            button#Button_send-coment コメント
-      script#databaseData(data-userid=`${database_data.userId}`)
+        span 人狼くんとは、パーティゲーム「人狼(
+          a(href="http://1nite-jinro.mystrikingly.com/" target="_blank") ワンナイトルール
+          span )」をみんなで楽しむウェブアプリです。
+          br
+          br
+        span.marker-Y 遊び方
+          br
+        span スタート時にプレーヤー各々に「村人」「人狼」「占い師」「怪盗」のロールが振り分けられます。
+          | 誰が「人狼」かを推理して、人狼をみんなで投票で追い出しましょう。<br><br>見事、人狼を追い出せれば
+          | 村人たちの勝利です！
+      .login-now-area
+        img(src="images/icon/user-smile-line.png", alt="ログインアイコン")#login-icon
+        #login-now
+
+      .Wrapper-editArea
+        .edit-area
+          .name-form
+            .name-area 
+              small name: 
+              span#name-area-playerName ななしくん
+            br
+            br
+            button.character-select-button キャラクター変更
+            br
+            input#name-input-area(name="username", cols="10", rows="1" ,maxlength="8",    placeholder="※８文字まで")
+            br
+            span 　
+            button.name-select-button#name-save 保存
+            button.name-select-button#name-cansel 戻る
+            
+

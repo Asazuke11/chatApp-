@@ -4,19 +4,17 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var helmet = require('helmet');
+var passport = require('passport');
 
-var Config = require('./config');
-
-var session = require('express-session');
-
-//DB//
-var User = require('./models/user');
-
+var User = require("./models/user");
 User.sync();
 
+var Config = require('./config');
+var session = require('express-session');
 
-//routesファイル//
+
 var indexRouter = require('./routes/index');
+var robyRouter = require('./routes/roby');
 
 var app = express();
 app.use(helmet());
@@ -32,11 +30,49 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 //セッション//
-app.use(session({ secret: `${Config.Pass_Add.Session_Secret}`, resave: false, saveUninitialized: false }));
+app.use(session({ 
+  secret: `${Config.Pass_Add.Session_Secret}`, 
+  resave: false, 
+  saveUninitialized: false
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+var LocalStrategy = require('passport-local').Strategy;
+passport.use(new LocalStrategy({
+  usernameField: 'username',
+  passReqToCallback: true,
+  session: false,
+}, function (req, username, password, done) {
+  process.nextTick(function () {
+    if (username === "roomA") {
+      return done(null, username)
+    } else {
+      console.log("login error")
+      return done(null, false, { message: 'パスワードが正しくありません。' })
+    }
+  })
+}));
+
+passport.serializeUser(function (user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function (user, done) {
+  done(null, user);
+});
+
+function ensureAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  res.redirect('/');
+}
 
 //ルート//
-app.use('/index', indexRouter);
-
+app.use('/', indexRouter);
+app.use('/roby', robyRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

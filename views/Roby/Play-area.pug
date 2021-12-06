@@ -1,0 +1,49 @@
+.ROOM-A
+  video.bg-video-yoru1(src="../images/mp4/Moon.mp4" autoplay loop)
+  .loading-text
+    img(src="../images/icon/ajax-loader.gif")
+    span 　他のプレイヤーを待っています。
+    small 　(必要人数３人・最大７人)
+    .wait_button
+      span 現在の参加人数 
+      b.login_now
+      span.cancel-button キャンセル
+      span#ok-button 準備完了
+  .playerCardArea
+.Game_Play
+  video.bg-video-yoru1(src="../images/mp4/Moon.mp4" autoplay loop)
+  .TimePlate
+    p 夜の時間
+  .Game_Play_Role-description
+    .Role_description_Area
+    .waiting-text#wait-uranaishi
+      img(src="../images/icon/ajax-loader.gif").float
+      span 　占師が占いをしています。少々お待ち下さい。<br><br>※占い師が存在しない場合でも10秒お待ちいただきます。
+    .waiting-text#wait-jinrou
+      img(src="../images/icon/ajax-loader.gif")
+      span 　人狼が活動しています。少々お待ち下さい。<br>※人狼が存在しない場合でも10秒お待ちいただきます。
+    .waiting-text#wait-kaitou
+      img(src="../images/icon/ajax-loader.gif")
+      span 　怪盗が活動しています。少々お待ち下さい。<br>※怪盗が存在しない場合でも10秒お待ちいただきます。
+  .uranai-list
+  .jinrou-list
+  .kaitou-list
+.relative-area
+  .announce-area
+    #Start-Talk
+      span ゲーム開始です。
+  .console-area
+    .time-display 
+      span#nokori 残り時間
+      span#timer
+    .maedaosi
+      p 
+        button#go-vote-button 時間前倒しの提案
+      p#teian-count
+    .coment-hiru-Area
+      textarea.form-control(placeholder="セリフを入力してください")#coment-Hiru
+      button#Button_send-Hirucoment 発言をする
+  .koma-area
+    .first-come
+    .log
+  .vote-area

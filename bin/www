@@ -92,6 +92,6 @@ function onListening() {
 
 var io = require('socket.io')(server);
 
-var chat = require('../chat_server/chat');
+var game = require('../chat_server/game');
 var webSocketServer = require('../chat_server/webSocketServer');
-webSocketServer.createWebSocketServer(io, chat);
+webSocketServer.createWebSocketServer(io, game);

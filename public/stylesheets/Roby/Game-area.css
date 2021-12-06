@@ -1,0 +1,124 @@
+.Game_Play{
+  display: none;
+  position: absolute;
+  top:10vh;
+  left:0;
+  width: 100vw;
+  height: 80vh;
+  overflow: hidden;
+  background-color: rgb(5, 3, 26);
+  z-index: 200;
+}
+
+
+.Game_Play_Role-description{
+  position: absolute;
+  display: flex;
+  justify-content:center;
+  top:11vh;
+  width: 100vw;
+  margin: auto;
+  color: snow;
+  font-size: large;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.4);
+  margin: auto;
+}
+.Role_description_Area > marquee{
+  padding: 5px;
+  text-align: center;
+}
+.TimePlate{
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 2vh;
+  padding: 3px;
+  color:snow;
+  font-weight: bold;
+  font-size:large;
+  text-align: center;
+  background-color: rgba(85, 42, 165, 0.2);
+  border: double 2px rgba(112, 35, 35, 0.4);
+  border-radius: 3px;
+}
+
+.Fukidashi{
+  position: absolute;
+  padding-left: 10px;
+  padding-right: 10px;
+  top:10px;
+  left:60%;
+  font-size: small;
+  color: rgb(12, 18, 37);
+  background-color: rgba(253, 248, 241);
+  border-radius: 5px;
+  z-index: 205;
+}
+
+.waiting-text{
+  position: absolute;
+  top:10vh;
+  padding: 10px;
+  border-radius: 3px;
+  color:rgb(51, 80, 177);
+  font-size:large;
+  background-color: rgba(240, 248, 255, 0.9);
+  z-index: 206;
+}
+
+.float{
+  float: left;
+}
+
+#wait-uranaishi{
+  display: none;
+}
+#wait-jinrou{
+  display: none;
+}
+#wait-kaitou{
+  display: none;
+}
+
+
+
+.uranai-list{
+  position: absolute;
+  display: flex;
+  justify-content:center;
+  width: 100vw;
+  bottom: 0px;
+  z-index: 206;
+}
+
+.jinrou-list{
+  position: absolute;
+  display: flex;
+  justify-content:center;
+  width: 100vw;
+  bottom: 0px;
+  z-index: 206;
+}
+.kaitou-list{
+  position: absolute;
+  display: flex;
+  justify-content:center;
+  width: 100vw;
+  bottom: 0px;
+  z-index: 206;
+}
+
+.hover-div{
+  opacity: 0.5;
+}
+.hover-div:hover{
+  opacity: 1;
+}
+
+.hover-div-v{
+  opacity: 0.8;
+}
+.hover-div-v:hover{
+  opacity: 1;
+}

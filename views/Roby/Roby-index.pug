@@ -1,0 +1,31 @@
+extends Roby-layout
+block content
+  section.left-area
+    .Wrapper
+      #backGround-moon
+      img(src="../images/pic/f046.png", alt="イメージキャラクター")#backGround-jinroukun
+      .name-plate-title-area
+        span#name-display-title-area 
+
+  section.right-area
+    .Wrapper
+      .Wrapper-niconicoArea
+        p#nicoComent-input-area
+      .room-table
+        table 
+          tr#table-head
+            th ルーム名
+            td 人数
+            td 
+          tr 
+            th テストルームA
+            td
+              #roomA-login-now 0/3
+            td.loginButtonA
+              span#roomA-login-button 入室
+          tr 
+            th テストルームB
+            td
+              #roomB-login-now 0/3
+            td.loginButtonB
+              span#roomB-login-button 入室

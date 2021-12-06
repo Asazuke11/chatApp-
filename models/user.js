@@ -3,15 +3,9 @@ const {sequelize, DataTypes} = require('./sequelize-loader');
 
 const User = sequelize.define('users',{
   userId:{
-    type:DataTypes.STRING,
+    type:DataTypes.UUID,
     primaryKey: true,
     allowNull:false
-  },
-  picURL:{
-    type:DataTypes.STRING
-  },
-  username:{
-    type:DataTypes.STRING
   }
 },{
   freezeTableName:true,

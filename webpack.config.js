@@ -1,7 +1,7 @@
 module.exports = {
   context: __dirname + '/app',
   entry: {
-    entry:'./entry',
+    entry:['./main_And_buttonEvents','./local-modules','./roby_And_buttonEvents','./play'],
   },
   output: {
     path: __dirname + '/public/javascripts',
