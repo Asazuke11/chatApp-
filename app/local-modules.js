@@ -2,8 +2,8 @@
 
 const $ = require('jquery');
 const io = require("socket.io-client");
-
-
+const uuid = require('uuid');
+const socket = io(`/`);
 /**
  * ローカルストレージのキー名
  * @type {String}
@@ -41,9 +41,12 @@ function get_LocalStorageData(){
  function add_LocalS_Data_init(){
   const USER_DATA = get_LocalStorageData();
   if(!USER_DATA){
-    let user_data = {};
-    user_data.userName = "";
-    user_data.pic_Num = "s-f046.png";
+    const userID = uuid.v4();
+    let user_data = {
+      userId   : userID,
+      userName : "",
+      pic_Num  : "s-f046.png"
+    };
     user_data = JSON.stringify(user_data);
     localStorage.setItem(trackingIdKey,user_data);
   }
@@ -128,6 +131,7 @@ function nicoComentModule(msg) {
 module.exports = {
   $,
   io,
+  socket,
   add_LocalS_Data_init,
   making_CharFileName_Array,
   get_LocalStorageData,

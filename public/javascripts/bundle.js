@@ -8,14 +8,83 @@
 
 var local_modules = __webpack_require__(1);
 
+var $ = local_modules.$;
 var io = local_modules.io;
-var $ = local_modules.$; //接続者全員が入れる部屋名「　/　」  ///
+var socket = local_modules.socket;
+var trackingIdKey = 'tracking_id';
+$(".edit-area").hide();
+$("#playRoom-button").on("click", function () {
+  var USER_DATA = local_modules.get_LocalStorageData();
 
-var socket = io("/"); //接続者数を更新するイベントの受信
+  if (!USER_DATA.userName) {
+    alert("名前を設定してください。");
+    $(".edit-area").show();
+    return false;
+  }
 
-socket.on('login_now', function (e) {
-  $('#login-now').text(e.size);
-  $("#roomA-login-now").text("".concat(e.roomA, "/3"));
+  window.location = "/roby";
+});
+/**
+ * / にアクセスが来たときに動かすプロミス関数。
+ * １.ローカルストレージにデータがなければ作成。
+ * ２.その後、ローカルストレージのデータ
+ * 　 を元にメイン画面の画像を描画。
+ */
+
+new Promise(function (resolve) {
+  local_modules.add_LocalS_Data_init();
+  resolve();
+}).then(function () {
+  local_modules.updata_view_edit();
+  local_modules.updata_view_title();
+}); ///////////ボタンイベント////////////
+//エディットウィンドウの開閉
+
+$('#playerSetting-button').on("click", function () {
+  $(".login-area").hide();
+  $(".edit-area").fadeToggle();
+}); //エディットエリア、キャンセルボタン
+
+$('#name-cansel').on("click", function () {
+  $(".edit-area").hide();
+}); //「プレイヤー設定」ネーム入力
+
+$("#name-input-area").on("keyup paste", function () {
+  $("#name-area-playerName").text($("#name-input-area").val());
+});
+/**
+ * @type {String} キャラクター変更ボタンで変更したイメージurlを
+ *                外に受け渡す為のグローバル変数。
+ */
+
+var pic_url = ""; //キャラクター変更ボタン
+
+$(".character-select-button").on("click", function () {
+  pic_url = local_modules.lottery_Picture();
+  $(".edit-area").css({
+    'background-image': "url(/images/cha/".concat(pic_url, ")")
+  });
+}); //キャラクター設定保存ボタン
+
+$("#name-save").on("click", function () {
+  var user_data = {};
+  var name_Now = $("#name-input-area").val();
+  var USER_DATA = local_modules.get_LocalStorageData();
+  user_data.userId = USER_DATA.userId;
+  user_data.userName = name_Now || USER_DATA.userName || "ななしくん";
+  user_data.pic_Num = pic_url || USER_DATA.pic_Num || "s-f046.png";
+  user_data = JSON.stringify(user_data);
+  localStorage.setItem(trackingIdKey, user_data);
+  $(".edit-area").hide();
+  local_modules.updata_view_edit();
+});
+$("#LSdelete-button").on("click", function () {
+  localStorage.removeItem(trackingIdKey);
+  location.reload();
+}); //部屋全体の接続者数を更新するイベントの受信
+
+socket.on('現在のログイン数', function (size) {
+  $('#login-now').text(size);
 });
 /**
  *　ニコ風コメントを送信
@@ -59,11 +128,14 @@ socket.on("sending nicoComent", function (msg) {
 var $ = __webpack_require__(2);
 
 var io = __webpack_require__(3);
+
+var uuid = __webpack_require__(36);
+
+var socket = io("/");
 /**
  * ローカルストレージのキー名
  * @type {String}
  */
-
 
 var trackingIdKey = 'tracking_id';
 /** 
@@ -98,9 +170,12 @@ function add_LocalS_Data_init() {
   var USER_DATA = get_LocalStorageData();
 
   if (!USER_DATA) {
-    var user_data = {};
-    user_data.userName = "";
-    user_data.pic_Num = "s-f046.png";
+    var userID = uuid.v4();
+    var user_data = {
+      userId: userID,
+      userName: "",
+      pic_Num: "s-f046.png"
+    };
     user_data = JSON.stringify(user_data);
     localStorage.setItem(trackingIdKey, user_data);
   }
@@ -193,6 +268,7 @@ function nicoComentModule(msg) {
 module.exports = {
   $: $,
   io: io,
+  socket: socket,
   add_LocalS_Data_init: add_LocalS_Data_init,
   making_CharFileName_Array: making_CharFileName_Array,
   get_LocalStorageData: get_LocalStorageData,
@@ -15337,76 +15413,804 @@ Backoff.prototype.setJitter = function(jitter){
 
 /***/ }),
 /* 36 */
-/***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "v1": () => (/* reexport safe */ _v1_js__WEBPACK_IMPORTED_MODULE_0__["default"]),
+/* harmony export */   "v3": () => (/* reexport safe */ _v3_js__WEBPACK_IMPORTED_MODULE_1__["default"]),
+/* harmony export */   "v4": () => (/* reexport safe */ _v4_js__WEBPACK_IMPORTED_MODULE_2__["default"]),
+/* harmony export */   "v5": () => (/* reexport safe */ _v5_js__WEBPACK_IMPORTED_MODULE_3__["default"]),
+/* harmony export */   "NIL": () => (/* reexport safe */ _nil_js__WEBPACK_IMPORTED_MODULE_4__["default"]),
+/* harmony export */   "version": () => (/* reexport safe */ _version_js__WEBPACK_IMPORTED_MODULE_5__["default"]),
+/* harmony export */   "validate": () => (/* reexport safe */ _validate_js__WEBPACK_IMPORTED_MODULE_6__["default"]),
+/* harmony export */   "stringify": () => (/* reexport safe */ _stringify_js__WEBPACK_IMPORTED_MODULE_7__["default"]),
+/* harmony export */   "parse": () => (/* reexport safe */ _parse_js__WEBPACK_IMPORTED_MODULE_8__["default"])
+/* harmony export */ });
+/* harmony import */ var _v1_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(37);
+/* harmony import */ var _v3_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(42);
+/* harmony import */ var _v4_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(46);
+/* harmony import */ var _v5_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(47);
+/* harmony import */ var _nil_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(49);
+/* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(50);
+/* harmony import */ var _validate_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(40);
+/* harmony import */ var _stringify_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(39);
+/* harmony import */ var _parse_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(44);
 
 
-var local_modules = __webpack_require__(1);
 
-var $ = local_modules.$;
-var trackingIdKey = 'tracking_id';
-$(".edit-area").hide();
-$("#playRoom-button").on("click", function () {
-  window.location = "/roby";
-});
-/**
- * / にアクセスが来たときに動かすプロミス関数。
- * １.ローカルストレージにデータがなければ作成。
- * ２.その後、ローカルストレージのデータ
- * 　 を元にメイン画面の画像を描画。
- */
 
-new Promise(function (resolve) {
-  local_modules.add_LocalS_Data_init();
-  resolve();
-}).then(function () {
-  local_modules.updata_view_edit();
-  local_modules.updata_view_title();
-}); ///////////ボタンイベント////////////
-//エディットウィンドウの開閉
 
-$('#playerSetting-button').on("click", function () {
-  $(".login-area").hide();
-  $(".edit-area").fadeToggle();
-}); //エディットエリア、キャンセルボタン
 
-$('#name-cansel').on("click", function () {
-  $(".edit-area").hide();
-}); //「プレイヤー設定」ネーム入力
 
-$("#name-input-area").on("keyup paste", function () {
-  $("#name-area-playerName").text($("#name-input-area").val());
-});
-/**
- * @type {String} キャラクター変更ボタンで変更したイメージurlを
- *                外に受け渡す為のグローバル変数。
- */
 
-var pic_url = ""; //キャラクター変更ボタン
 
-$(".character-select-button").on("click", function () {
-  pic_url = local_modules.lottery_Picture();
-  $(".edit-area").css({
-    'background-image': "url(/images/cha/".concat(pic_url, ")")
-  });
-}); //キャラクター設定保存ボタン
-
-$("#name-save").on("click", function () {
-  var user_data = {};
-  var name_Now = $("#name-input-area").val();
-  var USER_DATA = local_modules.get_LocalStorageData();
-  user_data.userName = name_Now || USER_DATA.userName || "ななしくん";
-  user_data.pic_Num = pic_url || USER_DATA.pic_Num || "s-f046.png";
-  user_data = JSON.stringify(user_data);
-  localStorage.setItem(trackingIdKey, user_data);
-  $(".edit-area").hide();
-  local_modules.updata_view_edit();
-  local_modules.updata_view_title();
-});
 
 /***/ }),
 /* 37 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _rng_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(38);
+/* harmony import */ var _stringify_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(39);
+
+ // **`v1()` - Generate time-based UUID**
+//
+// Inspired by https://github.com/LiosK/UUID.js
+// and http://docs.python.org/library/uuid.html
+
+var _nodeId;
+
+var _clockseq; // Previous uuid creation time
+
+
+var _lastMSecs = 0;
+var _lastNSecs = 0; // See https://github.com/uuidjs/uuid for API details
+
+function v1(options, buf, offset) {
+  var i = buf && offset || 0;
+  var b = buf || new Array(16);
+  options = options || {};
+  var node = options.node || _nodeId;
+  var clockseq = options.clockseq !== undefined ? options.clockseq : _clockseq; // node and clockseq need to be initialized to random values if they're not
+  // specified.  We do this lazily to minimize issues related to insufficient
+  // system entropy.  See #189
+
+  if (node == null || clockseq == null) {
+    var seedBytes = options.random || (options.rng || _rng_js__WEBPACK_IMPORTED_MODULE_0__["default"])();
+
+    if (node == null) {
+      // Per 4.5, create and 48-bit node id, (47 random bits + multicast bit = 1)
+      node = _nodeId = [seedBytes[0] | 0x01, seedBytes[1], seedBytes[2], seedBytes[3], seedBytes[4], seedBytes[5]];
+    }
+
+    if (clockseq == null) {
+      // Per 4.2.2, randomize (14 bit) clockseq
+      clockseq = _clockseq = (seedBytes[6] << 8 | seedBytes[7]) & 0x3fff;
+    }
+  } // UUID timestamps are 100 nano-second units since the Gregorian epoch,
+  // (1582-10-15 00:00).  JSNumbers aren't precise enough for this, so
+  // time is handled internally as 'msecs' (integer milliseconds) and 'nsecs'
+  // (100-nanoseconds offset from msecs) since unix epoch, 1970-01-01 00:00.
+
+
+  var msecs = options.msecs !== undefined ? options.msecs : Date.now(); // Per 4.2.1.2, use count of uuid's generated during the current clock
+  // cycle to simulate higher resolution clock
+
+  var nsecs = options.nsecs !== undefined ? options.nsecs : _lastNSecs + 1; // Time since last uuid creation (in msecs)
+
+  var dt = msecs - _lastMSecs + (nsecs - _lastNSecs) / 10000; // Per 4.2.1.2, Bump clockseq on clock regression
+
+  if (dt < 0 && options.clockseq === undefined) {
+    clockseq = clockseq + 1 & 0x3fff;
+  } // Reset nsecs if clock regresses (new clockseq) or we've moved onto a new
+  // time interval
+
+
+  if ((dt < 0 || msecs > _lastMSecs) && options.nsecs === undefined) {
+    nsecs = 0;
+  } // Per 4.2.1.2 Throw error if too many uuids are requested
+
+
+  if (nsecs >= 10000) {
+    throw new Error("uuid.v1(): Can't create more than 10M uuids/sec");
+  }
+
+  _lastMSecs = msecs;
+  _lastNSecs = nsecs;
+  _clockseq = clockseq; // Per 4.1.4 - Convert from unix epoch to Gregorian epoch
+
+  msecs += 12219292800000; // `time_low`
+
+  var tl = ((msecs & 0xfffffff) * 10000 + nsecs) % 0x100000000;
+  b[i++] = tl >>> 24 & 0xff;
+  b[i++] = tl >>> 16 & 0xff;
+  b[i++] = tl >>> 8 & 0xff;
+  b[i++] = tl & 0xff; // `time_mid`
+
+  var tmh = msecs / 0x100000000 * 10000 & 0xfffffff;
+  b[i++] = tmh >>> 8 & 0xff;
+  b[i++] = tmh & 0xff; // `time_high_and_version`
+
+  b[i++] = tmh >>> 24 & 0xf | 0x10; // include version
+
+  b[i++] = tmh >>> 16 & 0xff; // `clock_seq_hi_and_reserved` (Per 4.2.2 - include variant)
+
+  b[i++] = clockseq >>> 8 | 0x80; // `clock_seq_low`
+
+  b[i++] = clockseq & 0xff; // `node`
+
+  for (var n = 0; n < 6; ++n) {
+    b[i + n] = node[n];
+  }
+
+  return buf || (0,_stringify_js__WEBPACK_IMPORTED_MODULE_1__["default"])(b);
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (v1);
+
+/***/ }),
+/* 38 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ rng)
+/* harmony export */ });
+// Unique ID creation requires a high quality random # generator. In the browser we therefore
+// require the crypto API and do not support built-in fallback to lower quality random number
+// generators (like Math.random()).
+var getRandomValues;
+var rnds8 = new Uint8Array(16);
+function rng() {
+  // lazy load so that environments that need to polyfill have a chance to do so
+  if (!getRandomValues) {
+    // getRandomValues needs to be invoked in a context where "this" is a Crypto implementation. Also,
+    // find the complete implementation of crypto (msCrypto) on IE11.
+    getRandomValues = typeof crypto !== 'undefined' && crypto.getRandomValues && crypto.getRandomValues.bind(crypto) || typeof msCrypto !== 'undefined' && typeof msCrypto.getRandomValues === 'function' && msCrypto.getRandomValues.bind(msCrypto);
+
+    if (!getRandomValues) {
+      throw new Error('crypto.getRandomValues() not supported. See https://github.com/uuidjs/uuid#getrandomvalues-not-supported');
+    }
+  }
+
+  return getRandomValues(rnds8);
+}
+
+/***/ }),
+/* 39 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _validate_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(40);
+
+/**
+ * Convert array of 16 byte values to UUID string format of the form:
+ * XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+ */
+
+var byteToHex = [];
+
+for (var i = 0; i < 256; ++i) {
+  byteToHex.push((i + 0x100).toString(16).substr(1));
+}
+
+function stringify(arr) {
+  var offset = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+  // Note: Be careful editing this code!  It's been tuned for performance
+  // and works in ways you may not expect. See https://github.com/uuidjs/uuid/pull/434
+  var uuid = (byteToHex[arr[offset + 0]] + byteToHex[arr[offset + 1]] + byteToHex[arr[offset + 2]] + byteToHex[arr[offset + 3]] + '-' + byteToHex[arr[offset + 4]] + byteToHex[arr[offset + 5]] + '-' + byteToHex[arr[offset + 6]] + byteToHex[arr[offset + 7]] + '-' + byteToHex[arr[offset + 8]] + byteToHex[arr[offset + 9]] + '-' + byteToHex[arr[offset + 10]] + byteToHex[arr[offset + 11]] + byteToHex[arr[offset + 12]] + byteToHex[arr[offset + 13]] + byteToHex[arr[offset + 14]] + byteToHex[arr[offset + 15]]).toLowerCase(); // Consistency check for valid UUID.  If this throws, it's likely due to one
+  // of the following:
+  // - One or more input array values don't map to a hex octet (leading to
+  // "undefined" in the uuid)
+  // - Invalid input values for the RFC `version` or `variant` fields
+
+  if (!(0,_validate_js__WEBPACK_IMPORTED_MODULE_0__["default"])(uuid)) {
+    throw TypeError('Stringified UUID is invalid');
+  }
+
+  return uuid;
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (stringify);
+
+/***/ }),
+/* 40 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _regex_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(41);
+
+
+function validate(uuid) {
+  return typeof uuid === 'string' && _regex_js__WEBPACK_IMPORTED_MODULE_0__["default"].test(uuid);
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (validate);
+
+/***/ }),
+/* 41 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (/^(?:[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}|00000000-0000-0000-0000-000000000000)$/i);
+
+/***/ }),
+/* 42 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _v35_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(43);
+/* harmony import */ var _md5_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(45);
+
+
+var v3 = (0,_v35_js__WEBPACK_IMPORTED_MODULE_0__["default"])('v3', 0x30, _md5_js__WEBPACK_IMPORTED_MODULE_1__["default"]);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (v3);
+
+/***/ }),
+/* 43 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "DNS": () => (/* binding */ DNS),
+/* harmony export */   "URL": () => (/* binding */ URL),
+/* harmony export */   "default": () => (/* export default binding */ __WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _stringify_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(39);
+/* harmony import */ var _parse_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(44);
+
+
+
+function stringToBytes(str) {
+  str = unescape(encodeURIComponent(str)); // UTF8 escape
+
+  var bytes = [];
+
+  for (var i = 0; i < str.length; ++i) {
+    bytes.push(str.charCodeAt(i));
+  }
+
+  return bytes;
+}
+
+var DNS = '6ba7b810-9dad-11d1-80b4-00c04fd430c8';
+var URL = '6ba7b811-9dad-11d1-80b4-00c04fd430c8';
+/* harmony default export */ function __WEBPACK_DEFAULT_EXPORT__(name, version, hashfunc) {
+  function generateUUID(value, namespace, buf, offset) {
+    if (typeof value === 'string') {
+      value = stringToBytes(value);
+    }
+
+    if (typeof namespace === 'string') {
+      namespace = (0,_parse_js__WEBPACK_IMPORTED_MODULE_0__["default"])(namespace);
+    }
+
+    if (namespace.length !== 16) {
+      throw TypeError('Namespace must be array-like (16 iterable integer values, 0-255)');
+    } // Compute hash of namespace and value, Per 4.3
+    // Future: Use spread syntax when supported on all platforms, e.g. `bytes =
+    // hashfunc([...namespace, ... value])`
+
+
+    var bytes = new Uint8Array(16 + value.length);
+    bytes.set(namespace);
+    bytes.set(value, namespace.length);
+    bytes = hashfunc(bytes);
+    bytes[6] = bytes[6] & 0x0f | version;
+    bytes[8] = bytes[8] & 0x3f | 0x80;
+
+    if (buf) {
+      offset = offset || 0;
+
+      for (var i = 0; i < 16; ++i) {
+        buf[offset + i] = bytes[i];
+      }
+
+      return buf;
+    }
+
+    return (0,_stringify_js__WEBPACK_IMPORTED_MODULE_1__["default"])(bytes);
+  } // Function#name is not settable on some platforms (#270)
+
+
+  try {
+    generateUUID.name = name; // eslint-disable-next-line no-empty
+  } catch (err) {} // For CommonJS default export support
+
+
+  generateUUID.DNS = DNS;
+  generateUUID.URL = URL;
+  return generateUUID;
+}
+
+/***/ }),
+/* 44 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _validate_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(40);
+
+
+function parse(uuid) {
+  if (!(0,_validate_js__WEBPACK_IMPORTED_MODULE_0__["default"])(uuid)) {
+    throw TypeError('Invalid UUID');
+  }
+
+  var v;
+  var arr = new Uint8Array(16); // Parse ########-....-....-....-............
+
+  arr[0] = (v = parseInt(uuid.slice(0, 8), 16)) >>> 24;
+  arr[1] = v >>> 16 & 0xff;
+  arr[2] = v >>> 8 & 0xff;
+  arr[3] = v & 0xff; // Parse ........-####-....-....-............
+
+  arr[4] = (v = parseInt(uuid.slice(9, 13), 16)) >>> 8;
+  arr[5] = v & 0xff; // Parse ........-....-####-....-............
+
+  arr[6] = (v = parseInt(uuid.slice(14, 18), 16)) >>> 8;
+  arr[7] = v & 0xff; // Parse ........-....-....-####-............
+
+  arr[8] = (v = parseInt(uuid.slice(19, 23), 16)) >>> 8;
+  arr[9] = v & 0xff; // Parse ........-....-....-....-############
+  // (Use "/" to avoid 32-bit truncation when bit-shifting high-order bytes)
+
+  arr[10] = (v = parseInt(uuid.slice(24, 36), 16)) / 0x10000000000 & 0xff;
+  arr[11] = v / 0x100000000 & 0xff;
+  arr[12] = v >>> 24 & 0xff;
+  arr[13] = v >>> 16 & 0xff;
+  arr[14] = v >>> 8 & 0xff;
+  arr[15] = v & 0xff;
+  return arr;
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (parse);
+
+/***/ }),
+/* 45 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/*
+ * Browser-compatible JavaScript MD5
+ *
+ * Modification of JavaScript MD5
+ * https://github.com/blueimp/JavaScript-MD5
+ *
+ * Copyright 2011, Sebastian Tschan
+ * https://blueimp.net
+ *
+ * Licensed under the MIT license:
+ * https://opensource.org/licenses/MIT
+ *
+ * Based on
+ * A JavaScript implementation of the RSA Data Security, Inc. MD5 Message
+ * Digest Algorithm, as defined in RFC 1321.
+ * Version 2.2 Copyright (C) Paul Johnston 1999 - 2009
+ * Other contributors: Greg Holt, Andrew Kepert, Ydnar, Lostinet
+ * Distributed under the BSD License
+ * See http://pajhome.org.uk/crypt/md5 for more info.
+ */
+function md5(bytes) {
+  if (typeof bytes === 'string') {
+    var msg = unescape(encodeURIComponent(bytes)); // UTF8 escape
+
+    bytes = new Uint8Array(msg.length);
+
+    for (var i = 0; i < msg.length; ++i) {
+      bytes[i] = msg.charCodeAt(i);
+    }
+  }
+
+  return md5ToHexEncodedArray(wordsToMd5(bytesToWords(bytes), bytes.length * 8));
+}
+/*
+ * Convert an array of little-endian words to an array of bytes
+ */
+
+
+function md5ToHexEncodedArray(input) {
+  var output = [];
+  var length32 = input.length * 32;
+  var hexTab = '0123456789abcdef';
+
+  for (var i = 0; i < length32; i += 8) {
+    var x = input[i >> 5] >>> i % 32 & 0xff;
+    var hex = parseInt(hexTab.charAt(x >>> 4 & 0x0f) + hexTab.charAt(x & 0x0f), 16);
+    output.push(hex);
+  }
+
+  return output;
+}
+/**
+ * Calculate output length with padding and bit length
+ */
+
+
+function getOutputLength(inputLength8) {
+  return (inputLength8 + 64 >>> 9 << 4) + 14 + 1;
+}
+/*
+ * Calculate the MD5 of an array of little-endian words, and a bit length.
+ */
+
+
+function wordsToMd5(x, len) {
+  /* append padding */
+  x[len >> 5] |= 0x80 << len % 32;
+  x[getOutputLength(len) - 1] = len;
+  var a = 1732584193;
+  var b = -271733879;
+  var c = -1732584194;
+  var d = 271733878;
+
+  for (var i = 0; i < x.length; i += 16) {
+    var olda = a;
+    var oldb = b;
+    var oldc = c;
+    var oldd = d;
+    a = md5ff(a, b, c, d, x[i], 7, -680876936);
+    d = md5ff(d, a, b, c, x[i + 1], 12, -389564586);
+    c = md5ff(c, d, a, b, x[i + 2], 17, 606105819);
+    b = md5ff(b, c, d, a, x[i + 3], 22, -1044525330);
+    a = md5ff(a, b, c, d, x[i + 4], 7, -176418897);
+    d = md5ff(d, a, b, c, x[i + 5], 12, 1200080426);
+    c = md5ff(c, d, a, b, x[i + 6], 17, -1473231341);
+    b = md5ff(b, c, d, a, x[i + 7], 22, -45705983);
+    a = md5ff(a, b, c, d, x[i + 8], 7, 1770035416);
+    d = md5ff(d, a, b, c, x[i + 9], 12, -1958414417);
+    c = md5ff(c, d, a, b, x[i + 10], 17, -42063);
+    b = md5ff(b, c, d, a, x[i + 11], 22, -1990404162);
+    a = md5ff(a, b, c, d, x[i + 12], 7, 1804603682);
+    d = md5ff(d, a, b, c, x[i + 13], 12, -40341101);
+    c = md5ff(c, d, a, b, x[i + 14], 17, -1502002290);
+    b = md5ff(b, c, d, a, x[i + 15], 22, 1236535329);
+    a = md5gg(a, b, c, d, x[i + 1], 5, -165796510);
+    d = md5gg(d, a, b, c, x[i + 6], 9, -1069501632);
+    c = md5gg(c, d, a, b, x[i + 11], 14, 643717713);
+    b = md5gg(b, c, d, a, x[i], 20, -373897302);
+    a = md5gg(a, b, c, d, x[i + 5], 5, -701558691);
+    d = md5gg(d, a, b, c, x[i + 10], 9, 38016083);
+    c = md5gg(c, d, a, b, x[i + 15], 14, -660478335);
+    b = md5gg(b, c, d, a, x[i + 4], 20, -405537848);
+    a = md5gg(a, b, c, d, x[i + 9], 5, 568446438);
+    d = md5gg(d, a, b, c, x[i + 14], 9, -1019803690);
+    c = md5gg(c, d, a, b, x[i + 3], 14, -187363961);
+    b = md5gg(b, c, d, a, x[i + 8], 20, 1163531501);
+    a = md5gg(a, b, c, d, x[i + 13], 5, -1444681467);
+    d = md5gg(d, a, b, c, x[i + 2], 9, -51403784);
+    c = md5gg(c, d, a, b, x[i + 7], 14, 1735328473);
+    b = md5gg(b, c, d, a, x[i + 12], 20, -1926607734);
+    a = md5hh(a, b, c, d, x[i + 5], 4, -378558);
+    d = md5hh(d, a, b, c, x[i + 8], 11, -2022574463);
+    c = md5hh(c, d, a, b, x[i + 11], 16, 1839030562);
+    b = md5hh(b, c, d, a, x[i + 14], 23, -35309556);
+    a = md5hh(a, b, c, d, x[i + 1], 4, -1530992060);
+    d = md5hh(d, a, b, c, x[i + 4], 11, 1272893353);
+    c = md5hh(c, d, a, b, x[i + 7], 16, -155497632);
+    b = md5hh(b, c, d, a, x[i + 10], 23, -1094730640);
+    a = md5hh(a, b, c, d, x[i + 13], 4, 681279174);
+    d = md5hh(d, a, b, c, x[i], 11, -358537222);
+    c = md5hh(c, d, a, b, x[i + 3], 16, -722521979);
+    b = md5hh(b, c, d, a, x[i + 6], 23, 76029189);
+    a = md5hh(a, b, c, d, x[i + 9], 4, -640364487);
+    d = md5hh(d, a, b, c, x[i + 12], 11, -421815835);
+    c = md5hh(c, d, a, b, x[i + 15], 16, 530742520);
+    b = md5hh(b, c, d, a, x[i + 2], 23, -995338651);
+    a = md5ii(a, b, c, d, x[i], 6, -198630844);
+    d = md5ii(d, a, b, c, x[i + 7], 10, 1126891415);
+    c = md5ii(c, d, a, b, x[i + 14], 15, -1416354905);
+    b = md5ii(b, c, d, a, x[i + 5], 21, -57434055);
+    a = md5ii(a, b, c, d, x[i + 12], 6, 1700485571);
+    d = md5ii(d, a, b, c, x[i + 3], 10, -1894986606);
+    c = md5ii(c, d, a, b, x[i + 10], 15, -1051523);
+    b = md5ii(b, c, d, a, x[i + 1], 21, -2054922799);
+    a = md5ii(a, b, c, d, x[i + 8], 6, 1873313359);
+    d = md5ii(d, a, b, c, x[i + 15], 10, -30611744);
+    c = md5ii(c, d, a, b, x[i + 6], 15, -1560198380);
+    b = md5ii(b, c, d, a, x[i + 13], 21, 1309151649);
+    a = md5ii(a, b, c, d, x[i + 4], 6, -145523070);
+    d = md5ii(d, a, b, c, x[i + 11], 10, -1120210379);
+    c = md5ii(c, d, a, b, x[i + 2], 15, 718787259);
+    b = md5ii(b, c, d, a, x[i + 9], 21, -343485551);
+    a = safeAdd(a, olda);
+    b = safeAdd(b, oldb);
+    c = safeAdd(c, oldc);
+    d = safeAdd(d, oldd);
+  }
+
+  return [a, b, c, d];
+}
+/*
+ * Convert an array bytes to an array of little-endian words
+ * Characters >255 have their high-byte silently ignored.
+ */
+
+
+function bytesToWords(input) {
+  if (input.length === 0) {
+    return [];
+  }
+
+  var length8 = input.length * 8;
+  var output = new Uint32Array(getOutputLength(length8));
+
+  for (var i = 0; i < length8; i += 8) {
+    output[i >> 5] |= (input[i / 8] & 0xff) << i % 32;
+  }
+
+  return output;
+}
+/*
+ * Add integers, wrapping at 2^32. This uses 16-bit operations internally
+ * to work around bugs in some JS interpreters.
+ */
+
+
+function safeAdd(x, y) {
+  var lsw = (x & 0xffff) + (y & 0xffff);
+  var msw = (x >> 16) + (y >> 16) + (lsw >> 16);
+  return msw << 16 | lsw & 0xffff;
+}
+/*
+ * Bitwise rotate a 32-bit number to the left.
+ */
+
+
+function bitRotateLeft(num, cnt) {
+  return num << cnt | num >>> 32 - cnt;
+}
+/*
+ * These functions implement the four basic operations the algorithm uses.
+ */
+
+
+function md5cmn(q, a, b, x, s, t) {
+  return safeAdd(bitRotateLeft(safeAdd(safeAdd(a, q), safeAdd(x, t)), s), b);
+}
+
+function md5ff(a, b, c, d, x, s, t) {
+  return md5cmn(b & c | ~b & d, a, b, x, s, t);
+}
+
+function md5gg(a, b, c, d, x, s, t) {
+  return md5cmn(b & d | c & ~d, a, b, x, s, t);
+}
+
+function md5hh(a, b, c, d, x, s, t) {
+  return md5cmn(b ^ c ^ d, a, b, x, s, t);
+}
+
+function md5ii(a, b, c, d, x, s, t) {
+  return md5cmn(c ^ (b | ~d), a, b, x, s, t);
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (md5);
+
+/***/ }),
+/* 46 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _rng_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(38);
+/* harmony import */ var _stringify_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(39);
+
+
+
+function v4(options, buf, offset) {
+  options = options || {};
+  var rnds = options.random || (options.rng || _rng_js__WEBPACK_IMPORTED_MODULE_0__["default"])(); // Per 4.4, set bits for version and `clock_seq_hi_and_reserved`
+
+  rnds[6] = rnds[6] & 0x0f | 0x40;
+  rnds[8] = rnds[8] & 0x3f | 0x80; // Copy bytes to buffer, if provided
+
+  if (buf) {
+    offset = offset || 0;
+
+    for (var i = 0; i < 16; ++i) {
+      buf[offset + i] = rnds[i];
+    }
+
+    return buf;
+  }
+
+  return (0,_stringify_js__WEBPACK_IMPORTED_MODULE_1__["default"])(rnds);
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (v4);
+
+/***/ }),
+/* 47 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _v35_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(43);
+/* harmony import */ var _sha1_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(48);
+
+
+var v5 = (0,_v35_js__WEBPACK_IMPORTED_MODULE_0__["default"])('v5', 0x50, _sha1_js__WEBPACK_IMPORTED_MODULE_1__["default"]);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (v5);
+
+/***/ }),
+/* 48 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+// Adapted from Chris Veness' SHA1 code at
+// http://www.movable-type.co.uk/scripts/sha1.html
+function f(s, x, y, z) {
+  switch (s) {
+    case 0:
+      return x & y ^ ~x & z;
+
+    case 1:
+      return x ^ y ^ z;
+
+    case 2:
+      return x & y ^ x & z ^ y & z;
+
+    case 3:
+      return x ^ y ^ z;
+  }
+}
+
+function ROTL(x, n) {
+  return x << n | x >>> 32 - n;
+}
+
+function sha1(bytes) {
+  var K = [0x5a827999, 0x6ed9eba1, 0x8f1bbcdc, 0xca62c1d6];
+  var H = [0x67452301, 0xefcdab89, 0x98badcfe, 0x10325476, 0xc3d2e1f0];
+
+  if (typeof bytes === 'string') {
+    var msg = unescape(encodeURIComponent(bytes)); // UTF8 escape
+
+    bytes = [];
+
+    for (var i = 0; i < msg.length; ++i) {
+      bytes.push(msg.charCodeAt(i));
+    }
+  } else if (!Array.isArray(bytes)) {
+    // Convert Array-like to Array
+    bytes = Array.prototype.slice.call(bytes);
+  }
+
+  bytes.push(0x80);
+  var l = bytes.length / 4 + 2;
+  var N = Math.ceil(l / 16);
+  var M = new Array(N);
+
+  for (var _i = 0; _i < N; ++_i) {
+    var arr = new Uint32Array(16);
+
+    for (var j = 0; j < 16; ++j) {
+      arr[j] = bytes[_i * 64 + j * 4] << 24 | bytes[_i * 64 + j * 4 + 1] << 16 | bytes[_i * 64 + j * 4 + 2] << 8 | bytes[_i * 64 + j * 4 + 3];
+    }
+
+    M[_i] = arr;
+  }
+
+  M[N - 1][14] = (bytes.length - 1) * 8 / Math.pow(2, 32);
+  M[N - 1][14] = Math.floor(M[N - 1][14]);
+  M[N - 1][15] = (bytes.length - 1) * 8 & 0xffffffff;
+
+  for (var _i2 = 0; _i2 < N; ++_i2) {
+    var W = new Uint32Array(80);
+
+    for (var t = 0; t < 16; ++t) {
+      W[t] = M[_i2][t];
+    }
+
+    for (var _t = 16; _t < 80; ++_t) {
+      W[_t] = ROTL(W[_t - 3] ^ W[_t - 8] ^ W[_t - 14] ^ W[_t - 16], 1);
+    }
+
+    var a = H[0];
+    var b = H[1];
+    var c = H[2];
+    var d = H[3];
+    var e = H[4];
+
+    for (var _t2 = 0; _t2 < 80; ++_t2) {
+      var s = Math.floor(_t2 / 20);
+      var T = ROTL(a, 5) + f(s, b, c, d) + e + K[s] + W[_t2] >>> 0;
+      e = d;
+      d = c;
+      c = ROTL(b, 30) >>> 0;
+      b = a;
+      a = T;
+    }
+
+    H[0] = H[0] + a >>> 0;
+    H[1] = H[1] + b >>> 0;
+    H[2] = H[2] + c >>> 0;
+    H[3] = H[3] + d >>> 0;
+    H[4] = H[4] + e >>> 0;
+  }
+
+  return [H[0] >> 24 & 0xff, H[0] >> 16 & 0xff, H[0] >> 8 & 0xff, H[0] & 0xff, H[1] >> 24 & 0xff, H[1] >> 16 & 0xff, H[1] >> 8 & 0xff, H[1] & 0xff, H[2] >> 24 & 0xff, H[2] >> 16 & 0xff, H[2] >> 8 & 0xff, H[2] & 0xff, H[3] >> 24 & 0xff, H[3] >> 16 & 0xff, H[3] >> 8 & 0xff, H[3] & 0xff, H[4] >> 24 & 0xff, H[4] >> 16 & 0xff, H[4] >> 8 & 0xff, H[4] & 0xff];
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (sha1);
+
+/***/ }),
+/* 49 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ('00000000-0000-0000-0000-000000000000');
+
+/***/ }),
+/* 50 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _validate_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(40);
+
+
+function version(uuid) {
+  if (!(0,_validate_js__WEBPACK_IMPORTED_MODULE_0__["default"])(uuid)) {
+    throw TypeError('Invalid UUID');
+  }
+
+  return parseInt(uuid.substr(14, 1), 16);
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (version);
+
+/***/ }),
+/* 51 */
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
@@ -15415,20 +16219,258 @@ $("#name-save").on("click", function () {
 var local_modules = __webpack_require__(1);
 
 var $ = local_modules.$;
-var io = local_modules.io;
-var trackingIdKey = 'tracking_id';
-var socketA = io("/roomA");
+var socket = local_modules.socket;
 $("#back-button").on("click", function () {
   window.location = "/";
 });
-socketA.on("現在の部屋Aの入室情報", function (s) {
-  $("#roomA-login-now").text("".concat(s, "/3"));
+socket.on("現在のルームA人数", function (s) {
+  if (s < 7) {
+    $("#roomA-login-now").text("".concat(s, "/7"));
+    $("#roomA-login-now").css("color", "snow");
+    $("#roomA-login-button").text("入室");
+  } else if (s >= 7) {
+    $("#roomA-login-now").text("\u6E80\u5BA4");
+    $("#roomA-login-now").css("color", "red");
+    $("#roomA-login-button").text("");
+  }
 });
 $("#roomA-login-button").on("click", function () {
-  socketA.emit("Aに入室希望", {});
+  socket.emit("Aへ入室希望", {});
 });
-socketA.on("入室OK", function () {
-  $.post("/roby/login", "username=roomA&password=A");
+socket.on("入室OK", function () {
+  var USER_DATA = local_modules.get_LocalStorageData();
+  socket.emit("プレイヤー情報", USER_DATA);
+});
+socket.on("ルームAへ", function (map) {
+  //map[0][0]:ID
+  //map[0][1]:{userName:・・,pic_Num: '・・・.png'}
+  //    console.log(key[0]);
+  // console.log(key[1].pic_Num);
+  $(".ROOM-A").show();
+  $(".playerCardArea").empty();
+  map.forEach(function (key) {
+    $(".playerCardArea").append("\n    <div class=\"card\">\n    <img src=\"./images/cha/".concat(key[1].pic_Num, "\" class=\"char-size\">\n    <div class=\"Player-Name\">").concat(key[1].userName, "</div>\n    </div>"));
+  });
+});
+
+/***/ }),
+/* 52 */
+/***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+
+var local_modules = __webpack_require__(1);
+
+var $ = local_modules.$;
+var socket = local_modules.socket;
+var Ready_Button = -1; //キャンセルボタン・リロードでルーム切断
+
+$('.cancel-button').click(function () {
+  $(".ROOM-A").hide();
+  window.location.reload();
+});
+$('#ok-button').click(function () {
+  Ready_Button *= -1;
+
+  if (Ready_Button === 1) {
+    $('#ok-button').text("中断");
+    var USER_DATA = local_modules.get_LocalStorageData();
+    socket.emit('Ready', USER_DATA);
+  }
+
+  if (Ready_Button === -1) {
+    $('#ok-button').text("準備完了");
+
+    var _USER_DATA = local_modules.get_LocalStorageData();
+
+    socket.emit('not-Ready', _USER_DATA);
+  }
+});
+socket.on("準備OK", function (Array) {
+  new Promise(function (resolve) {
+    var Ready_count = 0;
+    $(".playerCardArea").empty();
+    Array.forEach(function (key) {
+      if (key[1].ready) {
+        Ready_count++;
+        $(".playerCardArea").append("\n        <div class=\"card\">\n        <img src=\"../images/cha/".concat(key[1].pic_Num, "\" class=\"char-size\">\n        <div class=\"Fukidashi\">Ready!</div>\n        <div class=\"Player-Name\">").concat(key[1].userName, "</div>\n        </div>"));
+      } else {
+        $(".playerCardArea").append("\n        <div class=\"card\">\n        <img src=\"../images/cha/".concat(key[1].pic_Num, "\" class=\"char-size\">\n        <div class=\"Player-Name\">").concat(key[1].userName, "</div>\n        </div>"));
+      }
+    });
+    resolve(Ready_count);
+  }).then(function (c) {
+    if (c >= 7) {
+      socket.emit("Game Start", {});
+    }
+  });
+});
+socket.on("切断情報", function (map) {
+  $(".playerCardArea").empty();
+  map.forEach(function (key) {
+    $(".playerCardArea").append("\n    <div class=\"card\">\n    <img src=\"./images/cha/".concat(key[1].pic_Num, "\" class=\"char-size\">\n    <div class=\"Player-Name\">").concat(key[1].userName, "</div>\n    </div>"));
+  });
+});
+socket.on("ロール決定画面へ", function () {
+  $("#roomA-login-now").text("\u30D7\u30EC\u30A4\u4E2D");
+  $(".ROOM-A").hide();
+  $(".Game_Play").show();
+  $(".Role_description_Area").append("<marquee behavior=\"slide\" direction=\"up\">\u3053\u308C\u3088\u308A\u3001\u5404\u30D7\u30EC\u30A4\u30E4\u30FC\u306B\u30ED\u30FC\u30EB\u3092\u632F\u308A\u5206\u3051\u307E\u3059\u3002<br>\u30EF\u30F3\u30CA\u30A4\u30C8\u30EB\u30FC\u30EB\u306E\u30ED\u30FC\u30EB\u306F\u300C\u6751\u4EBA\u300D\u300C\u5360\u5E2B\u300D\u300C\u602A\u76D7\u300D\u300C\u4EBA\u72FC\u300D\u306E\uFF14\u3064\u3067\u3059\u3002<br><span class=\"marker-Y\">\u30ED\u30FC\u30EB\u306E\u632F\u308A\u5206\u3051</span><br>\u4EBA\u72FC\uFF58\uFF12\u3000\u5360\u3044\u5E2B\uFF58\uFF11\u3000\u602A\u76D7\uFF58\uFF11\u3000\u6751\u4EBA\uFF58\uFF11\uFF5E\uFF14\u4EBA(\u53C2\u52A0\u4EBA\u6570\u3067\u5909\u52D5)</marquee>");
+});
+socket.on("ロール通知", function (m) {
+  $(".Role_description_Area").empty();
+  $(".Role_description_Area").append("\u3042\u306A\u305F\u306E\u30ED\u30FC\u30EB\u306F<br>\n  <span style=\"font-size:38px;\">- ".concat(m, " -</span><br>\n  \u306B\u6C7A\u307E\u308A\u307E\u3057\u305F\u3002"));
+});
+socket.on("村人", function () {
+  $(".Role_description_Area").empty();
+  $(".Role_description_Area").append("\n  \u4ECA\u56DE\u3001\u3042\u306A\u305F\u306E\u30ED\u30FC\u30EB\u306F<br>\n  <span style=\"font-size:38px;color:rgba(207, 79, 79);\">\u300C\u6751\u4EBA\u300D</span><br>\n  \u7279\u6B8A\u306A\u80FD\u529B\u306F\u3042\u308A\u307E\u305B\u3093\u3002\u663C\u306B\u4EBA\u72FC\u3092\u898B\u3064\u3051\u308C\u3070\u52DD\u5229\u3067\u3059\u3002<br>\n  \u30D7\u30EC\u30A4\u30E4\u30FC\u9054\u306B\u8CEA\u554F\u3057\u306A\u304C\u3089\u3001\u8A71\u306E\u77DB\u76FE\u3092\u63A2\u3057\u3001<br>\n  \u60C5\u5831\u3092\u6574\u7406\u3057\u3001\u4EBA\u72FC\u3092\u898B\u3064\u3051\u307E\u3057\u3087\u3046\u3002\n  ");
+});
+socket.on("人狼", function () {
+  $(".Role_description_Area").empty();
+  $(".Role_description_Area").append("\n  \u4ECA\u56DE\u3001\u3042\u306A\u305F\u306E\u30ED\u30FC\u30EB\u306F<br>\n  <span style=\"font-size:38px;color:rgba(207, 79, 79);\">\u300C\u4EBA\u72FC\u300D</span><br>\n  \u4EBA\u9593\u3092\u8972\u3046\u4EBA\u72FC\u3067\u3059\u3002\u4EBA\u9593\u9054\u304B\u3089\u6B63\u4F53\u3092\u96A0\u3057\u307E\u3057\u3087\u3046<br>\n  \u4EBA\u72FC\u304C\u4E8C\u4EBA\u3044\u308B\u5834\u5408\u306F\u3001\u304A\u4E92\u3044\u6B63\u4F53\u3092\u77E5\u308B\u3053\u3068\u304C\u3067\u304D\u307E\u3059\u3002<br>\n  \u5360\u3044\u5E2B\u3084\u6751\u4EBA\u3092\u540D\u4E57\u308B\u306A\u3069\u3057\u3066\u3001\u63A8\u7406\u306E\u90AA\u9B54\u3092\u3057\u307E\u3057\u3087\u3046\u3002\n  ");
+});
+socket.on("占師", function () {
+  $(".Role_description_Area").empty();
+  $(".Role_description_Area").append("\n  \u4ECA\u56DE\u3001\u3042\u306A\u305F\u306E\u30ED\u30FC\u30EB\u306F<br>\n  <span style=\"font-size:38px;color:rgba(207, 79, 79);\">\u300C\u5360\u5E2B\u300D</span><br>\n  \u771F\u5B9F\u3092\u5360\u3048\u308B\u5360\u5E2B\u3067\u3059\u3002\u5360\u3044\u306E\u529B\u306B\u3088\u308A\u3001\u30D7\u30EC\u30A4\u30E4\u30FC1\u4EBA\u306E\u30ED\u30FC\u30EB\u3092<br>\n  \u306E\u305E\u304D\u898B\u308B\u304B\u3001\u3053\u306E\u5BFE\u5C40\u3067\u4F7F\u308F\u308C\u306A\u304B\u3063\u305F\u30ED\u30FC\u30EB\u3092\u898B\u308B\u3053\u3068\u304C\u3067\u304D\u307E\u3059\u3002<br>\n  \u6751\u4EBA\u305F\u3061\u306B\u3001\u81EA\u5206\u304C\u5360\u5E2B\u3067\u3042\u308B\u3053\u3068\u3092\u4FE1\u7528\u3055\u305B\u3064\u3064\u3001<br>\n  \u4E8B\u5B9F\u3092\u7686\u306B\u4F1D\u3048\u307E\u3057\u3087\u3046\u3002\n  ");
+});
+socket.on("怪盗", function () {
+  $(".Role_description_Area").empty();
+  $(".Role_description_Area").append("\n  \u4ECA\u56DE\u3001\u3042\u306A\u305F\u306E\u30ED\u30FC\u30EB\u306F<br>\n  <span style=\"font-size:42px;color:rgba(207, 79, 79);\">\u300C\u602A\u76D7\u300D</span><br>\n  \u6751\u3092\u9A12\u304C\u3059\u602A\u76D7\u3067\u3059\u3002<br>\n  \u591C\u306E\u6642\u9593\u306B\u3001\u30D7\u30EC\u30A4\u30E4\u30FC\uFF11\u4EBA\u306E\u30ED\u30FC\u30EB\u3068\u81EA\u5206\u306E\u30ED\u30FC\u30EB\u3092<br>\n  \u3053\u3063\u305D\u308A\u5165\u308C\u66FF\u3048\u308B\u3053\u3068\u304C\u3067\u304D\u307E\u3059\u3002\u5165\u308C\u66FF\u3048\u305F\u30ED\u30FC\u30EB\u304C<br>\n  \u4EBA\u72FC\u3067\u3042\u3063\u305F\u5834\u5408\u3001\u3042\u306A\u305F\u306F\u4EBA\u72FC\u3068\u306A\u308A\u307E\u3059\u3002\u5165\u308C\u66FF\u3048\u305F\u4E8B\u306F<br>\n  \u3042\u306A\u305F\u4EE5\u5916\u3001\u77E5\u308B\u3053\u3068\u306F\u3067\u304D\u307E\u305B\u3093\u3002\n  ");
+});
+socket.on("占師の時間", function (d) {
+  $("#wait-uranaishi").empty();
+  $("#wait-uranaishi").append("\n  <img src=\"../images/icon/ajax-loader.gif\" class=\"float\">\n  <span>\u30ED\u30FC\u30EB\u3092\u5360\u3044\u305F\u3044\u30D7\u30EC\u30A4\u30E4\u30FC\u3092\u30AF\u30EA\u30C3\u30AF\u3057\u3066\u304F\u3060\u3055\u3044\u3002\u203B\uFF11\uFF10\u79D2\u4EE5\u5185</span>");
+  $("#wait-uranaishi").show();
+  d.forEach(function (e) {
+    $(".uranai-list").append("\n    <div class=\"hover-div\">\n    <div class=\"item-Player-char\" id=\"uranai-".concat(e.id, "\">\n    <img src=\"./images/cha/").concat(e.pic, "\" class=\"char-size\">\n    <span class=\"Player-Name\">").concat(e.name, "</span>\n    </div></div>\n    "));
+    $("#uranai-".concat(e.id)).on("click", function () {
+      $("#wait-uranaishi").empty();
+      $("#wait-uranaishi").append("<span>".concat(e.name, "\u3055\u3093\u306E\u30ED\u30FC\u30EB\u306F\u300C").concat(e.job, "\u300D\u3068\u51FA\u307E\u3057\u305F\u3002</span>"));
+      $(".uranai-list").hide();
+    });
+  });
+});
+socket.on("占師以外の時間", function () {
+  $("#wait-uranaishi").show();
+});
+socket.on("人狼の時間", function (d) {
+  $("#wait-uranaishi").hide();
+  $(".uranai-list").hide();
+  $(".uranai-list").empty();
+  d.forEach(function (e) {
+    $(".jinrou-list").append("\n    <div class=\"item-Player-char\" id=\"uranai-".concat(e.id, "\">\n    <img src=\"./images/cha/").concat(e.pic, "\" class=\"char-size\">\n    <span class=\"Player-Name\">").concat(e.name, "</span>\n    </div>\n    "));
+  });
+  $(".jinrou-list").show();
+  $("#wait-jinrou").empty();
+  $("#wait-jinrou").append("\n  <img src=\"../images/icon/ajax-loader.gif\" class=\"float\">\n  <span>\u3053\u306E\u30D7\u30EC\u30A4\u30E4\u30FC\u304C\u4EBA\u72FC\u3067\u3059\u3002\u5354\u529B\u3057\u3066\u6751\u4EBA\u3092\u9A19\u3057\u307E\u3057\u3087\u3046\u3002<br>\u203B\u4ED6\u306E\u30D7\u30EC\u30A4\u30E4\u30FC\u306B\u306F\u898B\u3048\u3066\u3044\u307E\u305B\u3093\u3002</span>");
+  $("#wait-jinrou").show();
+});
+socket.on("人狼以外の時間", function () {
+  $("#wait-uranaishi").hide();
+  $(".uranai-list").hide();
+  $("#wait-jinrou").show();
+});
+socket.on("怪盗の時間", function (d) {
+  $(".jinrou-list").hide();
+  $("#wait-jinrou").hide();
+  $("#wait-kaitou").empty();
+  $("#wait-kaitou").append("\n  <img src=\"../images/icon/ajax-loader.gif\" class=\"float\">\n  <span>\u30ED\u30FC\u30EB\u3092\u5165\u308C\u66FF\u3048\u307E\u3059\u3002\u5165\u308C\u66FF\u3048\u308B\u30D7\u30EC\u30A4\u30E4\u30FC\u3092\u9078\u3093\u3067\u304F\u3060\u3055\u3044\u3002\u203B\uFF11\uFF10\u79D2\u4EE5\u5185</span>");
+  $("#wait-kaitou").show();
+  d.forEach(function (e) {
+    $(".kaitou-list").append("\n    <div class=\"hover-div\">\n    <div class=\"item-Player-char\" id=\"kaitou-".concat(e.id, "\">\n    <img src=\"./images/cha/").concat(e.pic, "\" class=\"char-size\">\n    <span class=\"Player-Name\">").concat(e.name, "</span>\n    </div></div>\n    "));
+    $("#kaitou-".concat(e.id)).on("click", function () {
+      var id = e.id;
+      var role = e.job;
+      $("#wait-kaitou").empty();
+      $("#wait-kaitou").append("<span>".concat(e.name, "\u3055\u3093\u306E\u30ED\u30FC\u30EB\u3001\u300C").concat(e.job, "\u300D\u3068\u5165\u308C\u66FF\u3048\u307E\u3057\u305F\u3002</span>"));
+      socket.emit("ジョブすり替えデータ", {
+        id: id,
+        change: role
+      });
+      $(".kaitou-list").hide();
+    });
+  });
+});
+socket.on("怪盗以外の時間", function () {
+  $(".jinrou-list").hide();
+  $("#wait-jinrou").hide();
+  $("#wait-kaitou").show();
+});
+socket.on("ゲームスタート", function () {
+  $("#wait-kaitou").hide();
+  $(".Game_Play").hide();
+  $(".relative-area").show();
+  $(".announce-area").fadeIn();
+  setTimeout(function () {
+    $(".announce-area").fadeOut();
+  }, 1000);
+});
+$("#Button_send-Hirucoment").click(function () {
+  if ($("#coment-Hiru").val().length === 0) {
+    return;
+  }
+
+  ;
+  socket.emit("セリフ", $("#coment-Hiru").val());
+  $("#coment-Hiru").val("");
+});
+socket.on('セリフブロードキャスト', function (e) {
+  $(".first-come").empty();
+  $(".first-come").append("\n  <div class=\"wakuB\">\n  <img src=\"../images/cha/".concat(e.player.pic_Num, "\" class=\"char-Catsize-B\">\n  <div class=\"name-plate-L\">").concat(e.player.userName, "</div>\n  <div class=\"fukidasi-Catsize-L\">\n    <span>").concat(e.coment, "</span>\n  </div>\n  </div>"));
+  $(".log").prepend("\n  <div class=\"waku\">\n  <img src=\"../images/cha/".concat(e.player.pic_Num, "\" class=\"char-Catsize-L\">\n  <div class=\"name-plate-L\">").concat(e.player.userName, "</div>\n  <div class=\"fukidasi-Catsize-L\">\n    <span>").concat(e.coment, "</span>\n  </div>\n  </div>\n  "));
+});
+socket.on("カウントダウン", function (c) {
+  $("#timer").text("\u3000".concat(c));
+});
+$("#go-vote-button").on("click", function () {
+  socket.emit('go-vote', {});
+});
+socket.on("前倒しの提案", function (s) {
+  $("#teian-count").text("".concat(s, "\u4EBA\u304B\u3089\u524D\u5012\u3057\u6295\u7968\u306E\u63D0\u6848\u304C\u3042\u308A\u307E\u3057\u305F\u3002"));
+});
+socket.on("投票へ", function (d) {
+  $(".koma-area").hide();
+  $("#Start-Talk").empty();
+  $("#Start-Talk").text("\u3053\u308C\u3088\u308A\u8FFD\u653E\u3059\u308B\u30D7\u30EC\u30A4\u30E4\u30FC\u3092\u6295\u7968\u3067\u6C7A\u3081\u307E\u3059\u3002");
+  $(".announce-area").fadeIn();
+  setTimeout(function () {
+    $(".announce-area").fadeOut();
+    $(".console-area").hide();
+    d.forEach(function (e) {
+      $(".vote-area").append("\n      <div class=\"hover-div-v\">\n      <div class=\"item-Player-char\" id=\"vote-".concat(e[0], "\">\n      <img src=\"./images/cha/").concat(e[1].pic_Num, "\" class=\"char-size\">\n      <span class=\"Player-Name\">").concat(e[1].userName, "</span>\n      </div></div>\n      "));
+      $("#vote-".concat(e[0])).on("click", function () {
+        $(".vote-area").hide();
+        var id = e[0];
+        socket.emit("投票データ", id);
+      });
+    });
+  }, 3000);
+});
+socket.on("結果発表", function (a) {
+  $("#Start-Talk").empty();
+  $("#Start-Talk").text("\u7D50\u679C\u767A\u8868");
+  $(".announce-area").fadeIn();
+  $(".vote-area").empty();
+  $(".vote-area").show();
+  setTimeout(function () {
+    $(".announce-area").fadeOut();
+    a.forEach(function (e) {
+      $(".vote-area").append("\n      <div class=\"item-Player-char\"\">\n      <img src=\"./images/cha/".concat(e[1].pic_Num, "\" class=\"char-size\">\n      <span class=\"Player-Name\">").concat(e[1].userName, "<br>\u6295\u7968\u6570").concat(e[1].vote || 0, "</span>\n      </div>\n      "));
+    });
+  }, 3000);
+  setTimeout(function () {
+    $("#Start-Talk").empty();
+    $("#Start-Talk").text("\u5404\u30D7\u30EC\u30A4\u30E4\u30FC\u306E\u30ED\u30FC\u30EB\u306E\u767A\u8868\u3067\u3059");
+    $(".announce-area").fadeIn();
+  }, 7000);
+  setTimeout(function () {
+    $(".announce-area").fadeOut();
+    $(".vote-area").empty();
+    a.forEach(function (e) {
+      $(".vote-area").append("\n      <div class=\"item-Player-char\"\">\n      <img src=\"./images/cha/".concat(e[1].pic_Num, "\" class=\"char-size\">\n      <span class=\"Player-Name\">").concat(e[1].userName, "<br>\u6295\u7968\u6570").concat(e[1].vote || 0, "<br>").concat(e[1].Role, "</span>\n      </div>\n      "));
+    });
+  }, 10000);
 });
 
 /***/ })
@@ -15492,10 +16534,10 @@ socketA.on("入室OK", function () {
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	__webpack_require__(0);
-/******/ 	__webpack_require__(36);
 /******/ 	// This entry module is referenced by other modules so it can't be inlined
 /******/ 	__webpack_require__(1);
-/******/ 	var __webpack_exports__ = __webpack_require__(37);
+/******/ 	__webpack_require__(51);
+/******/ 	var __webpack_exports__ = __webpack_require__(52);
 /******/ 	
 /******/ })()
 ;

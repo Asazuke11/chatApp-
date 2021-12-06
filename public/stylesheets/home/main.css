@@ -26,6 +26,16 @@
   z-index: 3;
 }
 
+#backGround-jinroukun-main{
+  position: absolute;
+  margin-bottom: -5px;
+  right:7vw;
+  bottom: 0px;
+  height: 80vh;
+  filter: drop-shadow(1px 3px 5px rgba(223, 221, 120, 0.3));
+  z-index: 3;
+}
+
 .name-plate-title-area{
   position: absolute;
   bottom: 5vh;

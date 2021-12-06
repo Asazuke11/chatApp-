@@ -6,12 +6,15 @@ var logger = require('morgan');
 var helmet = require('helmet');
 var passport = require('passport');
 
+var User = require("./models/user");
+User.sync();
+
 var Config = require('./config');
 var session = require('express-session');
 
 
 var indexRouter = require('./routes/index');
-var roomRouter = require('./routes/roby');
+var robyRouter = require('./routes/roby');
 
 var app = express();
 app.use(helmet());
@@ -39,12 +42,11 @@ app.use(passport.session());
 var LocalStrategy = require('passport-local').Strategy;
 passport.use(new LocalStrategy({
   usernameField: 'username',
-  passwordField: 'password',
   passReqToCallback: true,
   session: false,
 }, function (req, username, password, done) {
   process.nextTick(function () {
-    if (username === "roomA" && password === "A") {
+    if (username === "roomA") {
       return done(null, username)
     } else {
       console.log("login error")
@@ -70,7 +72,7 @@ function ensureAuthenticated(req, res, next) {
 
 //ルート//
 app.use('/', indexRouter);
-app.use('/roby', roomRouter);
+app.use('/roby', robyRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

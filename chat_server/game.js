@@ -1,40 +1,46 @@
 'use strict';
 
-const USERS_DATA_MAP_A = new Map();
-
 /**
- * 現在追加しているプレイヤーのMapサイズ(人数)を出す関数。
- * @returns {number} マップのサイズを出力
+ * 現在のログイン数を取得して全体に送る関数
+ * @param {Function} Io_Index 
  */
-function MapA_Size_Check() {
-  return new Promise(resolve => {
-    const count_Map = USERS_DATA_MAP_A.size;
-    resolve(count_Map);
-  })
+function Login_Size(Io_Index) {
+    if(Io_Index.adapter.rooms.has("Everyone's room")){
+      const size = Io_Index.adapter.rooms.get("Everyone's room").size;
+      Io_Index.emit("現在のログイン数", size);
+    }else{
+      Io_Index.emit("現在のログイン数", "error");
+    };
 };
 
-/**
- * USERS_DATA_MAP_Aにユーザ情報を追加する関数。
- * @param {number} id 
- * @param {object} userdata 
- * @returns マップに追加した後のマップサイズ(人数)
- */
-function Login_AddMap(socketid, userdata) {
-  return new Promise(resolve => {
-    USERS_DATA_MAP_A.set(socketid, {
-      name: userdata.userName,
-      pic: userdata.pic_Num
-    }
-    );
-    resolve(USERS_DATA_MAP_A.size);
-  })
+function RoomA_Size(Io_Index,UsersSize) {
+  Io_Index.emit("現在のルームA人数", UsersSize);
+};
+
+
+function upDate_Role_map(ROGIN_member_Map_Array,Users) {
+  for (let i = 0; i < ROGIN_member_Map_Array.length; i++) {
+    Users.set(ROGIN_member_Map_Array[i][0], {
+      userId: ROGIN_member_Map_Array[i][1].userId,
+      userName: ROGIN_member_Map_Array[i][1].userName,
+      pic_Num: ROGIN_member_Map_Array[i][1].pic_Num,
+      ready: true,
+      Role: ROGIN_member_Map_Array[i][1].Role
+    })
+  }
 }
 
 
-function deleteMap_Menber(socketId) {
+
+/**
+ * ユーザ情報を入れたマップから切断したプレイヤーを削除
+ * @param {uuid} socketId 
+ * @returns 削除後のマップサイズ
+ */
+function deleteMap_Member(socketId,Users) {
   return new Promise(resolve => {
-    USERS_DATA_MAP_A.delete(socketId);
-    resolve(USERS_DATA_MAP_A.size);
+    Users.delete(socketId);
+    resolve();
   })
 }
 
@@ -54,27 +60,27 @@ function lott_Role(player_Array) {
 
 function ROLE_Array(player_Array) {
   if (player_Array.length === 3) {
-    return ["村人", "人狼", "人狼", "占い師", "怪盗"];
+    return ["村人","村人", "人狼"];
   };
   if (player_Array.length === 4) {
-    return ["村人", "村人", "人狼", "人狼", "占い師", "怪盗"];
+    return ["村人", "村人", "人狼", "人狼", "占師", "怪盗"];
   }
   if (player_Array.length === 5) {
-    return ["村人", "村人", "村人", "人狼", "人狼", "占い師", "怪盗"];
+    return ["村人", "村人", "村人", "人狼", "人狼", "占師", "怪盗"];
   }
   if (player_Array.length === 6) {
-    return ["村人", "村人", "村人", "村人", "人狼", "人狼", "占い師", "怪盗"];
+    return ["村人", "村人", "村人", "村人", "人狼", "人狼", "占師", "怪盗"];
   }
   if (player_Array.length === 7) {
-    return ["村人", "村人", "村人", "村人", "村人", "人狼", "人狼", "占い師", "怪盗"];
+    return ["村人", "村人", "村人", "村人", "村人", "人狼", "人狼", "占師", "怪盗"];
   }
 };
 
 
-
 module.exports = {
-  Login_AddMap,
-  USERS_DATA_MAP_A,
-  MapA_Size_Check,
-  deleteMap_Menber
+  Login_Size,
+  RoomA_Size,
+  deleteMap_Member,
+  lott_Role,
+  upDate_Role_map
 };
