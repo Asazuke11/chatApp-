@@ -16301,7 +16301,10 @@ socket.on("準備OK", function (Array) {
     });
     resolve(Ready_count);
   }).then(function (c) {
-    if (c >= 7) {
+    console.log(Array.length);
+    var Alength = Array.length;
+
+    if (c > 3 && c === Alength) {
       socket.emit("Game Start", {});
     }
   });

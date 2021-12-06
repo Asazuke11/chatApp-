@@ -25,7 +25,6 @@ $('#ok-button').click(() => {
 });
 
 socket.on("準備OK", Array => {
-  const Arraysize = Array.length;
   new Promise(resolve => {
     let Ready_count = 0;
     
@@ -49,7 +48,9 @@ socket.on("準備OK", Array => {
     });
     resolve(Ready_count);
   }).then((c) => {
-    if(c >= 3 && c == Arraysize){
+    console.log(Array.length);
+    const Alength = Array.length;
+    if(c > 3 && c === Alength){
       socket.emit("Game Start",{});
     }
   })
