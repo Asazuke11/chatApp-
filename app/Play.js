@@ -25,9 +25,10 @@ $('#ok-button').click(() => {
 });
 
 socket.on("準備OK", Array => {
+  const Arraysize = Array.length;
   new Promise(resolve => {
     let Ready_count = 0;
-    const Arraysize = Array.length;
+    
     $(".playerCardArea").empty();
     Array.forEach(key => {
       if(key[1].ready){
