@@ -71,7 +71,7 @@ function ensureAuthenticated(req, res, next) {
 }
 
 //ルート//
-app.use('/', indexRouter);
+app.use('/index', indexRouter);
 app.use('/roby', robyRouter);
 
 // catch 404 and forward to error handler

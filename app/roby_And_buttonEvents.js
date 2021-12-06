@@ -4,7 +4,7 @@ const $ = local_modules.$;
 const socket = local_modules.socket;
 
 $("#back-button").on("click", () => {
-  window.location = "/";
+  window.location = "/index";
 });
 
 
