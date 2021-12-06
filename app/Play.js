@@ -50,11 +50,10 @@ socket.on("準備OK", Array => {
   }).then((c) => {
     console.log(Array.length);
     const Alength = Array.length;
-    if(c > 3 && c === Alength){
+    if(c >= 3 && c === Alength){
       socket.emit("Game Start",{});
     }
   })
-
 })
 
 socket.on("切断情報", map => {

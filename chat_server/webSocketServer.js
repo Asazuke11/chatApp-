@@ -81,7 +81,7 @@ function createWebSocketServer(io, game) {
           new Promise(resolve => {
             setTimeout(() => {
               d.forEach((e) => {
-                if ((e[0]) === "sMaT3EGQi_CtCM29AAAT") {
+                if ((e[0]) === socket.id) {
                   const role = e[1].Role;
                   Io_Index.to(socket.id).emit("ロール通知", role)
                 }

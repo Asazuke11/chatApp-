@@ -16221,7 +16221,7 @@ var local_modules = __webpack_require__(1);
 var $ = local_modules.$;
 var socket = local_modules.socket;
 $("#back-button").on("click", function () {
-  window.location = "/";
+  window.location = "/index";
 });
 socket.on("現在のルームA人数", function (s) {
   if (s < 7) {
@@ -16304,7 +16304,7 @@ socket.on("準備OK", function (Array) {
     console.log(Array.length);
     var Alength = Array.length;
 
-    if (c > 3 && c === Alength) {
+    if (c >= 3 && c === Alength) {
       socket.emit("Game Start", {});
     }
   });
