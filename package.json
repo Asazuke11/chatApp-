@@ -11,7 +11,7 @@
     "cookies": "0.8.0",
     "count-array-values": "^1.2.1",
     "debug": "~4.3.2",
-    "express": "~4.17.1",
+    "express": "~4.17.3",
     "express-session": "1.17.2",
     "helmet": "4.6.0",
     "http-errors": "~1.8.1",
