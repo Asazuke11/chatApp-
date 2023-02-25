@@ -21,7 +21,7 @@
     "pg-hstore": "2.3.3",
     "popper.js": "1.14.0",
     "pug": "3.0.2",
-    "sequelize": "6.5.0",
+    "sequelize": "6.29.0",
     "socket.io": "4.4.0",
     "socket.io-client": "4.4.0",
     "uuid": "8.3.2"
